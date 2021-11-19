@@ -57,7 +57,7 @@ const determineSwalSuccessMessage = (addEditButton) => {
     case "Edit description":
       successMessage = "Successfully edited dataset's description";
       break;
-    case "Add tags":
+    case "Add tsags":
       successMessage = "Successfully added tags to dataset";
       break;
     case "Edit tags":
