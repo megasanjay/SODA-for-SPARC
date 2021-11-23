@@ -1719,11 +1719,6 @@ async function transitionFreeFormMode(
   button,
   category
 ) {
-  console.log("ev: " + ev);
-  console.log("currentDiv: " + currentDiv);
-  console.log("parentDiv: " + parentDiv);
-  console.log("button: " + button);
-  console.log("category: " + category);
   if ($(ev).attr("data-current") === "Question-prepare-subjects-1") {
     if (subjectsTableData.length !== 0) {
       var { value: continueProgressSubjects } = await Swal.fire({

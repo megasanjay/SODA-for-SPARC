@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <template class="task-template">
   <section id="guided_mode-section" class="section js-section u-category-windows">
     <header class="section-header">
@@ -133,70 +134,72 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="individual-question generate-dataset" id="Question-generate-dataset-choose-ds-name">
-          <div class="ui form" style="width: 450px">
-            <div class="grouped fields">
-              <label style="
-                                      font-size: 17px;
-                                      color: var(--color-bg-plum);
-                                      width: 100%;
-                                      text-align: center;
-                                    ">What is the name of the new dataset?</label>
-              <div class="field" style="
-                                      margin: 15px auto;
-                                      display: flex;
-                                      justify-content: center;
-                                    ">
-                <input type="text" class="form-control" style="
-                                        background: #fff !important;
-                                        width: 450px !important;
-                                      " id="inputNewNameDataset" placeholder="Type here" />
-              </div>
-            </div>
-            <p style="color: red; width: 440px" id="para-new-name-dataset-message"></p>
-            <div id="div-confirm-inputNewNameDataset" style="
-                                    display: none;
-                                    flex-direction: row;
-                                    justify-content: center;
-                                    margin: 0 auto;
-                                  ">
-              <button id="btn-confirm-new-dataset-name"
-                onclick="transitionSubQuestionsButton(this, 'Question-generate-dataset-choose-ds-name', 'generate-dataset-tab', 'delete', 'individual-question generate-dataset')"
-                data-next="Question-generate-dataset-generate-div-old" style="
-                                      cursor: pointer;
-                                      border-radius: 8px;
-                                      margin: 0 10px;
-                                      width: 100px;
-                                      height: 30px;
-                                      background: var(--color-light-green);
-                                      color: #fff;
-                                      font-weight: 600;
-                                      border: none;
-                                      font-size: 13px;
-                                    ">
-                Confirm
-              </button>
-            </div>
+    <div class="individual-question generate-dataset" id="Question-generate-dataset-choose-ds-name">
+      <div class="ui form" style="width: 450px">
+        <div class="grouped fields">
+          <label style="
+                              font-size: 17px;
+                              color: var(--color-bg-plum);
+                              width: 100%;
+                              text-align: center;
+                            ">What is the name of the new dataset?</label>
+          <div class="field" style="
+                              margin: 15px auto;
+                              display: flex;
+                              justify-content: center;
+                            ">
+            <input type="text" class="form-control" style="
+                                background: #fff !important;
+                                width: 450px !important;
+                              " id="inputNewNameDataset" placeholder="Type here" />
           </div>
-          <p id="para-continue-name-dataset-generate" style="
-                                  text-align: center;
-                                  font-weight: 600;
-                                  color: var(--color-light-green);
-                                "></p>
         </div>
-        <footer class="footer-div">
-          <div style="
+        <p style="color: red; width: 440px" id="para-new-name-dataset-message"></p>
+        <div id="div-confirm-inputNewNameDataset" style="
+                            display: none;
+                            flex-direction: row;
+                            justify-content: center;
+                            margin: 0 auto;
+                          ">
+          <button id="btn-confirm-new-dataset-name"
+            onclick="transitionSubQuestionsButton(this, 'Question-generate-dataset-choose-ds-name', 'generate-dataset-tab', 'delete', 'individual-question generate-dataset')"
+            data-next="Question-generate-dataset-generate-div-old" style="
+                              cursor: pointer;
+                              border-radius: 8px;
+                              margin: 0 10px;
+                              width: 100px;
+                              height: 30px;
+                              background: var(--color-light-green);
+                              color: #fff;
+                              font-weight: 600;
+                              border: none;
+                              font-size: 13px;
+                            ">
+            Confirm
+          </button>
+        </div>
+      </div>
+      <p id="para-continue-name-dataset-generate" style="
+                          text-align: center;
+                          font-weight: 600;
+                          color: var(--color-light-green);
+                        "></p>
+    </div>
+    <footer class="footer-div">
+      <div style="
                   display: flex;
                   flex-direction: row;
                   width: 120px;
                   justify-content: space-between;
                 ">
-          </div>
-          <button type="button" class="transition-btn prev" data-section="pi_dataset_owner2" style="width: auto">
-            Set PI owner of dataset<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
-          </button>
-        </footer>
+      </div>
+      <button type="button" class="transition-btn prev" data-section="pi_dataset_owner2" style="width: auto">
+        Set PI owner of dataset<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+      </button>
+    </footer>
   </section>
 
   <section id="pi_dataset_owner2-section" class="section js-section u-category-windows"
@@ -242,7 +245,7 @@
 
   <script>
     $("#change_pennsieve_account").click(function () {
-      $("#change-account-pencil").click()
+      $("#change-account-pencil").click();
     });
 
     $(".button-display-details").click(function () {
