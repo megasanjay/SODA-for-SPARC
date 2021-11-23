@@ -1,41 +1,34 @@
 <!DOCTYPE html>
 <template class="task-template">
-  <section id="guided_mode-section" class="section js-section u-category-windows">
-    <header class="section-header">
-      <div style="
-              display: inline-flex;
-              align-items: center;
-              flex-direction: row;
-              width: 94.5%;
-            ">
-        <div style="
-                width: 100%;
-                border-bottom: 3px solid #b80d49;
-                margin-bottom: -5px;
-              ">
-          <h2 style="
-                  font-size: 14px;
-                  color: #222;
-                  font-weight: 600;
-                  padding: 10px 9px;
-                  border: 1px solid transparent;
-                ">
-            Guided Mode </h2>
-        </div>
-      </div>
-      <div class="tab-info">
-        <p class="tab-info-p" style="margin-bottom: 2em; width: 94.5%">
-          Welcome to SODA, your one-stop tool for curating SPARC datasets!
-          <br />
-          <br />
-          Watch the following video to familiarize yourself with the user
-          interface and learn how you can prepare and submit your SPARC datasets
-          easily with SODA.
-        </p>
-      </div>
-    </header>
+  <section id="guided_mode-section" class="section js-section u-category-windows"
+    style="padding-left: 15px; overflow-y: hidden">
     <div class="main-tabs show" id="guided_mode_parent-tabc" style="display: flex; height: 100%; overflow-y: hidden">
+      <header class="section-header">
+        <div style="
+                      display: inline-flex;
+                      align-items: center;
+                      flex-direction: row;
+                      width: 94.5%;
+                      padding-right: 20px;
+                      margin-bottom: 50px;
+                    ">
+          <div style="
+                        width: 100%;
+                        border-bottom: 3px solid #b80d49;
+                        margin-bottom: -5px;
+                      ">
+            <div class="need-help-div">
+              <h2>Guided mode</h2>
+              <a target="_blank" href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset">Need
+                help?</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div id="create_new_bf_dataset-tab" style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px">
+
+
         <div class="individual-question manage-dataset show" id="create_empty_dataset_BF_account_tab"
           style="height: auto">
           <div class="ui form" style="width: 100%">
@@ -134,102 +127,219 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="individual-question generate-dataset" id="Question-generate-dataset-choose-ds-name">
-      <div class="ui form" style="width: 450px">
-        <div class="grouped fields">
-          <label style="
-                              font-size: 17px;
-                              color: var(--color-bg-plum);
-                              width: 100%;
-                              text-align: center;
-                            ">What is the name of the new dataset?</label>
-          <div class="field" style="
-                              margin: 15px auto;
-                              display: flex;
-                              justify-content: center;
-                            ">
-            <input type="text" class="form-control" style="
-                                background: #fff !important;
-                                width: 450px !important;
-                              " id="inputNewNameDataset" placeholder="Type here" />
+
+        <div class="individual-question manage-dataset" id="div-create-new-empty-dataset"
+          style="height: auto; margin-top: -20px">
+          <div class="ui form" style="width: 450px">
+            <div class="grouped fields">
+              <label style="
+                                        font-size: 17px;
+                                        color: var(--color-bg-plum);
+                                        width: 100%;
+                                        text-align: center;
+                                      ">What is the name of the new dataset?
+                <i class="fas fa-info-circle popover-tooltip"
+                  data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
+                  rel="popover" data-html="true" data-placement="right" data-trigger="hover"></i>
+              </label>
+              <div class="field" style="display: flex; justify-content: center; width: 100%">
+                <input type="text" class="form-control" style="background: #fff !important; width: 450px"
+                  id="bf-new-dataset-name" placeholder="Type here" />
+              </div>
+              <p style="
+                                        color: red;
+                                        width: 440px;
+                                        text-align: center;
+                                        margin: auto;
+                                      " id="para-new-name-dataset-message"></p>
+              <div style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-items: center;
+                                        margin: 0 auto;
+                                        margin-top: 20px;
+                                      ">
+                <button id="button-create-bf-new-dataset" class="btn_animated"
+                  style="width: 140px; display: none; border: none !important">
+                  Create dataset
+                </button>
+                <div id="bf-create-new-dataset-spinner" class="spinner" style="visibility: hidden">
+                  <div class="rect1"></div>
+                  <div class="rect2"></div>
+                  <div class="rect3"></div>
+                  <div class="rect4"></div>
+                  <div class="rect5"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <p style="color: red; width: 440px" id="para-new-name-dataset-message"></p>
-        <div id="div-confirm-inputNewNameDataset" style="
-                            display: none;
-                            flex-direction: row;
-                            justify-content: center;
-                            margin: 0 auto;
-                          ">
-          <button id="btn-confirm-new-dataset-name"
-            onclick="transitionSubQuestionsButton(this, 'Question-generate-dataset-choose-ds-name', 'generate-dataset-tab', 'delete', 'individual-question generate-dataset')"
-            data-next="Question-generate-dataset-generate-div-old" style="
-                              cursor: pointer;
-                              border-radius: 8px;
-                              margin: 0 10px;
-                              width: 100px;
-                              height: 30px;
-                              background: var(--color-light-green);
-                              color: #fff;
-                              font-weight: 600;
-                              border: none;
-                              font-size: 13px;
-                            ">
-            Confirm
-          </button>
-        </div>
+
+
       </div>
-      <p id="para-continue-name-dataset-generate" style="
-                          text-align: center;
-                          font-weight: 600;
-                          color: var(--color-light-green);
-                        "></p>
+
     </div>
-    <footer class="footer-div">
+
+    <div class="footer-div">
       <div style="
-                  display: flex;
-                  flex-direction: row;
-                  width: 120px;
-                  justify-content: space-between;
-                ">
+                display: flex;
+                flex-direction: row;
+                width: 120px;
+                justify-content: space-between;
+              ">
+        <button type="button" class="transition-btn prev" data-section="main_tabs">
+          <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
+        </button>
       </div>
-      <button type="button" class="transition-btn prev" data-section="pi_dataset_owner2" style="width: auto">
-        Set PI owner of dataset<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+      <button type="button" class="transition-btn prev" data-section="folder_selection" style="width: auto">
+        Select Folders<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
       </button>
-    </footer>
+    </div>
   </section>
 
-  <section id="pi_dataset_owner2-section" class="section js-section u-category-windows"
+  <section id="folder_selection-section" class="section js-section u-category-windows"
     style="padding-left: 15px; overflow-y: hidden">
-    <header class="section-header">
-      <div style="
-                  display: inline-flex;
-                  align-items: center;
-                  flex-direction: row;
-                  width: 94.5%;
-                  padding-right: 20px;
-                ">
+    <div class="main-tabs show" id="folder_selection_parent-tabc"
+      style="display: flex; height: 100%; overflow-y: hidden">
+      <header class="section-header">
         <div style="
-                    width: 100%;
-                    border-bottom: 3px solid #b80d49;
-                    margin-bottom: -5px;
-                  ">
-          <h2 style="
-                      font-size: 14px;
-                      color: #222;
-                      font-weight: 600;
-                      padding: 10px 9px;
-                      border: 1px solid transparent;
-                    ">
-            Guided Mode </h2>
+                            display: inline-flex;
+                            align-items: center;
+                            flex-direction: row;
+                            width: 94.5%;
+                            padding-right: 20px;
+                            margin-bottom: 50px;
+                          ">
+          <div style="
+                              width: 100%;
+                              border-bottom: 3px solid #b80d49;
+                              margin-bottom: -5px;
+                            ">
+            <div class="need-help-div">
+              <h2>Guided mode</h2>
+              <a target="_blank" href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset">Need
+                help?</a>
+            </div>
+          </div>
+        </div>
+      </header>
 
+      <div>
+        <div class="first-three-high-level-folders">
+          <div class="option-card high-level-folders" id="code-card">
+            <div class="card-head">
+              <h2><i class="fas fa-folder"></i>code</h2>
+              <div class="folder-checkbox" style="float: right">
+                <input class="folder-input-check" id="code-check" type="checkbox" />
+                <label for="code-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing all the source code used in the
+                study
+              </p>
+            </div>
+          </div>
+          <div class="option-card high-level-folders" id="primary-card">
+            <div class="card-head">
+              <h2><i class="fas fa-folder"></i>primary</h2>
+              <div class="folder-checkbox">
+                <input class="folder-input-check" id="primary-check" type="checkbox" />
+                <label for="primary-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing all folders and files for
+                experimental subjects and/or samples
+              </p>
+            </div>
+          </div>
+          <div class="option-card high-level-folders" id="source-card">
+            <div class="card-head">
+              <h2><i class="fas fa-folder"></i>source</h2>
+              <div class="folder-checkbox">
+                <input class="folder-input-check" id="source-check" type="checkbox" />
+                <label for="source-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing very raw data i.e. raw or untouched
+                files from an experiment
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="first-three-high-level-folders">
+          <div class="option-card high-level-folders" id="docs-card">
+            <div class="card-head">
+              <h2><i class="fas fa-folder"></i>docs</h2>
+              <div class="folder-checkbox">
+                <input class="folder-input-check" id="docs-check" type="checkbox" />
+                <label for="docs-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing all other supporting files that
+                don't belong to any of the other folders
+              </p>
+            </div>
+          </div>
+          <div class="option-card high-level-folders" id="protocol-card">
+            <div class="card-head">
+              <h2><i class="fas fa-folder"></i>protocol</h2>
+              <div class="folder-checkbox">
+                <input class="folder-input-check" id="protocol-check" type="checkbox" />
+                <label for="protocol-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing supplementary files to accompany the
+                protocols submitted to Protocols.io.
+              </p>
+            </div>
+          </div>
+          <div class="option-card high-level-folders" id="derivative-card">
+            <div class="card-head">
+              <h2 style="padding-left: 15px">
+                <i class="fas fa-folder"></i>derivative
+              </h2>
+              <div class="folder-checkbox">
+                <input class="folder-input-check" id="derivative-check" type="checkbox" />
+                <label for="derivative-check"></label>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>
+                Folder containing data files derived from raw data
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-    </header>
+      <div class="footer-div">
+        <div style="
+                      display: flex;
+                      flex-direction: row;
+                      width: 120px;
+                      justify-content: space-between;
+                    ">
+          <button type="button" class="transition-btn prev" data-section="guided_mode">
+            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
+          </button>
+        </div>
+        <button type="button" class="transition-btn prev" data-section="folder_selection" style="width: auto">
+          TBD MAYBE SET DEPENDING ON NEXT FOLDER?<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+        </button>
+      </div>
+    </div>
   </section>
 
   <!-- <script src="./scripts/others/renderer.js" type="text/javascript"></script> -->
@@ -251,6 +361,10 @@
     $(".button-display-details").click(function () {
       $(this).parent().toggleClass("show");
     });
+
+    $("#hi").click(function () {
+      alert("hi")
+    })
 
     $(".button-generate-dataset i").bind("click", function () {
       $($(this).parents()[0]).click();
