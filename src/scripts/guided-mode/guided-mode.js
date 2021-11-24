@@ -1,29 +1,26 @@
 //FOLDER SELECTOR CLICK HANDLERS
+$(document).ready(() => {
+  $("#code-card").click(() => {
+    alert("I need to be handled");
+  });
 
-$("#code-card").click(function () {
-  alert("I need handling");
-});
+  $("#primary-card").click(() => {
+    alert("I need to be handled");
+  });
 
-$("#primary-card").click(function () {
-  alert("I need handling");
-});
+  $("#source-card").click(() => {
+    alert("I need to be handled");
+  });
 
-$("#source-card").click(function () {
-  alert("I need handling");
-});
+  $("docs-card").click(() => {
+    alert("I need to be handled");
+  });
 
-$("docs-card").click(function () {
-  alert("I need handling");
-});
+  $("#protocol-card").click(() => {
+    alert("I need to be handled");
+  });
 
-$("#protocol-card").click(function () {
-  alert("I need handling");
-});
-
-$("#derivative-card").click(function () {
-  alert("I need handling");
-});
-
-$("#change_pennsieve_account").click(function () {
-  alert("HIIIIS");
+  $("#derivative-card").click(() => {
+    alert("I need to be handled");
+  });
 });

@@ -5,41 +5,41 @@
     class="section js-section u-category-windows"
     style="padding-left: 15px; overflow-y: hidden"
   >
-    <div
-      class="main-tabs show"
-      id="guided_mode_parent-tabc"
-      style="display: flex; height: 100%; overflow-y: hidden"
-    >
-      <header class="section-header">
+    <header class="section-header">
+      <div
+        style="
+          display: inline-flex;
+          align-items: center;
+          flex-direction: row;
+          width: 94.5%;
+          padding-right: 20px;
+          margin-bottom: 50px;
+        "
+      >
         <div
           style="
-            display: inline-flex;
-            align-items: center;
-            flex-direction: row;
-            width: 94.5%;
-            padding-right: 20px;
-            margin-bottom: 50px;
+            width: 100%;
+            border-bottom: 3px solid #b80d49;
+            margin-bottom: -5px;
           "
         >
-          <div
-            style="
-              width: 100%;
-              border-bottom: 3px solid #b80d49;
-              margin-bottom: -5px;
-            "
-          >
-            <div class="need-help-div">
-              <h2>Guided mode</h2>
-              <a
-                target="_blank"
-                href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
-                >Need help?</a
-              >
-            </div>
+          <div class="need-help-div">
+            <h2>Guided mode</h2>
+            <a
+              target="_blank"
+              href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
+              >Need help?</a
+            >
           </div>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <div
+      class="main-tabs show"
+      id="create_new_bf_dataset-tabc"
+      style="display: flex; height: 100%; overflow-y: hidden"
+    >
       <div
         id="create_new_bf_dataset-tab"
         style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px"
@@ -267,6 +267,36 @@
           </div>
         </div>
       </div>
+
+      <div class="footer-div">
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            width: 120px;
+            justify-content: space-between;
+          "
+        >
+          <button
+            type="button"
+            class="transition-btn prev"
+            data-section="main_tabs"
+          >
+            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
+          </button>
+        </div>
+        <button
+          type="button"
+          class="transition-btn prev"
+          data-section="pi_dataset_owner"
+          style="width: auto"
+        >
+          Set PI owner of dataset<i
+            class="fas fa-arrow-right"
+            style="margin-left: 10px"
+          ></i>
+        </button>
+      </div>
     </div>
 
     <div class="footer-div">
@@ -276,28 +306,15 @@
           flex-direction: row;
           width: 120px;
           justify-content: space-between;
-<<<<<<< HEAD
-        ">
-
-=======
         "
-      >
-        <button
-          type="button"
-          class="transition-btn prev"
-          data-section="main_tabs"
-        >
-          <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-        </button>
->>>>>>> a7fc8ce9b0ec34d51b07da8e3d982c2fde400f1d
-      </div>
+      ></div>
       <button
         type="button"
         class="transition-btn prev"
         data-section="folder_selection"
         style="width: auto"
       >
-        Select Folders<i
+        Select folders<i
           class="fas fa-arrow-right"
           style="margin-left: 10px"
         ></i>
