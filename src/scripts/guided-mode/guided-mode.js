@@ -1,8 +1,4 @@
-/*
-
-    FOLDER SELECTOR CLICK HANDLERS
-
-*/
+//FOLDER SELECTOR CLICK HANDLERS
 
 $("#code-card").click(function () {
   alert("I need handling");
@@ -26,4 +22,8 @@ $("#protocol-card").click(function () {
 
 $("#derivative-card").click(function () {
   alert("I need handling");
+});
+
+$("#change_pennsieve_account").click(function () {
+  alert("HIIIIS");
 });

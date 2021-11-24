@@ -183,9 +183,7 @@
           width: 120px;
           justify-content: space-between;
         ">
-        <button type="button" class="transition-btn prev" data-section="main_tabs">
-          <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-        </button>
+
       </div>
       <button type="button" class="transition-btn prev" data-section="folder_selection" style="width: auto">
         Select Folders<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
@@ -344,12 +342,12 @@
   <script src="./scripts/guided-mode/guided-mode.js" type="text/javascript"></script>
 
   <script>
-    $("#change_pennsieve_account").click(function () {
-      $("#change-account-pencil").click();
-    });
-
     $(".button-display-details").click(function () {
       $(this).parent().toggleClass("show");
+    });
+
+    $("#change_pennsieve_account").click(function () {
+      $("#change-account-pencil").click();
     });
 
     $(".button-generate-dataset i").bind("click", function () {
