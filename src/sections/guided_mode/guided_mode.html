@@ -1,43 +1,67 @@
 <!DOCTYPE html>
 <template class="task-template">
-  <section id="guided_mode-section" class="section js-section u-category-windows"
-    style="padding-left: 15px; overflow-y: hidden">
-    <div class="main-tabs show" id="guided_mode_parent-tabc" style="display: flex; height: 100%; overflow-y: hidden">
+  <section
+    id="guided_mode-section"
+    class="section js-section u-category-windows"
+    style="padding-left: 15px; overflow-y: hidden"
+  >
+    <div
+      class="main-tabs show"
+      id="guided_mode_parent-tabc"
+      style="display: flex; height: 100%; overflow-y: hidden"
+    >
       <header class="section-header">
-        <div style="
+        <div
+          style="
             display: inline-flex;
             align-items: center;
             flex-direction: row;
             width: 94.5%;
             padding-right: 20px;
             margin-bottom: 50px;
-          ">
-          <div style="
+          "
+        >
+          <div
+            style="
               width: 100%;
               border-bottom: 3px solid #b80d49;
               margin-bottom: -5px;
-            ">
+            "
+          >
             <div class="need-help-div">
               <h2>Guided mode</h2>
-              <a target="_blank" href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset">Need
-                help?</a>
+              <a
+                target="_blank"
+                href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
+                >Need help?</a
+              >
             </div>
           </div>
         </div>
       </header>
 
-      <div id="create_new_bf_dataset-tab" style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px">
-        <div class="individual-question manage-dataset show" id="create_empty_dataset_BF_account_tab"
-          style="height: auto">
+      <div
+        id="create_new_bf_dataset-tab"
+        style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px"
+      >
+        <div
+          class="individual-question manage-dataset show"
+          id="create_empty_dataset_BF_account_tab"
+          style="height: auto"
+        >
           <div class="ui form" style="width: 100%">
             <div class="grouped fields">
-              <label style="
+              <label
+                style="
                   font-size: 17px;
                   color: var(--color-bg-plum);
                   text-align: center;
-                ">Before we begin, please verify your Pennsieve account.</label>
+                "
+                >Before we begin, please verify your Pennsieve account.</label
+              >
               <div class="field" style="margin: auto; width: 450px">
-                <div style="
+                <div
+                  style="
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
@@ -46,78 +70,117 @@
                     box-shadow: 0px 0px 10px #d5d5d5;
                     padding: 15px 25px;
                     border-radius: 5px;
-                  ">
-                  <div style="
+                  "
+                >
+                  <div
+                    style="
                       display: flex;
                       flex-direction: row;
                       justify-content: space-between;
-                    ">
+                    "
+                  >
                     <div class="card-container manage-dataset">
                       <div>
-                        <h5 class="card-left" style="
+                        <h5
+                          class="card-left"
+                          style="
                             text-align: right;
                             color: #808080;
                             font-size: 15px;
                             padding-right: 5px;
-                          ">
+                          "
+                        >
                           Current account:
                         </h5>
-                        <h5 class="card-right bf-account-span" style="
+                        <h5
+                          class="card-right bf-account-span"
+                          style="
                             color: #000;
                             font-weight: 600;
                             margin-left: 8px;
                             font-size: 15px;
-                          " id="create_empty_dataset_BF_account_span">
+                          "
+                          id="create_empty_dataset_BF_account_span"
+                        >
                           None
                         </h5>
                       </div>
                     </div>
-                    <svg class="svg-change-current-account bi bi-pencil-fill" id="change-account-pencil"
-                      onclick="openDropdownPrompt(this, 'bf')" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                      fill="#000" viewBox="0 0 16 16">
+                    <svg
+                      class="svg-change-current-account bi bi-pencil-fill"
+                      id="change-account-pencil"
+                      onclick="openDropdownPrompt(this, 'bf')"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="#000"
+                      viewBox="0 0 16 16"
+                    >
                       <path
-                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
+                      />
                     </svg>
                   </div>
-                  <div style="
+                  <div
+                    style="
                       display: flex;
                       flex-direction: row;
                       margin-bottom: 15px;
-                    ">
+                    "
+                  >
                     <div class="card-container manage-dataset">
                       <div>
-                        <h5 class="card-left" style="
+                        <h5
+                          class="card-left"
+                          style="
                             text-align: right;
                             color: #808080;
                             font-size: 15px;
                             padding-right: 5px;
-                          ">
+                          "
+                        >
                           Account details:
                         </h5>
-                        <h5 class="card-right bf-account-details-span" style="
+                        <h5
+                          class="card-right bf-account-details-span"
+                          style="
                             color: #000;
                             font-weight: 600;
                             margin-left: 15px;
                             font-size: 15px;
-                          " id="para_create_empty_dataset_BF_account">
+                          "
+                          id="para_create_empty_dataset_BF_account"
+                        >
                           None
                         </h5>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div id="div-create_empty_dataset-account-btns" class="div-confirm-button" style="
+                <div
+                  id="div-create_empty_dataset-account-btns"
+                  class="div-confirm-button"
+                  style="
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
                     margin: 30px auto;
-                  ">
-                  <button id="change_pennsieve_account" class="btn_animated" style="width: 120px">
+                  "
+                >
+                  <button
+                    id="change_pennsieve_account"
+                    class="btn_animated"
+                    style="width: 120px"
+                  >
                     Manage account
                   </button>
-                  <button id="create_empty_dataset"
+                  <button
+                    id="create_empty_dataset"
                     onclick="transitionFreeFormMode(this, 'create_empty_dataset_BF_account_tab', 'create_new_bf_dataset-tab', 'delete', 'individual-question manage-dataset')"
-                    data-next="div-create-new-empty-dataset" class="btn_animated" style="width: 120px">
+                    data-next="div-create-new-empty-dataset"
+                    class="btn_animated"
+                    style="width: 120px"
+                  >
                     Confirm
                   </button>
                 </div>
@@ -126,43 +189,73 @@
           </div>
         </div>
 
-        <div class="individual-question manage-dataset" id="div-create-new-empty-dataset"
-          style="height: auto; margin-top: -20px">
+        <div
+          class="individual-question manage-dataset"
+          id="div-create-new-empty-dataset"
+          style="height: auto; margin-top: -20px"
+        >
           <div class="ui form" style="width: 450px">
             <div class="grouped fields">
-              <label style="
+              <label
+                style="
                   font-size: 17px;
                   color: var(--color-bg-plum);
                   width: 100%;
                   text-align: center;
-                ">What is the name of the new dataset?
-                <i class="fas fa-info-circle popover-tooltip"
+                "
+                >What is the name of the new dataset?
+                <i
+                  class="fas fa-info-circle popover-tooltip"
                   data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
-                  rel="popover" data-html="true" data-placement="right" data-trigger="hover"></i>
+                  rel="popover"
+                  data-html="true"
+                  data-placement="right"
+                  data-trigger="hover"
+                ></i>
               </label>
-              <div class="field" style="display: flex; justify-content: center; width: 100%">
-                <input type="text" class="form-control" style="background: #fff !important; width: 450px"
-                  id="bf-new-dataset-name" placeholder="Type here" />
+              <div
+                class="field"
+                style="display: flex; justify-content: center; width: 100%"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  style="background: #fff !important; width: 450px"
+                  id="bf-new-dataset-name"
+                  placeholder="Type here"
+                />
               </div>
-              <p style="
+              <p
+                style="
                   color: red;
                   width: 440px;
                   text-align: center;
                   margin: auto;
-                " id="para-new-name-dataset-message"></p>
-              <div style="
+                "
+                id="para-new-name-dataset-message"
+              ></p>
+              <div
+                style="
                   display: flex;
                   flex-direction: column;
                   justify-content: center;
                   align-items: center;
                   margin: 0 auto;
                   margin-top: 20px;
-                ">
-                <button id="button-create-bf-new-dataset" class="btn_animated"
-                  style="width: 140px; display: none; border: none !important">
+                "
+              >
+                <button
+                  id="button-create-bf-new-dataset"
+                  class="btn_animated"
+                  style="width: 140px; display: none; border: none !important"
+                >
                   Create dataset
                 </button>
-                <div id="bf-create-new-dataset-spinner" class="spinner" style="visibility: hidden">
+                <div
+                  id="bf-create-new-dataset-spinner"
+                  class="spinner"
+                  style="visibility: hidden"
+                >
                   <div class="rect1"></div>
                   <div class="rect2"></div>
                   <div class="rect3"></div>
@@ -177,42 +270,76 @@
     </div>
 
     <div class="footer-div">
-      <div style="
+      <div
+        style="
           display: flex;
           flex-direction: row;
           width: 120px;
           justify-content: space-between;
+<<<<<<< HEAD
         ">
 
+=======
+        "
+      >
+        <button
+          type="button"
+          class="transition-btn prev"
+          data-section="main_tabs"
+        >
+          <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
+        </button>
+>>>>>>> a7fc8ce9b0ec34d51b07da8e3d982c2fde400f1d
       </div>
-      <button type="button" class="transition-btn prev" data-section="folder_selection" style="width: auto">
-        Select Folders<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+      <button
+        type="button"
+        class="transition-btn prev"
+        data-section="folder_selection"
+        style="width: auto"
+      >
+        Select Folders<i
+          class="fas fa-arrow-right"
+          style="margin-left: 10px"
+        ></i>
       </button>
     </div>
   </section>
 
-  <section id="folder_selection-section" class="section js-section u-category-windows"
-    style="padding-left: 15px; overflow-y: hidden">
-    <div class="main-tabs show" id="folder_selection_parent-tabc"
-      style="display: flex; height: 100%; overflow-y: hidden">
+  <section
+    id="folder_selection-section"
+    class="section js-section u-category-windows"
+    style="padding-left: 15px; overflow-y: hidden"
+  >
+    <div
+      class="main-tabs show"
+      id="folder_selection_parent-tabc"
+      style="display: flex; height: 100%; overflow-y: hidden"
+    >
       <header class="section-header">
-        <div style="
+        <div
+          style="
             display: inline-flex;
             align-items: center;
             flex-direction: row;
             width: 94.5%;
             padding-right: 20px;
             margin-bottom: 50px;
-          ">
-          <div style="
+          "
+        >
+          <div
+            style="
               width: 100%;
               border-bottom: 3px solid #b80d49;
               margin-bottom: -5px;
-            ">
+            "
+          >
             <div class="need-help-div">
               <h2>Guided mode</h2>
-              <a target="_blank" href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset">Need
-                help?</a>
+              <a
+                target="_blank"
+                href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
+                >Need help?</a
+              >
             </div>
           </div>
         </div>
@@ -224,7 +351,11 @@
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>code</h2>
               <div class="folder-checkbox" style="float: right">
-                <input class="folder-input-check" id="code-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="code-check"
+                  type="checkbox"
+                />
                 <label for="code-check"></label>
               </div>
             </div>
@@ -236,7 +367,11 @@
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>primary</h2>
               <div class="folder-checkbox">
-                <input class="folder-input-check" id="primary-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="primary-check"
+                  type="checkbox"
+                />
                 <label for="primary-check"></label>
               </div>
             </div>
@@ -251,7 +386,11 @@
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>source</h2>
               <div class="folder-checkbox">
-                <input class="folder-input-check" id="source-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="source-check"
+                  type="checkbox"
+                />
                 <label for="source-check"></label>
               </div>
             </div>
@@ -268,7 +407,11 @@
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>docs</h2>
               <div class="folder-checkbox">
-                <input class="folder-input-check" id="docs-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="docs-check"
+                  type="checkbox"
+                />
                 <label for="docs-check"></label>
               </div>
             </div>
@@ -283,7 +426,11 @@
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>protocol</h2>
               <div class="folder-checkbox">
-                <input class="folder-input-check" id="protocol-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="protocol-check"
+                  type="checkbox"
+                />
                 <label for="protocol-check"></label>
               </div>
             </div>
@@ -300,7 +447,11 @@
                 <i class="fas fa-folder"></i>derivative
               </h2>
               <div class="folder-checkbox">
-                <input class="folder-input-check" id="derivative-check" type="checkbox" />
+                <input
+                  class="folder-input-check"
+                  id="derivative-check"
+                  type="checkbox"
+                />
                 <label for="derivative-check"></label>
               </div>
             </div>
@@ -312,18 +463,32 @@
       </div>
 
       <div class="footer-div">
-        <div style="
+        <div
+          style="
             display: flex;
             flex-direction: row;
             width: 120px;
             justify-content: space-between;
-          ">
-          <button type="button" class="transition-btn prev" data-section="guided_mode">
+          "
+        >
+          <button
+            type="button"
+            class="transition-btn prev"
+            data-section="guided_mode"
+          >
             <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
           </button>
         </div>
-        <button type="button" class="transition-btn prev" data-section="folder_selection" style="width: auto">
-          TBD MAYBE SET DEPENDING ON NEXT FOLDER?<i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+        <button
+          type="button"
+          class="transition-btn prev"
+          data-section="folder_selection"
+          style="width: auto"
+        >
+          TBD MAYBE SET DEPENDING ON NEXT FOLDER?<i
+            class="fas fa-arrow-right"
+            style="margin-left: 10px"
+          ></i>
         </button>
       </div>
     </div>
@@ -336,10 +501,19 @@
 
   <script src="node_modules/jstree/dist/jstree.min.js"></script>
 
-  <script src="./scripts/organize-dataset/organizeDS.js" type="text/javascript"></script>
+  <script
+    src="./scripts/organize-dataset/organizeDS.js"
+    type="text/javascript"
+  ></script>
   <script src="./scripts/others/tab-effects.js" type="text/javascript"></script>
-  <script src="./scripts/organize-dataset/curate-functions.js" type="text/javascript"></script>
-  <script src="./scripts/guided-mode/guided-mode.js" type="text/javascript"></script>
+  <script
+    src="./scripts/organize-dataset/curate-functions.js"
+    type="text/javascript"
+  ></script>
+  <script
+    src="./scripts/guided-mode/guided-mode.js"
+    type="text/javascript"
+  ></script>
 
   <script>
     $(".button-display-details").click(function () {
