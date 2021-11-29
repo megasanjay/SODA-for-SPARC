@@ -37,16 +37,16 @@
 
     <div
       class="main-tabs show"
-      id="create_new_bf_dataset-tabc"
+      id="guided-mode-tab"
       style="display: flex; height: 100%; overflow-y: hidden"
     >
       <div
-        id="create_new_bf_dataset-tab"
+        id="guided-mode-container"
         style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px"
       >
         <div
           class="individual-question manage-dataset show"
-          id="create_empty_dataset_BF_account_tab"
+          id="verify-account-settings-prompt"
           style="height: auto"
         >
           <div class="ui form" style="width: 100%">
@@ -175,9 +175,9 @@
                     Manage account
                   </button>
                   <button
-                    id="create_empty_dataset"
-                    onclick="transitionFreeFormMode(this, 'create_empty_dataset_BF_account_tab', 'create_new_bf_dataset-tab', 'delete', 'individual-question manage-dataset')"
-                    data-next="div-create-new-empty-dataset"
+                    id="confirm-account-settings"
+                    onclick="transitionGuidedMode(this, 'verify-account-settings-prompt', 'guided-mode-container', 'delete', 'individual-question manage-dataset')"
+                    data-next="create-new-empty-dataset-prompt"
                     class="btn_animated"
                     style="width: 120px"
                   >
@@ -191,7 +191,7 @@
 
         <div
           class="individual-question manage-dataset"
-          id="div-create-new-empty-dataset"
+          id="create-new-empty-dataset-prompt"
           style="height: auto; margin-top: -20px"
         >
           <div class="ui form" style="width: 450px">
@@ -203,7 +203,7 @@
                   width: 100%;
                   text-align: center;
                 "
-                >What is the name of the new dataset?
+                >Please give your dataset a name:
                 <i
                   class="fas fa-info-circle popover-tooltip"
                   data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
@@ -221,7 +221,7 @@
                   type="text"
                   class="form-control"
                   style="background: #fff !important; width: 450px"
-                  id="bf-new-dataset-name"
+                  id="pennsieve-dataset-name"
                   placeholder="Type here"
                 />
               </div>
@@ -245,7 +245,7 @@
                 "
               >
                 <button
-                  id="button-create-bf-new-dataset"
+                  id="create-pennsieve-dataset"
                   class="btn_animated"
                   style="width: 140px; display: none; border: none !important"
                 >
@@ -267,36 +267,6 @@
           </div>
         </div>
       </div>
-
-      <div class="footer-div">
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            width: 120px;
-            justify-content: space-between;
-          "
-        >
-          <button
-            type="button"
-            class="transition-btn prev"
-            data-section="main_tabs"
-          >
-            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-          </button>
-        </div>
-        <button
-          type="button"
-          class="transition-btn prev"
-          data-section="pi_dataset_owner"
-          style="width: auto"
-        >
-          Set PI owner of dataset<i
-            class="fas fa-arrow-right"
-            style="margin-left: 10px"
-          ></i>
-        </button>
-      </div>
     </div>
 
     <div class="footer-div">
@@ -314,7 +284,7 @@
         data-section="folder_selection"
         style="width: auto"
       >
-        Select folder<i
+        Select folders<i
           class="fas fa-arrow-right"
           style="margin-left: 10px"
         ></i>
