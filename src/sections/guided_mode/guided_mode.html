@@ -3,7 +3,7 @@
   <section
     id="guided_mode-section"
     class="section js-section u-category-windows"
-    style="padding-left: 15px; overflow-y: hidden"
+    style="padding-left: 30px; overflow-y: hidden"
   >
     <header class="section-header">
       <div
@@ -13,7 +13,7 @@
           flex-direction: row;
           width: 94.5%;
           padding-right: 20px;
-          margin-bottom: 50px;
+          margin-bottom: 30px;
         "
       >
         <div
@@ -25,11 +25,6 @@
         >
           <div class="need-help-div">
             <h2>Guided mode</h2>
-            <a
-              target="_blank"
-              href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
-              >Need help?</a
-            >
           </div>
         </div>
       </div>
@@ -41,12 +36,36 @@
       style="display: flex; height: 100%; overflow-y: hidden"
     >
       <div id="guided-mode-container" class="guided--container">
+        <div class="guided--splash" id="guided-splash">
+          <h2>Welcome to guided mode</h2>
+          <h4 style="margin-top: 0px">
+            We'll walk you through the data curation process in 9000 easy steps.
+          </h4>
+        </div>
+        <div class="guided--steps" id="guided-steps">
+          <div class="guided--step" id="step-1">
+            <h4 style="display: inline-flex">Step 1:</h4>
+            <p style="display: inline-block">Spin around</p>
+          </div>
+          <div class="guided--step" id="step-2">
+            <h4 style="display: inline-flex">Step 2:</h4>
+            <p style="display: inline-block">Keep spinning</p>
+          </div>
+          <div class="guided--step" id="step-3">
+            <h4 style="display: inline-flex">Step 3:</h4>
+            <p style="display: inline-block">?</p>
+          </div>
+          <div class="guided--step" id="step-4">
+            <h4 style="display: inline-flex">Step 4:</h4>
+            <p style="display: inline-block">Profit</p>
+          </div>
+        </div>
         <div
           class="individual-question manage-dataset show"
           id="verify-account-settings-prompt"
           style="height: auto"
         >
-          <div class="ui form" style="width: 100%">
+          <div class="ui form" style="width: 100%; margin-top: 20px">
             <div class="grouped fields">
               <label
                 style="
@@ -169,7 +188,7 @@
                     class="btn_animated"
                     style="width: 120px"
                   >
-                    Manage account
+                    Manage (grey)
                   </button>
                   <button
                     id="confirm-account-settings"
@@ -277,6 +296,7 @@
       ></div>
       <button
         type="button"
+        id="nav-select-folders"
         class="transition-btn prev"
         data-section="folder_selection"
         style="width: auto"
@@ -318,16 +338,44 @@
             "
           >
             <div class="need-help-div">
-              <h2>Guided mode</h2>
-              <a
-                target="_blank"
-                href="https://fairdataihub.org/sodaforsparc/docs/Rename-an-existing-dataset"
-                >Need help?</a
-              >
+              <h2>Folder organization</h2>
             </div>
           </div>
         </div>
       </header>
+      <div class="guided--splash" id="folder-selection-splash">
+        <p class="guided--prompt" id="folder-inquiry-prompt">
+          Do you have any code files you would like to add to your dataset?
+        </p>
+        <p id="folder-explanation">
+          Some examples might be a python script or a TensorFlow model.
+        </p>
+      </div>
+      <div
+        id="div-create_empty_dataset-account-btns"
+        class="div-confirm-button"
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          margin: 30px auto;
+        "
+      >
+        <button
+          id="button-user-no-files"
+          class="btn_animated"
+          style="width: 120px"
+        >
+          NO (I'M RED)
+        </button>
+        <button
+          id="button-user-has-files"
+          class="btn_animated"
+          style="width: 120px"
+        >
+          YES
+        </button>
+      </div>
 
       <div>
         <div class="first-three-high-level-folders">
@@ -347,7 +395,11 @@
               <p>Folder containing all the source code used in the study</p>
             </div>
           </div>
-          <div class="option-card high-level-folders" id="primary-card">
+          <div
+            class="option-card high-level-folders"
+            id="primary-card"
+            style="opacity: 0.2"
+          >
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>primary</h2>
               <div class="folder-checkbox">
@@ -366,7 +418,11 @@
               </p>
             </div>
           </div>
-          <div class="option-card high-level-folders" id="source-card">
+          <div
+            class="option-card high-level-folders"
+            id="source-card"
+            style="opacity: 0.2"
+          >
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>source</h2>
               <div class="folder-checkbox">
@@ -387,7 +443,11 @@
           </div>
         </div>
         <div class="first-three-high-level-folders">
-          <div class="option-card high-level-folders" id="docs-card">
+          <div
+            class="option-card high-level-folders"
+            id="docs-card"
+            style="opacity: 0.2"
+          >
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>docs</h2>
               <div class="folder-checkbox">
@@ -406,7 +466,11 @@
               </p>
             </div>
           </div>
-          <div class="option-card high-level-folders" id="protocol-card">
+          <div
+            class="option-card high-level-folders"
+            id="protocol-card"
+            style="opacity: 0.2"
+          >
             <div class="card-head">
               <h2><i class="fas fa-folder"></i>protocol</h2>
               <div class="folder-checkbox">
@@ -425,7 +489,11 @@
               </p>
             </div>
           </div>
-          <div class="option-card high-level-folders" id="derivative-card">
+          <div
+            class="option-card high-level-folders"
+            id="derivative-card"
+            style="opacity: 0.2"
+          >
             <div class="card-head">
               <h2 style="padding-left: 15px">
                 <i class="fas fa-folder"></i>derivative

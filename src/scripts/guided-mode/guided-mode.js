@@ -1,27 +1,46 @@
 //FOLDER SELECTOR CLICK HANDLERS
 $(document).ready(() => {
-  $("#code-card").click(() => {
-    alert("I need to be handled");
+  $("#confirm-account-settings").click(() => {
+    $("#guided-splash").hide();
+    $("#guided-steps").hide();
   });
 
+  $("#button-user-no-files").click(() => {
+    $("#folder-inquiry-prompt").text(
+      "Do you have any primary files you would like to add to your dataset?"
+    );
+    $("#folder-explanation").text("Some examples might be foo bar.");
+    $("#primary-card").css({
+      opacity: "1",
+    });
+    $("#code-card").css({
+      opacity: "0.2",
+    });
+    $("#code-card").toggleClass("checked");
+  });
+
+  $("#code-card").click(() => {
+    console.log(app);
+    alert("I need to be handled");
+  });
   $("#primary-card").click(() => {
     alert("I need to be handled");
   });
-
   $("#source-card").click(() => {
     alert("I need to be handled");
   });
-
-  $("docs-card").click(() => {
+  $("#docs-card").click(() => {
     alert("I need to be handled");
   });
-
   $("#protocol-card").click(() => {
     alert("I need to be handled");
   });
-
   $("#derivative-card").click(() => {
     alert("I need to be handled");
+  });
+
+  $("#button-user-has-files").click(() => {
+    alert("I will take you to the code folder organization page");
   });
 
   //DATASET CREATION
@@ -46,7 +65,9 @@ $(document).ready(() => {
     }
   });
 
-  $("#button-create-pennsieve-dataset").click(() => {
+  $("#create-pennsieve-dataset").click(() => {
+    $("#nav-select-folders").click();
+    /*
     setTimeout(() => {
       let pennsieveSelectedAccount = defaultBfAccount;
       let pennsieveNewDatasetName = $("#pennsieve-dataset-name").val();
@@ -155,5 +176,6 @@ $(document).ready(() => {
         }
       );
     }, delayAnimation);
+  */
   });
 });
