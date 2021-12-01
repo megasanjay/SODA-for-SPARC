@@ -34,6 +34,29 @@
   margin-left: 30px;
 }
 
+.guided--container-dashed {
+  border-radius: 3px;
+  border-style: dashed;
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.guided--container-dataset {
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.guided--container-dashed > h2,
+.guided--container-dashed > p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
 .guided--step {
   margin-left: 20px;
   display: inline-block;

@@ -37,174 +37,22 @@
     >
       <div id="guided-mode-container" class="guided--container">
         <div class="guided--splash" id="guided-splash">
-          <h2>Welcome to guided mode</h2>
+          <div style="width: 100%; height: 20px; background-color: pink"></div>
+          <div style="width: 2%; height: 20px; background-color: pink"></div>
+          <div class="guided--container-dashed" style="width: 100%">
+            <p></p>
+            <h2>CREATE A NEW DATASET</h2>
+            <p></p>
+          </div>
+          <div class="guided--container-dataset">
+            <p>hi</p>
+            <p>hi</p>
+            <p>hi</p>
+          </div>
           <h4 style="margin-top: 0px">
             We'll walk you through the data curation process in 9000 easy steps.
           </h4>
         </div>
-        <div class="guided--steps" id="guided-steps">
-          <div class="guided--step" id="step-1">
-            <h4 style="display: inline-flex">Step 1:</h4>
-            <p style="display: inline-block">Spin around</p>
-          </div>
-          <div class="guided--step" id="step-2">
-            <h4 style="display: inline-flex">Step 2:</h4>
-            <p style="display: inline-block">Keep spinning</p>
-          </div>
-          <div class="guided--step" id="step-3">
-            <h4 style="display: inline-flex">Step 3:</h4>
-            <p style="display: inline-block">?</p>
-          </div>
-          <div class="guided--step" id="step-4">
-            <h4 style="display: inline-flex">Step 4:</h4>
-            <p style="display: inline-block">Profit</p>
-          </div>
-        </div>
-        <div
-          class="individual-question manage-dataset show"
-          id="verify-account-settings-prompt"
-          style="height: auto"
-        >
-          <div class="ui form" style="width: 100%; margin-top: 20px">
-            <div class="grouped fields">
-              <label
-                style="
-                  font-size: 17px;
-                  color: var(--color-bg-plum);
-                  text-align: center;
-                "
-                >Before we begin, please verify your Pennsieve account.</label
-              >
-              <div class="field" style="margin: auto; width: 450px">
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    margin-top: 15px;
-                    height: auto;
-                    box-shadow: 0px 0px 10px #d5d5d5;
-                    padding: 15px 25px;
-                    border-radius: 5px;
-                  "
-                >
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: space-between;
-                    "
-                  >
-                    <div class="card-container manage-dataset">
-                      <div>
-                        <h5
-                          class="card-left"
-                          style="
-                            text-align: right;
-                            color: #808080;
-                            font-size: 15px;
-                            padding-right: 5px;
-                          "
-                        >
-                          Current account:
-                        </h5>
-                        <h5
-                          class="card-right bf-account-span"
-                          style="
-                            color: #000;
-                            font-weight: 600;
-                            margin-left: 8px;
-                            font-size: 15px;
-                          "
-                          id="create_empty_dataset_BF_account_span"
-                        >
-                          None
-                        </h5>
-                      </div>
-                    </div>
-                    <svg
-                      class="svg-change-current-account bi bi-pencil-fill"
-                      id="change-account-pencil"
-                      onclick="openDropdownPrompt(this, 'bf')"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="#000"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
-                      />
-                    </svg>
-                  </div>
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      margin-bottom: 15px;
-                    "
-                  >
-                    <div class="card-container manage-dataset">
-                      <div>
-                        <h5
-                          class="card-left"
-                          style="
-                            text-align: right;
-                            color: #808080;
-                            font-size: 15px;
-                            padding-right: 5px;
-                          "
-                        >
-                          Account details:
-                        </h5>
-                        <h5
-                          class="card-right bf-account-details-span"
-                          style="
-                            color: #000;
-                            font-weight: 600;
-                            margin-left: 15px;
-                            font-size: 15px;
-                          "
-                          id="para_create_empty_dataset_BF_account"
-                        >
-                          None
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  id="div-create_empty_dataset-account-btns"
-                  class="div-confirm-button"
-                  style="
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    margin: 30px auto;
-                  "
-                >
-                  <button
-                    id="change_pennsieve_account"
-                    class="btn_animated"
-                    style="width: 120px"
-                  >
-                    Manage (grey)
-                  </button>
-                  <button
-                    id="confirm-account-settings"
-                    onclick="transitionGuidedMode(this, 'verify-account-settings-prompt', 'guided-mode-container', 'delete', 'individual-question manage-dataset')"
-                    data-next="create-new-empty-dataset-prompt"
-                    class="btn_animated"
-                    style="width: 120px"
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div
           class="individual-question manage-dataset"
           id="create-new-empty-dataset-prompt"
