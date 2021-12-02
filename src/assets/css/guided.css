@@ -15,7 +15,11 @@
   overflow-y: auto;
   width: 100%;
   height: calc(100% - 150px);
-  margin-left: -30px;
+  padding-right: 30px;
+}
+
+.guided--container > h2 {
+  margin: 0px;
 }
 
 .guided--splash {
@@ -23,7 +27,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 30px;
 }
 
 .guided--steps {
@@ -55,9 +58,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 90%;
+  width: 100%;
+  height: 70px;
   border-top: 1px solid #e6e8eb;
   border-bottom: 1px solid #e6e8eb;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 .guided--dataset-container:hover {
@@ -79,32 +85,37 @@
 
 .guided--dataset-item-name {
   justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
   flex-grow: 1;
+}
+.guided--dataset-item-name-folder {
+  margin-right: 15px;
+}
+.guided--dataset-item-name > h2 {
+  margin: 0px;
 }
 .guided--dataset-item-size {
   width: 70px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 .guided--dataset-item-modified {
   width: 130px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 .guided--dataset-item-owner {
   width: 90px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+.guided--dataset-item-icon {
+  width: 12px;
 }
 
 .grow {
   flex-grow: 1;
-}
-
-.guided--container-dashed > h2,
-.guided--container-dashed > p {
-  margin-bottom: 0px;
-  margin-top: 0px;
 }
 
 .guided--step {
