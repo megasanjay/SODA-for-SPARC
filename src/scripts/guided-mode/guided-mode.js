@@ -43,28 +43,6 @@ $(document).ready(() => {
     alert("I will take you to the code folder organization page");
   });
 
-  //DATASET CREATION
-  $("#pennsieve-dataset-name").on("keyup", () => {
-    let newName = $("#pennsieve-dataset-name").val().trim();
-
-    if (newName !== "") {
-      if (check_forbidden_characters_bf(newName)) {
-        Swal.fire({
-          title:
-            "A Pennsieve dataset name cannot contain any of the following characters: /:*?'<>.",
-          icon: "error",
-          backdrop: "rgba(0,0,0, 0.4)",
-          heightAuto: false,
-        });
-        $("#create-pennsieve-dataset").hide();
-      } else {
-        $("#create-pennsieve-dataset").show();
-      }
-    } else {
-      $("#create-pennsieve-dataset").hide();
-    }
-  });
-
   $("#create-pennsieve-dataset").click(() => {
     $("#nav-select-folders").click();
     /*
