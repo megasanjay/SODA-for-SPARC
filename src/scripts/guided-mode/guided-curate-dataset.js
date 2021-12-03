@@ -1,25 +1,22 @@
 $(document).ready(() => {
-  alert("hi");
   //DATASET CREATION
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
-    alert(newName);
 
     if (newName !== "") {
       if (check_forbidden_characters_bf(newName)) {
-        Swal.fire({
-          title:
-            "A Pennsieve dataset name cannot contain any of the following characters: /:*?'<>.",
-          icon: "error",
-          backdrop: "rgba(0,0,0, 0.4)",
-          heightAuto: false,
-        });
-        $("#create-pennsieve-dataset").hide();
+        $("#guided-dataset-name-warning-message").text(
+          "A Pennsieve dataset name cannot contain any of the following characters: /:*?'<>."
+        );
+        $("#guided-dataset-name-warning-message").show();
       } else {
+        /*change this to continue button $("#create-pennsieve-dataset").hide(); */
+
         $("#create-pennsieve-dataset").show();
       }
     } else {
-      $("#create-pennsieve-dataset").hide();
+      /*change this to continue button $("#create-pennsieve-dataset").hide(); */
+      $("#guided-dataset-name-warning-message").hide();
     }
   });
 });

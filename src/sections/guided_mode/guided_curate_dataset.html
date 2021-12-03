@@ -22,7 +22,7 @@
           "
         >
           <div class="need-help-div">
-            <h2>Manage Datasetx - Create a new dataset</h2>
+            <h2>Guided Mode - basic dataset description</h2>
             <a
               target="_blank"
               href="https://fairdataihub.org/sodaforsparc/docs/manage-dataset/Create-a-new-dataset"
@@ -33,25 +33,24 @@
       </header>
 
       <div
-        id="create_new_bf_dataset-tab"
+        id="guided_basic_description"
         style="overflow-y: auto; height: calc(100% - 150px); margin-left: -70px"
       >
         <div
           class="individual-question manage-dataset show"
-          id="create-new-empty-dataset-prompt"
-          style="height: auto; margin-top: -20px"
+          id="guided-name-dataset"
+          style="height: auto"
         >
           <div class="ui form" style="width: 450px">
             <div class="grouped fields">
               <label
-                class="show"
                 style="
                   font-size: 17px;
                   color: var(--color-bg-plum);
                   width: 100%;
                   text-align: center;
                 "
-                >Please give your dataset a name:
+                >Dataset Name:
                 <i
                   class="fas fa-info-circle popover-tooltip"
                   data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
@@ -68,47 +67,117 @@
                 <input
                   type="text"
                   class="form-control"
-                  style="background: #fff !important; width: 450px"
+                  style="background: #fff !important; width: 500px"
                   id="pennsieve-dataset-name"
                   placeholder="Type here"
                 />
               </div>
               <p
-                style="
-                  color: red;
-                  width: 440px;
-                  text-align: center;
-                  margin: auto;
-                "
-                id="para-new-name-dataset-message"
+                class="hidden"
+                style="color: red; width: 500px; text-align: left; margin: auto"
+                id="guided-dataset-name-warning-message"
               ></p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="individual-question manage-dataset show"
+          id="div_add_edit_subtitle"
+          style="height: auto"
+        >
+          <div class="ui form" style="width: 500px">
+            <div class="grouped fields" style="width: 500px; margin: auto">
+              <label
+                style="
+                  font-size: 17px;
+                  color: var(--color-bg-plum);
+                  width: 100%;
+                  text-align: center;
+                "
+                >Dataset subtitle:
+                <i
+                  class="fas fa-info-circle popover-tooltip"
+                  data-content="Add two or three sentences (limit of 256 characters) that describe the content of your dataset such that it is possible to differentiate it from other datasets. This field will become the short description visible immediately under the title of your dataset once it is published."
+                  rel="popover"
+                  data-html="true"
+                  data-placement="right"
+                  data-trigger="hover"
+                ></i>
+              </label>
               <div
+                class="field"
                 style="
                   display: flex;
-                  flex-direction: column;
                   justify-content: center;
-                  align-items: center;
-                  margin: 0 auto;
-                  margin-top: 20px;
+                  width: 100%;
+                  flex-direction: column;
                 "
               >
-                <button
-                  id="create-pennsieve-dataset"
-                  class="btn_animated"
-                  style="width: 140px; display: none; border: none !important"
-                >
-                  Create dataset
-                </button>
-                <div
-                  id="bf-create-new-dataset-spinner"
-                  class="spinner"
-                  style="visibility: hidden"
-                >
-                  <div class="rect1"></div>
-                  <div class="rect2"></div>
-                  <div class="rect3"></div>
-                  <div class="rect4"></div>
-                  <div class="rect5"></div>
+                <div style="width: 500px; position: relative">
+                  <textarea
+                    id="bf-dataset-subtitle"
+                    class="demo-response"
+                    style="position: relative"
+                    rows="6"
+                    maxlength="256"
+                  >
+                  </textarea>
+                  <p>
+                    <span
+                      id="para-char-count-metadata"
+                      style="
+                        position: absolute;
+                        bottom: 10px;
+                        right: 15px;
+                        color: rgb(117, 107, 107);
+                      "
+                    >
+                      256 characters left
+                    </span>
+                  </p>
+                </div>
+                <div style="display: flex; flex-direction: column">
+                  <div
+                    id="div-button-add-subtitle"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      align-items: center;
+                      margin: 0 auto;
+                      padding-top: 50px;
+                    "
+                  >
+                    <!--<button
+                      id="button-add-subtitle"
+                      class="btn_animated md"
+                      style="width: 190px; height: 40px; font-size: 15px"
+                    >
+                      Continue
+                    </button>--><button
+                      type="button"
+                      class="transition-btn prev"
+                      data-section="folder_selection"
+                      style="width: auto"
+                    >
+                      Continue (I NEED STYLING)<i
+                        class="fas fa-arrow-right"
+                        style="margin-left: 10px"
+                      ></i>
+                    </button>
+                    <div
+                      id="bf-add-subtitle-dataset-spinner"
+                      class="spinner"
+                      style="display: none"
+                    >
+                      <div class="rect1"></div>
+                      <div class="rect2"></div>
+                      <div class="rect3"></div>
+                      <div class="rect4"></div>
+                      <div class="rect5"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -136,10 +205,10 @@
         <button
           type="button"
           class="transition-btn prev"
-          data-section="pi_dataset_owner"
+          data-section="folder_selection"
           style="width: auto"
         >
-          Set PI owner of dataset<i
+          GUIDED ORGANIZE DATASET<i
             class="fas fa-arrow-right"
             style="margin-left: 10px"
           ></i>
