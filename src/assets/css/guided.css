@@ -37,13 +37,11 @@
   margin-left: 30px;
 }
 
-.guided--container-dashed {
-  border-radius: 3px;
-  border-style: dashed;
+.guided--progress-container {
   display: flex;
-  direction: row;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-around;
 }
 
 .guided--datasets-container {
