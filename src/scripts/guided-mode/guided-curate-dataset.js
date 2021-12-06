@@ -1,5 +1,23 @@
+const handleDescriptionConfirmButton = () => {
+  const dataset_name = $("#pennsieve-dataset-name");
+  const dataset_subtitle = $("#guided-dataset-subtitle");
+  const create_dataset_button = $("#guided-create-empty-dataset");
+  if (
+    check_forbidden_characters_bf(dataset_name.val().trim()) ||
+    dataset_name.val().length == 0 ||
+    dataset_subtitle.val().length == 0
+  ) {
+    if (!create_dataset_button.hasClass("hide")) {
+      create_dataset_button.toggleClass("hide");
+    }
+  } else {
+    if (create_dataset_button.hasClass("hide")) {
+      create_dataset_button.toggleClass("hide");
+    }
+  }
+};
+
 $(document).ready(() => {
-  //DATASET CREATION
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
 
@@ -18,5 +36,14 @@ $(document).ready(() => {
       /*change this to continue button $("#create-pennsieve-dataset").hide(); */
       $("#guided-dataset-name-warning-message").hide();
     }
+    handleDescriptionConfirmButton();
+  });
+
+  $("#guided-dataset-subtitle").on("keyup", () => {
+    countCharacters(guidedDatasetSubtitle, guidedDatasetSubtitleCharCount);
+    handleDescriptionConfirmButton();
+  });
+  $("#guided-create-empty-dataset").click(() => {
+    $("#transition-to-folder-organization").click();
   });
 });

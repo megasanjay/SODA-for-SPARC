@@ -761,6 +761,13 @@ const bfDatasetSubtitleCharCount = document.querySelector(
   "#para-char-count-metadata"
 );
 
+const guidedDatasetSubtitle = document.querySelector(
+  "#guided-dataset-subtitle"
+);
+const guidedDatasetSubtitleCharCount = document.querySelector(
+  "#guided-subtitle-char-count"
+);
+
 const bfCurrentBannerImg = document.getElementById("current-banner-img");
 
 const bfViewImportedImage = document.querySelector("#image-banner");

@@ -36,7 +36,18 @@
   justify-content: flex-start;
   margin-left: 30px;
 }
+.guided--prompt-centered {
+  display: flex;
+  justify-content: center;
+}
 
+.guided--prompt-text {
+  font-size: 17px;
+  color: var(--color-bg-plum);
+  text-align: center;
+  font-weight: 700;
+  margin-top: 70px;
+}
 .guided--progress-container {
   display: flex;
   flex-direction: row;
@@ -45,11 +56,11 @@
 }
 
 .guided--datasets-container {
-  margin-top: 15px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
 }
 .guided--dataset-container {
