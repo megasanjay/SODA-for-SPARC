@@ -3547,6 +3547,7 @@ getInFolder(
 );
 
 var sodaJSONObj = {};
+let guidedSodaJSONObj = {};
 
 /// back button Curate
 organizeDSbackButton.addEventListener("click", function () {

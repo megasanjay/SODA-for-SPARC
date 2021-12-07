@@ -2,18 +2,15 @@ const handleDescriptionConfirmButton = () => {
   const dataset_name = $("#pennsieve-dataset-name");
   const dataset_subtitle = $("#guided-dataset-subtitle");
   const create_dataset_button = $("#guided-create-empty-dataset");
+  //True if user input is invalid
   if (
     check_forbidden_characters_bf(dataset_name.val().trim()) ||
     dataset_name.val().length == 0 ||
     dataset_subtitle.val().length == 0
   ) {
-    if (!create_dataset_button.hasClass("hide")) {
-      create_dataset_button.toggleClass("hide");
-    }
+    create_dataset_button.prop("disabled", true);
   } else {
-    if (create_dataset_button.hasClass("hide")) {
-      create_dataset_button.toggleClass("hide");
-    }
+    create_dataset_button.prop("disabled", false);
   }
 };
 

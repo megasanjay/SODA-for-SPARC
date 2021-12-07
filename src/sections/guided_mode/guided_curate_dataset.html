@@ -45,7 +45,7 @@
                 getting-started-1st-question
                 checked
               "
-              id="div-getting-started-prepare-new"
+              id="guided-curate-new-dataset-card"
               data-next="Question-getting-started-final"
               onclick="transitionSubQuestions(this, 'Question-getting-started-1', 'getting-started-tab', '', 'individual-question getting-started')"
             >
@@ -100,7 +100,7 @@
                   non-selected
                 "
                 style="pointer-events: none"
-                id="div-getting-started-existing-local"
+                id="guided-curate-existing-local-dataset-card"
                 data-next="Question-getting-started-locally-destination"
                 onclick="transitionSubQuestions(this, 'Question-getting-started-1', 'getting-started-tab', '', 'individual-question getting-started')"
               >
@@ -153,6 +153,7 @@
                   getting-started-1st-question
                   non-selected
                 "
+                id="guided-curate-existing-Pennsieve-dataset-card"
                 style="pointer-events: none"
                 data-next="Question-getting-started-BF-account"
                 onclick="transitionSubQuestions(this, 'Question-getting-started-1', 'getting-started-tab', '', 'individual-question getting-started')"
@@ -309,12 +310,14 @@
                     "
                   >
                     <button
-                      id="guided-create-empty-dataset"
-                      data-next="div-create-new-empty-dataset"
-                      class="btn_animated hide"
+                      class="transition-btn show"
                       style="width: 120px"
+                      id="guided-create-empty-dataset"
+                      onclick="nextPrev(1)"
+                      data-next="div-create-new-empty-dataset"
+                      disabled
                     >
-                      Confirm
+                      Continue
                     </button>
                     <div
                       id="bf-add-subtitle-dataset-spinner"
@@ -333,37 +336,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="footer-div">
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            width: 120px;
-            justify-content: space-between;
-          "
-        >
-          <button
-            type="button"
-            class="transition-btn prev"
-            data-section="guided_mode"
-          >
-            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-          </button>
-        </div>
-        <button
-          type="button"
-          id="transition-to-folder-organization"
-          class="transition-btn prev"
-          data-section="folder_selection"
-          style="width: auto"
-        >
-          GUIDED ORGANIZE DATASET<i
-            class="fas fa-arrow-right"
-            style="margin-left: 10px"
-          ></i>
-        </button>
       </div>
     </div>
   </section>
