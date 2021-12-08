@@ -14,8 +14,11 @@
 .guided--container {
   overflow-y: auto;
   width: 100%;
-  height: calc(100% - 150px);
+  height: 100%;
   padding-right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .guided--container > h2 {
@@ -43,9 +46,8 @@
   flex-direction: column;
   justify-content: center;
   /* transition: all 0.3s ease-out !important; */
-  margin: 0 auto;
-  margin-bottom: 3em;
-  width: calc(100% - 300px);
+  width: 500px;
+  margin-top: 20px;
 }
 
 .guided--question.show {
@@ -62,7 +64,7 @@
   color: var(--color-bg-plum);
   text-align: center;
   font-weight: 700;
-  margin-top: 15px;
+  margin-bottom: 5px;
 }
 .guided--progress-container {
   display: flex;
