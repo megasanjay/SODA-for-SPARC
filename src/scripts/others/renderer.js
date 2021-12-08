@@ -51,6 +51,12 @@ var datasetStructureJSONObj = {
   type: "",
 };
 
+let guidedDatasetStructureJSONObj = {
+  folders: {},
+  files: {},
+  type: "",
+};
+
 let introStatus = {
   organizeStep3: true,
   submission: false,

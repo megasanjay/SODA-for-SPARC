@@ -1,7 +1,8 @@
+const dataset_name = $("#pennsieve-dataset-name");
+const dataset_subtitle = $("#guided-dataset-subtitle");
+const create_dataset_button = $("#guided-create-empty-dataset");
+
 const handleDescriptionConfirmButton = () => {
-  const dataset_name = $("#pennsieve-dataset-name");
-  const dataset_subtitle = $("#guided-dataset-subtitle");
-  const create_dataset_button = $("#guided-create-empty-dataset");
   //True if user input is invalid
   if (
     check_forbidden_characters_bf(dataset_name.val().trim()) ||
@@ -40,7 +41,18 @@ $(document).ready(() => {
     countCharacters(guidedDatasetSubtitle, guidedDatasetSubtitleCharCount);
     handleDescriptionConfirmButton();
   });
-  $("#guided-create-empty-dataset").click(() => {
+
+  $("#guided-create-empty-dataset").on("click", () => {
+    guidedSodaJSONObj["starting-point"] = {};
+    guidedSodaJSONObj["starting-point"]["type"] = "new";
+    guidedSodaJSONObj["dataset-structure"] = {};
+    guidedDatasetStructureJSONObj = { folders: {}, files: {} };
+    guidedSodaJSONObj["metadata-files"] = {};
+    guidedSodaJSONObj["metadata"] = {};
+    guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
+    guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
+    console.log(guidedSodaJSONObj);
+
     $("#transition-to-folder-organization").click();
   });
 });

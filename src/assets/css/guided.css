@@ -36,6 +36,22 @@
   justify-content: flex-start;
   margin-left: 30px;
 }
+
+.guided--question {
+  display: flex;
+  visibility: visible;
+  flex-direction: column;
+  justify-content: center;
+  /* transition: all 0.3s ease-out !important; */
+  margin: 0 auto;
+  margin-bottom: 3em;
+  width: calc(100% - 300px);
+}
+
+.guided--question.show {
+  display: flex;
+}
+
 .guided--prompt-centered {
   display: flex;
   justify-content: center;
@@ -46,7 +62,7 @@
   color: var(--color-bg-plum);
   text-align: center;
   font-weight: 700;
-  margin-top: 70px;
+  margin-top: 15px;
 }
 .guided--progress-container {
   display: flex;
