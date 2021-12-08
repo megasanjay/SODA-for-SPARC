@@ -52,6 +52,7 @@ $(document).ready(() => {
     guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
     guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
     console.log(guidedSodaJSONObj);
+    $("#guided_basic_description-tab").hide();
 
     $("#transition-to-folder-organization").click();
   });

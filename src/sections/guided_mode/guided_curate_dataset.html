@@ -10,25 +10,14 @@
       id="guided_curate_new_dataset-tabc"
       style="display: flex; height: 100%; overflow-y: hidden"
     >
-      <header class="section-header">
-        <div
-          style="
-            display: inline-flex;
-            align-items: center;
-            flex-direction: row;
-            width: 94.5%;
-            padding-right: 20px;
-            margin-bottom: 50px;
-          "
-        >
-          <div class="need-help-div">
-            <h2>Guided Curation</h2>
-            <a
-              target="_blank"
-              href="https://fairdataihub.org/sodaforsparc/docs/manage-dataset/Create-a-new-dataset"
-              >Need help?</a
-            >
-          </div>
+      <header class="guided--header">
+        <div class="need-help-div">
+          <h2>Guided Curation</h2>
+          <a
+            target="_blank"
+            href="https://fairdataihub.org/sodaforsparc/docs/manage-dataset/Create-a-new-dataset"
+            >Need help?</a
+          >
         </div>
       </header>
 
@@ -195,7 +184,7 @@
 
         <div class="guided--question show" id="guided_dataset_name_div">
           <label class="guided--prompt-text"
-            >Dataset Name:
+            >Dataset name:
             <i
               class="fas fa-info-circle popover-tooltip"
               data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
@@ -318,36 +307,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="footer-div">
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            width: 120px;
-            justify-content: space-between;
-          "
-        >
-          <button
-            type="button"
-            class="transition-btn prev"
-            data-section="guided_mode"
-          >
-            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-          </button>
-        </div>
-        <button
-          type="button"
-          id="transition-to-folder-organization"
-          class="transition-btn prev"
-          data-section="folder_selection"
-          style="width: auto"
-        >
-          GUIDED ORGANIZE DATASET<i
-            class="fas fa-arrow-right"
-            style="margin-left: 10px"
-          ></i>
-        </button>
       </div>
     </div>
   </section>
