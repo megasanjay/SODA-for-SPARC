@@ -7,7 +7,7 @@
   >
     <div
       class="main-tabs show"
-      id="guided_curate_new_dataset-tabc"
+      id="guided_curate_dataset-tab"
       style="display: flex; height: 100%; overflow-y: hidden"
     >
       <header class="guided--header">
@@ -25,7 +25,12 @@
         <div class="guided--progress-container">
           <div style="margin: 15px 0">
             <div
-              class="option-card radio-button getting-started-1st-question checked"
+              class="
+                option-card
+                radio-button
+                getting-started-1st-question
+                checked
+              "
               id="guided-curate-new-dataset-card"
               data-next="Question-getting-started-final"
               onclick="transitionSubQuestions(this, 'Question-getting-started-1', 'getting-started-tab', '', 'individual-question getting-started')"
@@ -74,7 +79,12 @@
               data-trigger="hover"
             >
               <div
-                class="option-card radio-button getting-started-1st-questionnon-selected non-selected"
+                class="
+                  option-card
+                  radio-button
+                  getting-started-1st-questionnon-selected
+                  non-selected
+                "
                 style="pointer-events: none"
                 id="guided-curate-existing-local-dataset-card"
                 data-next="Question-getting-started-locally-destination"
@@ -123,7 +133,12 @@
               data-trigger="hover"
             >
               <div
-                class="option-card radio-button getting-started-1st-question non-selected"
+                class="
+                  option-card
+                  radio-button
+                  getting-started-1st-question
+                  non-selected
+                "
                 id="guided-curate-existing-Pennsieve-dataset-card"
                 style="pointer-events: none"
                 data-next="Question-getting-started-BF-account"
@@ -198,6 +213,38 @@
           ></p>
         </div>
 
+        <div class="guided--question show" id="guided_dataset_sub_div">
+          <label class="guided--prompt-text"
+            >Dataset subtitle:
+            <i
+              class="fas fa-info-circle popover-tooltip"
+              data-content="Add two or three sentences (limit of 256 characters) that describe the content of your dataset such that it is possible to differentiate it from other datasets. This field will become the short description visible immediately under the title of your dataset once it is published."
+              rel="popover"
+              data-html="true"
+              data-placement="right"
+              data-trigger="hover"
+            ></i>
+          </label>
+          <div
+            class="field"
+            style="display: flex; justify-content: center; width: 100%"
+          >
+            <textarea
+              id="guided-dataset-subtitle"
+              class="demo-response"
+              style="position: relative"
+              rows="6"
+              maxlength="256"
+              placeholder="Enter dataset subtitle here"
+            ></textarea>
+          </div>
+          <p
+            class="hidden"
+            style="color: red; width: 500px; text-align: left; margin: auto"
+            id="guided-dataset-name-warning-message"
+          ></p>
+        </div>
+
         <div
           class="individual-question manage-dataset show"
           id="guided_dataset_subtitle_div"
@@ -232,14 +279,6 @@
                 "
               >
                 <div style="width: 500px; position: relative">
-                  <textarea
-                    id="guided-dataset-subtitle"
-                    class="demo-response"
-                    style="position: relative"
-                    rows="6"
-                    maxlength="256"
-                    placeholder="Enter dataset subtitle here"
-                  ></textarea>
                   <p>
                     <span
                       id="guided-subtitle-char-count"
@@ -293,44 +332,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section
-    id="folder_selection-section"
-    class="section js-section u-category-windows"
-    style="padding-left: 15px; overflow-y: hidden"
-  >
-    <div
-      class="main-tabs show"
-      id="folder_selection_parent-tabc"
-      style="display: flex; height: 100%; overflow-y: hidden"
-    >
-      <header class="section-header">
-        <div
-          style="
-            display: inline-flex;
-            align-items: center;
-            flex-direction: row;
-            width: 94.5%;
-            padding-right: 20px;
-            margin-bottom: 50px;
-          "
-        >
-          <div
-            style="
-              width: 100%;
-              border-bottom: 3px solid #b80d49;
-              margin-bottom: -5px;
-            "
-          >
-            <div class="need-help-div">
-              <h2>Folder organization</h2>
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="guided--container">
+      <div id="guided_folder_selection-tab" class="guided--container hidden">
         <div class="guided--splash" id="folder-selection-splash">
           <p class="guided--prompt" id="folder-inquiry-prompt">
             Do you have any code files you would like to add to your dataset?
@@ -501,36 +504,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="footer-div">
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            width: 120px;
-            justify-content: space-between;
-          "
-        >
-          <button
-            type="button"
-            class="transition-btn prev"
-            data-section="guided_mode"
-          >
-            <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Return
-          </button>
-        </div>
-        <button
-          type="button"
-          class="transition-btn prev"
-          data-section="folder_selection"
-          style="width: auto"
-        >
-          TBD MAYBE SET DEPENDING ON NEXT FOLDER?<i
-            class="fas fa-arrow-right"
-            style="margin-left: 10px"
-          ></i>
-        </button>
       </div>
     </div>
   </section>

@@ -43,6 +43,7 @@ $(document).ready(() => {
   });
 
   $("#guided-create-empty-dataset").on("click", () => {
+    console.log("that");
     guidedSodaJSONObj["starting-point"] = {};
     guidedSodaJSONObj["starting-point"]["type"] = "new";
     guidedSodaJSONObj["dataset-structure"] = {};
@@ -52,8 +53,13 @@ $(document).ready(() => {
     guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
     guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
     console.log(guidedSodaJSONObj);
-    $("#guided_basic_description-tab").hide();
-
-    $("#transition-to-folder-organization").click();
+    transitionGuidedMode(
+      $(this),
+      "guided_basic_description-tab",
+      "",
+      "",
+      "individual-question getting-started"
+    );
+    $("#guided_folder_selection-tab").toggleClass("flex");
   });
 });
