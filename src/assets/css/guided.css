@@ -29,6 +29,7 @@
   display: flex;
   margin-left: 15px;
   margin-right: 45px;
+  margin-bottom: 10px;
 }
 
 .guided--splash {
@@ -70,7 +71,7 @@
   color: var(--color-bg-plum);
   text-align: center;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .guided--progress-container {
   display: flex;
@@ -92,7 +93,7 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 70px;
+  height: 50px;
   border-top: 1px solid #e6e8eb;
   border-bottom: 1px solid #e6e8eb;
   padding-left: 7px;
@@ -123,11 +124,15 @@
   flex-grow: 1;
 }
 .guided--dataset-item-name-folder {
+  color: orange;
+  opacity: 0.7;
+  font-size: 25px;
   margin-right: 15px;
 }
 .guided--dataset-item-name > h2 {
   margin: 0px;
 }
+
 .guided--dataset-item-size {
   width: 70px;
   margin-left: 25px;
@@ -171,6 +176,7 @@
   text-align: center;
   font-weight: 700 !important;
   margin-bottom: 8px !important;
+  margin-top: 5px !important;
 }
 
 .faded {
@@ -208,4 +214,39 @@
 .guided.show {
   display: flex;
   flex-direction: column;
+}
+
+.guided--option-card {
+  height: 170px !important;
+  width: 150px !important;
+}
+
+.guided--folder-card-container {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guided--card-head {
+  padding-top: 0;
+  font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.guided--card-head h2 {
+  color: #000;
+  font-size: 14px;
+  padding-top: 5px;
+}
+
+.guided--card-head i {
+  color: orange;
+  opacity: 0.7;
+  font-size: 19px;
+  margin: 5px;
 }

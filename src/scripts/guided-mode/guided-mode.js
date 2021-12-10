@@ -5,20 +5,6 @@ $(document).ready(() => {
     $("#guided-steps").hide();
   });
 
-  $("#button-user-no-files").click(() => {
-    $("#folder-inquiry-prompt").text(
-      "Do you have any primary files you would like to add to your dataset?"
-    );
-    $("#folder-explanation").text("Some examples might be foo bar.");
-    $("#primary-card").css({
-      opacity: "1",
-    });
-    $("#code-card").css({
-      opacity: "0.2",
-    });
-    $("#code-card").toggleClass("checked");
-  });
-
   $("#code-card").click(() => {
     console.log(app);
     alert("I need to be handled");

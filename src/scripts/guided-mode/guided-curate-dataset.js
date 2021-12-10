@@ -1,6 +1,7 @@
 const dataset_name = $("#pennsieve-dataset-name");
 const dataset_subtitle = $("#guided-dataset-subtitle");
 const create_dataset_button = $("#guided-create-empty-dataset");
+let current_selected_folder = $("#code-card");
 
 const handleDescriptionConfirmButton = () => {
   //True if user input is invalid
@@ -16,6 +17,7 @@ const handleDescriptionConfirmButton = () => {
 };
 
 $(document).ready(() => {
+  $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
 
@@ -42,8 +44,13 @@ $(document).ready(() => {
     handleDescriptionConfirmButton();
   });
 
+  $("#button-user-no-files").on("click", () => {
+    current_selected_folder.css("opacity", "0.2");
+    current_selected_folder.next().css("opacity", "1.0");
+    current_selected_folder = current_selected_folder.next();
+  });
+
   $("#guided-create-empty-dataset").on("click", () => {
-    console.log("that");
     guidedSodaJSONObj["starting-point"] = {};
     guidedSodaJSONObj["starting-point"]["type"] = "new";
     guidedSodaJSONObj["dataset-structure"] = {};
