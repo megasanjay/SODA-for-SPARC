@@ -52,8 +52,18 @@ $(document).ready(() => {
     current_selected_folder = current_selected_folder.next();
   });
 
+  $("#guided-confirm-folder-organization").on("click", () => {
+    $("#guided_folder_organization-tab").hide();
+    current_selected_folder.css("opacity", "0.2");
+    current_selected_folder.next().css("opacity", "1.0");
+    current_selected_folder = current_selected_folder.next();
+
+    $("#guided_folder_selection-tab").show();
+  });
+
   $("#button-user-has-files").on("click", () => {
     $("#guided_folder_selection-tab").hide();
+    $("#guided-folder-name").text(current_selected_folder.data("folder-name"));
     $("#guided_folder_organization-tab").show();
   });
 

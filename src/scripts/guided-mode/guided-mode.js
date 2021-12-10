@@ -5,30 +5,6 @@ $(document).ready(() => {
     $("#guided-steps").hide();
   });
 
-  $("#code-card").click(() => {
-    console.log(app);
-    alert("I need to be handled");
-  });
-  $("#primary-card").click(() => {
-    alert("I need to be handled");
-  });
-  $("#source-card").click(() => {
-    alert("I need to be handled");
-  });
-  $("#docs-card").click(() => {
-    alert("I need to be handled");
-  });
-  $("#protocol-card").click(() => {
-    alert("I need to be handled");
-  });
-  $("#derivative-card").click(() => {
-    alert("I need to be handled");
-  });
-
-  $("#button-user-has-files").click(() => {
-    alert("I will take you to the code folder organization page");
-  });
-
   $("#create-pennsieve-dataset").click(() => {
     $("#nav-select-folders").click();
     /*

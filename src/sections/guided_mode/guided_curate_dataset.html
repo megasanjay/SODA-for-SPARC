@@ -74,7 +74,12 @@
               data-trigger="hover"
             >
               <div
-                class="option-card radio-button getting-started-1st-questionnon-selected non-selected"
+                class="
+                  option-card
+                  radio-button
+                  getting-started-1st-questionnon-selected
+                  non-selected
+                "
                 style="pointer-events: none"
                 id="guided-curate-existing-local-dataset-card"
                 data-next="Question-getting-started-locally-destination"
@@ -123,7 +128,12 @@
               data-trigger="hover"
             >
               <div
-                class="option-card radio-button getting-started-1st-question non-selected"
+                class="
+                  option-card
+                  radio-button
+                  getting-started-1st-question
+                  non-selected
+                "
                 id="guided-curate-existing-Pennsieve-dataset-card"
                 style="pointer-events: none"
                 data-next="Question-getting-started-BF-account"
@@ -336,6 +346,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="code-card"
+            data-folder-name="code"
           >
             <div class="guided--card-head">
               <h2><i class="fas fa-folder"></i>code</h2>
@@ -347,6 +358,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="primary-card"
+            data-folder-name="primary"
             style="opacity: 0.2"
           >
             <div class="guided--card-head">
@@ -362,6 +374,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="source-card"
+            data-folder-name="source"
             style="opacity: 0.2"
           >
             <div class="guided--card-head">
@@ -377,6 +390,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="docs-card"
+            data-folder-name="docs"
             style="opacity: 0.2"
           >
             <div class="guided--card-head">
@@ -392,6 +406,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="protocol-card"
+            data-folder-name="protocol"
             style="opacity: 0.2"
           >
             <div class="guided--card-head">
@@ -407,6 +422,7 @@
           <div
             class="option-card guided--option-card high-level-folders"
             id="derivative-card"
+            data-folder-name="derivative"
             style="opacity: 0.2"
           >
             <div class="guided--card-head">
@@ -417,141 +433,27 @@
             </div>
           </div>
         </div>
-        <!--
-        <div>
-          <div class="first-three-high-level-folders">
-            <div class="option-card high-level-folders" id="code-card">
-              <div class="guided--card-head">
-                <h2><i class="fas fa-folder"></i>code</h2>
-              </div>
-              <div class="card-body">
-                <p>Folder containing all the source code used in the study</p>
-              </div>
-            </div>
-            <div
-              class="option-card high-level-folders"
-              id="primary-card"
-              style="opacity: 0.2"
-            >
-              <div class="guided--card-head">
-                <h2><i class="fas fa-folder"></i>primary</h2>
-                <div class="folder-checkbox">
-                  <input
-                    class="folder-input-check"
-                    id="primary-check"
-                    type="checkbox"
-                  />
-                  <label for="primary-check"></label>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>
-                  Folder containing all folders and files for experimental
-                  subjects and/or samples
-                </p>
-              </div>
-            </div>
-            <div
-              class="option-card high-level-folders"
-              id="source-card"
-              style="opacity: 0.2"
-            >
-              <div class="guided--card-head">
-                <h2><i class="fas fa-folder"></i>source</h2>
-                <div class="folder-checkbox">
-                  <input
-                    class="folder-input-check"
-                    id="source-check"
-                    type="checkbox"
-                  />
-                  <label for="source-check"></label>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>
-                  Folder containing very raw data i.e. raw or untouched files
-                  from an experiment
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="first-three-high-level-folders">
-            <div
-              class="option-card high-level-folders"
-              id="docs-card"
-              style="opacity: 0.2"
-            >
-              <div class="guided--card-head">
-                <h2><i class="fas fa-folder"></i>docs</h2>
-                <div class="folder-checkbox">
-                  <input
-                    class="folder-input-check"
-                    id="docs-check"
-                    type="checkbox"
-                  />
-                  <label for="docs-check"></label>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>
-                  Folder containing all other supporting files that don't belong
-                  to any of the other folders
-                </p>
-              </div>
-            </div>
-            <div
-              class="option-card high-level-folders"
-              id="protocol-card"
-              style="opacity: 0.2"
-            >
-              <div class="guided--card-head">
-                <h2><i class="fas fa-folder"></i>protocol</h2>
-                <div class="folder-checkbox">
-                  <input
-                    class="folder-input-check"
-                    id="protocol-check"
-                    type="checkbox"
-                  />
-                  <label for="protocol-check"></label>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>
-                  Folder containing supplementary files to accompany the
-                  protocols submitted to Protocols.io.
-                </p>
-              </div>
-            </div>
-            <div
-              class="option-card high-level-folders"
-              id="derivative-card"
-              style="opacity: 0.2"
-            >
-              <div class="guided--card-head">
-                <h2 style="padding-left: 15px">
-                  <i class="fas fa-folder"></i>derivative
-                </h2>
-                <div class="folder-checkbox">
-                  <input
-                    class="folder-input-check"
-                    id="derivative-check"
-                    type="checkbox"
-                  />
-                  <label for="derivative-check"></label>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>Folder containing data files derived from raw data</p>
-              </div>
-            </div>
-          </div>
-        </div>-->
       </div>
 
       <div id="guided_folder_organization-tab" class="guided--container hidden">
-        <div style="height: 100%; width: 100%; background-color: palevioletred">
-          <p id="ctesta">folder</p>
+        <div class="guided--header-step-text-container">
+          <h3 class="guided--header-step-text">Organize&nbsp;</h3>
+          <h3 class="guided--header-step-text" id="guided-folder-name"></h3>
+          <h3 class="guided--header-step-text">&nbsp;folders</h3>
         </div>
+        <div
+          id="items"
+          class="div-organize-items"
+          ondrop="drop(event);"
+          ondragover="allowDrop(event);"
+        ></div>
+        <button
+          id="guided-confirm-folder-organization"
+          class="btn_animated show"
+          style="width: 120px"
+        >
+          Nextbttn
+        </button>
       </div>
     </div>
   </section>
