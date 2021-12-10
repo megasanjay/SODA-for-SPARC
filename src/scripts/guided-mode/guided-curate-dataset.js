@@ -1,3 +1,5 @@
+//SHARED VARIABLES  (is this vanilla js bad practice? IDK)
+
 const dataset_name = $("#pennsieve-dataset-name");
 const dataset_subtitle = $("#guided-dataset-subtitle");
 const create_dataset_button = $("#guided-create-empty-dataset");
@@ -48,6 +50,11 @@ $(document).ready(() => {
     current_selected_folder.css("opacity", "0.2");
     current_selected_folder.next().css("opacity", "1.0");
     current_selected_folder = current_selected_folder.next();
+  });
+
+  $("#button-user-has-files").on("click", () => {
+    $("#guided_folder_selection-tab").hide();
+    $("#guided_folder_organization-tab").show();
   });
 
   $("#guided-create-empty-dataset").on("click", () => {
