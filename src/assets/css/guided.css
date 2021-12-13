@@ -197,6 +197,13 @@
   margin-top: 5px !important;
 }
 
+.guided--folder-organization-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
 .faded {
   opacity: 0.2;
 }

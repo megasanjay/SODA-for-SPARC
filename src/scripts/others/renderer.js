@@ -710,6 +710,9 @@ var defaultBfAccount;
 var defaultBfDataset = "Select dataset";
 var bfAccountOptionsStatus;
 
+/////// New Organize Datasets /////////////////////
+const guidedOrganizeDSglobalPath = $("#guided-input-global-path");
+
 // Organize dataset //
 const selectImportFileOrganizationBtn = document.getElementById(
   "button-select-upload-file-organization"
