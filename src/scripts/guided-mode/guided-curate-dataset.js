@@ -114,6 +114,61 @@ const guidedDrop = (ev) => {
   console.log("drop allowed");
 };
 
+const updateOverallGuidedJSONStructure = (id) => {
+  $("#guided-input-global-path").val() = "My_dataset_folder/";
+  var optionCards = document.getElementsByClassName(
+    "option-card high-level-folders"
+  );
+  var newDatasetStructureJSONObj = { folders: {}, files: {} };
+  var keys = [];
+  for (var card of optionCards) {
+    if ($(card).hasClass("checked")) {
+      keys.push($(card).children()[0].innerText);
+    }
+  }
+  // keys now have all the high-level folders from Step 2
+  // datasetStructureJSONObj["folders"] have all the folders both from the old step 2 and -deleted folders in step 3
+
+  // 1st: check if folder in keys, not in datasetStructureJSONObj["folders"], then add an empty object
+  // 2nd: check if folder in datasetStructureJSONObj["folders"], add that to newDatasetStructureJSONObj["folders"]
+  // 3rd: assign old to new
+  // 1st
+  keys.forEach((folder) => {
+    if ("folders" in datasetStructureJSONObj) {
+      if (Object.keys(datasetStructureJSONObj["folders"]).includes(folder)) {
+        // clone a new json object
+        newDatasetStructureJSONObj["folders"][folder] =
+          datasetStructureJSONObj["folders"][folder];
+      } else {
+        newDatasetStructureJSONObj["folders"][folder] = {
+          folders: {},
+          files: {},
+          type: "",
+          action: [],
+        };
+      }
+    }
+  });
+  // 2nd
+  if ("folders" in datasetStructureJSONObj) {
+    Object.keys(datasetStructureJSONObj["folders"]).forEach((folderKey) => {
+      if (!keys.includes(folderKey)) {
+        newDatasetStructureJSONObj["folders"][folderKey] =
+          datasetStructureJSONObj["folders"][folderKey];
+      }
+    });
+  }
+  // 3rd
+  datasetStructureJSONObj = newDatasetStructureJSONObj;
+  listItems(datasetStructureJSONObj, "#items");
+  getInFolder(
+    ".single-item",
+    "#items",
+    organizeDSglobalPath,
+    datasetStructureJSONObj
+  );
+};
+
 $(document).ready(() => {
   $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
