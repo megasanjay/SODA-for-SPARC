@@ -29,11 +29,11 @@ const guidedDrop = (ev) => {
   var action = "";
   guidedFilesElement = ev.dataTransfer.files;
   guidedTargetElement = ev.target;
-  // get global path
-  console.log(guidedOrganizeDSglobalPath);
+  // get global path from guided-input-global-path element
   var currentPath = guidedOrganizeDSglobalPath.val();
   console.log(currentPath);
   var jsonPathArray = currentPath.split("/");
+  console.log(jsonPathArray);
   var filtered = jsonPathArray.slice(1).filter(function (el) {
     return el != "";
   });
@@ -115,10 +115,9 @@ const guidedDrop = (ev) => {
 };
 
 const updateOverallGuidedJSONStructure = (id) => {
-  $("#guided-input-global-path").val() = "My_dataset_folder/";
-  var optionCards = document.getElementsByClassName(
+  /*DELvar optionCards = document.getElementsByClassName(
     "option-card high-level-folders"
-  );
+  );*/
   var newDatasetStructureJSONObj = { folders: {}, files: {} };
   var keys = [];
   for (var card of optionCards) {
@@ -170,6 +169,9 @@ const updateOverallGuidedJSONStructure = (id) => {
 };
 
 $(document).ready(() => {
+  $("#guided-items").on("click", () => {
+    alert("hi");
+  });
   $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
@@ -221,7 +223,13 @@ $(document).ready(() => {
   });
 
   $("#button-user-has-files").on("click", () => {
+    folderName = current_selected_folder.data("folder-name");
     $("#guided_folder_selection-tab").hide();
+    console.log(guidedDatasetStructureJSONObj);
+    guidedDatasetStructureJSONObj["folders"][folderName] = {
+      files: {},
+      folders: {},
+    };
     console.log(guidedDatasetStructureJSONObj);
 
     console.log(guidedSodaJSONObj);
@@ -230,7 +238,12 @@ $(document).ready(() => {
       files: {},
     };
     guidedSodaJSONObj["dataset-structure"]["code"] = emptyFolderObj;
-    $("#guided-folder-name").text(current_selected_folder.data("folder-name"));
+    $("#guided-folder-name").text(
+      "Organize " + current_selected_folder.data("folder-name") + " folder"
+    );
+    $("#guided-input-global-path").val(
+      "My_dataset_folder/" + current_selected_folder.data("folder-name") + "/"
+    );
     $("#guided_folder_organization-tab").show();
   });
 
