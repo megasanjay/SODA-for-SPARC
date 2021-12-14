@@ -86,7 +86,7 @@ const guidedDrop = (ev) => {
       } else {
         return;
       }
-      dropHelper(
+      guidedDropHelper(
         guidedFilesElement,
         guidedTargetElement,
         action,
@@ -99,7 +99,7 @@ const guidedDrop = (ev) => {
       );
     });
   } else {
-    dropHelper(
+    guidedDropHelper(
       guidedFilesElement,
       guidedTargetElement,
       "",
@@ -113,6 +113,220 @@ const guidedDrop = (ev) => {
   }
   console.log("drop allowed");
 };
+
+function guidedDropHelper(
+  ev1,
+  ev2,
+  action,
+  myPath,
+  importedFiles,
+  importedFolders,
+  nonAllowedDuplicateFiles,
+  uiFiles,
+  uiFolders
+) {
+  for (var i = 0; i < ev1.length; i++) {
+    /// Get all the file information
+    var itemPath = ev1[i].path;
+    var itemName = path.parse(itemPath).base;
+    var duplicate = false;
+    var statsObj = fs.statSync(itemPath);
+    // check for duplicate or files with the same name
+    for (var j = 0; j < ev2.children.length; j++) {
+      if (itemName === ev2.children[j].innerText) {
+        duplicate = true;
+        break;
+      }
+    }
+    /// check for File duplicate
+    if (statsObj.isFile()) {
+      var slashCount = organizeDSglobalPath.value.trim().split("/").length - 1;
+      if (slashCount === 1) {
+        Swal.fire({
+          icon: "error",
+          html: "<p>This interface is only for including files in the SPARC folders. If you are trying to add SPARC metadata file(s), you can do so in the next Step.</p>",
+          heightAuto: false,
+          backdrop: "rgba(0,0,0, 0.4)",
+        });
+        break;
+      } else {
+        if (
+          JSON.stringify(myPath["files"]) === "{}" &&
+          JSON.stringify(importedFiles) === "{}"
+        ) {
+          importedFiles[path.parse(itemPath).base] = {
+            path: itemPath,
+            basename: path.parse(itemPath).base,
+          };
+        } else {
+          for (var objectKey in myPath["files"]) {
+            if (objectKey !== undefined) {
+              var nonAllowedDuplicate = false;
+              if (itemPath === myPath["files"][objectKey]["path"]) {
+                nonAllowedDuplicateFiles.push(itemPath);
+                nonAllowedDuplicate = true;
+                break;
+              }
+            }
+          }
+          if (!nonAllowedDuplicate) {
+            var j = 1;
+            var fileBaseName = itemName;
+            var originalFileNameWithoutExt = path.parse(fileBaseName).name;
+            var fileNameWithoutExt = originalFileNameWithoutExt;
+            while (fileBaseName in uiFiles || fileBaseName in importedFiles) {
+              fileNameWithoutExt = `${originalFileNameWithoutExt} (${j})`;
+              fileBaseName = fileNameWithoutExt + path.parse(fileBaseName).ext;
+              j++;
+            }
+            importedFiles[fileBaseName] = {
+              path: itemPath,
+              basename: fileBaseName,
+            };
+          }
+        }
+      }
+    } else if (statsObj.isDirectory()) {
+      /// drop a folder
+      var slashCount = organizeDSglobalPath.value.trim().split("/").length - 1;
+      if (slashCount === 1) {
+        Swal.fire({
+          icon: "error",
+          text: "Only SPARC folders can be added at this level. To add a new SPARC folder, please go back to Step 2.",
+          heightAuto: false,
+          backdrop: "rgba(0,0,0, 0.4)",
+        });
+      } else {
+        var j = 1;
+        var originalFolderName = itemName;
+        var renamedFolderName = originalFolderName;
+
+        if (irregularFolderArray.includes(itemPath)) {
+          if (action !== "ignore" && action !== "") {
+            if (action === "remove") {
+              renamedFolderName = removeIrregularFolders(itemName);
+            } else if (action === "replace") {
+              renamedFolderName = replaceIrregularFolders(itemName);
+            }
+            importedFolders[renamedFolderName] = {
+              path: itemPath,
+              "original-basename": originalFolderName,
+            };
+          }
+        } else {
+          while (
+            renamedFolderName in uiFolders ||
+            renamedFolderName in importedFolders
+          ) {
+            renamedFolderName = `${originalFolderName} (${j})`;
+            j++;
+          }
+          importedFolders[renamedFolderName] = {
+            path: itemPath,
+            "original-basename": originalFolderName,
+          };
+        }
+      }
+    }
+  }
+  if (nonAllowedDuplicateFiles.length > 0) {
+    var listElements = showItemsAsListBootbox(nonAllowedDuplicateFiles);
+    Swal.fire({
+      icon: "warning",
+      html:
+        "The following files are already imported into the current location of your dataset: <p><ul>" +
+        listElements +
+        "</ul></p>",
+      heightAuto: false,
+      backdrop: "rgba(0,0,0, 0.4)",
+      showClass: {
+        popup: "animate__animated animate__zoomIn animate__faster",
+      },
+      hideClass: {
+        popup: "animate__animated animate__zoomOut animate__faster",
+      },
+    });
+  }
+  // // now append to UI files and folders
+  if (Object.keys(importedFiles).length > 0) {
+    for (var element in importedFiles) {
+      myPath["files"][importedFiles[element]["basename"]] = {
+        path: importedFiles[element]["path"],
+        type: "local",
+        description: "",
+        "additional-metadata": "",
+        action: ["new"],
+      };
+      // append "renamed" to "action" key if file is auto-renamed by UI
+      var originalName = path.parse(
+        myPath["files"][importedFiles[element]["basename"]]["path"]
+      ).base;
+      if (element !== originalName) {
+        myPath["files"][importedFiles[element]["basename"]]["action"].push(
+          "renamed"
+        );
+      }
+      var appendString =
+        '<div class="single-item" onmouseover="hoverForFullName(this)" onmouseleave="hideFullName()"><h1 class="folder file"><i class="far fa-file-alt"  oncontextmenu="folderContextMenu(this)"  style="margin-bottom:10px"></i></h1><div class="folder_desc">' +
+        importedFiles[element]["basename"] +
+        "</div></div>";
+      $(appendString).appendTo(ev2);
+      listItems(myPath, "#items");
+      getInFolder(
+        ".single-item",
+        "#items",
+        organizeDSglobalPath,
+        datasetStructureJSONObj
+      );
+      hideMenu("folder", menuFolder, menuHighLevelFolders, menuFile);
+      hideMenu("high-level-folder", menuFolder, menuHighLevelFolders, menuFile);
+    }
+  }
+  if (Object.keys(importedFolders).length > 0) {
+    for (var element in importedFolders) {
+      myPath["folders"][element] = {
+        type: "local",
+        path: importedFolders[element]["path"],
+        folders: {},
+        files: {},
+        action: ["new"],
+      };
+      // append "renamed" to "action" key if file is auto-renamed by UI
+      var originalName = path.parse(myPath["folders"][element]["path"]).name;
+      let placeholderString =
+        '<div id="placeholder_element" class="single-item" onmouseover="hoverForFullName(this)" onmouseleave="hideFullName()"><h1 class="folder file"><i class="fas fa-file-import"  oncontextmenu="folderContextMenu(this)" style="margin-bottom:10px"></i></h1><div class="folder_desc">Loading ' +
+        element +
+        "... </div></div>";
+      $(placeholderString).appendTo(ev2);
+      // await listItems(myPath, "#items");
+      listItems(myPath, "#items");
+      if (element !== originalName) {
+        myPath["folders"][element]["action"].push("renamed");
+      }
+      populateJSONObjFolder(
+        action,
+        myPath["folders"][element],
+        importedFolders[element]["path"]
+      );
+      var appendString =
+        '<div class="single-item" onmouseover="hoverForFullName(this)" onmouseleave="hideFullName()"><h1 class="folder file"><i class="far fa-file-alt"  oncontextmenu="folderContextMenu(this)" style="margin-bottom:10px"></i></h1><div class="folder_desc">' +
+        element +
+        "</div></div>";
+      $("#placeholder_element").remove();
+      $(appendString).appendTo(ev2);
+      listItems(myPath, "#items");
+      getInFolder(
+        ".single-item",
+        "#items",
+        organizeDSglobalPath,
+        datasetStructureJSONObj
+      );
+      hideMenu("folder", menuFolder, menuHighLevelFolders, menuFile);
+      hideMenu("high-level-folder", menuFolder, menuHighLevelFolders, menuFile);
+    }
+  }
+  $("body").removeClass("waiting");
+}
 
 const updateOverallGuidedJSONStructure = (id) => {
   /*DELvar optionCards = document.getElementsByClassName(
@@ -247,6 +461,10 @@ $(document).ready(() => {
     $("#guided_folder_organization-tab").show();
   });
 
+  $("#input-guided-getting-started-locally").on("click", () => {
+    ipcRenderer.send("open-file-dialog-local-destination-curate");
+  });
+
   $("#guided-create-empty-dataset").on("click", () => {
     guidedSodaJSONObj["starting-point"] = {};
     guidedSodaJSONObj["starting-point"]["type"] = "new";
@@ -257,13 +475,7 @@ $(document).ready(() => {
     guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
     guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
     console.log(guidedSodaJSONObj);
-    transitionGuidedMode(
-      $(this),
-      "guided_basic_description-tab",
-      "",
-      "",
-      "individual-question getting-started"
-    );
-    $("#guided_folder_selection-tab").toggleClass("flex");
+    $("#guided_basic_description-tab").hide();
+    $("#guided_folder_importation-tab").css("display", "flex");
   });
 });

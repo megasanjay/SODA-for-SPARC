@@ -176,7 +176,6 @@
             </div>
           </div>
         </div>
-
         <div class="guided--question show" id="guided_dataset_name_div">
           <label class="guided--prompt-text"
             >Dataset name:
@@ -305,6 +304,40 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div id="guided_folder_importation-tab" class="guided--container hidden">
+        <div class="guided--question show" id="guided_dataset_name_div">
+          <label class="guided--prompt-text"
+            >Dataset name:
+            <i
+              class="fas fa-info-circle popover-tooltip"
+              data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
+              rel="popover"
+              data-html="true"
+              data-placement="right"
+              data-trigger="hover"
+            ></i>
+          </label>
+          <div
+            class="field"
+            style="display: flex; justify-content: center; width: 100%"
+          >
+            <input
+              class="form-control"
+              style="width: 450px !important"
+              id="input-guided-getting-started-locally"
+              type="text"
+              readonly
+              placeholder="Browse here"
+            />
+          </div>
+          <p
+            class="hidden"
+            style="color: red; width: 500px; text-align: left; margin: auto"
+            id="guided-dataset-name-warning-message"
+          ></p>
         </div>
       </div>
 
