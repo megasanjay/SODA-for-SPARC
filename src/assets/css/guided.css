@@ -71,7 +71,7 @@
   color: var(--color-bg-plum);
   text-align: center;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 .guided--progress-container {
   display: flex;

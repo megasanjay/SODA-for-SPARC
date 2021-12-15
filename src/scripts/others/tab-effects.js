@@ -1203,9 +1203,17 @@ const create_json_object = (action, sodaJSONObj) => {
     "README.txt",
     "CHANGES.txt",
   ];
-  let root_folder_path = $("#input-destination-getting-started-locally").attr(
-    "placeholder"
-  );
+  let root_folder_path = "";
+  if (sodaJSONObj["object-mode"] && sodaJSONObj["object-mode"] === "guided") {
+    root_folder_path = $(
+      "#guided-input-destination-getting-started-locally"
+    ).attr("placeholder");
+  } else {
+    root_folder_path = $("#input-destination-getting-started-locally").attr(
+      "placeholder"
+    );
+  }
+
   sodaJSONObj["dataset-structure"] = { folders: {} };
   let stats = "";
   // Get high level folders and metadata files first
@@ -1308,6 +1316,8 @@ const recursive_structure_create = (
   fs.readdirSync(current_folder_path).forEach((file) => {
     current_file_path = path.join(current_folder_path, file);
     let stats = fs.statSync(current_file_path);
+    console.log(current_file_path);
+    console.log(stats);
     if (
       stats.isFile() &&
       path.parse(current_file_path).name != "manifest" &&

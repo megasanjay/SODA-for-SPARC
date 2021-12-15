@@ -383,9 +383,6 @@ const updateOverallGuidedJSONStructure = (id) => {
 };
 
 $(document).ready(() => {
-  $("#guided-items").on("click", () => {
-    alert("hi");
-  });
   $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
@@ -461,8 +458,8 @@ $(document).ready(() => {
     $("#guided_folder_organization-tab").show();
   });
 
-  $("#input-guided-getting-started-locally").on("click", () => {
-    ipcRenderer.send("open-file-dialog-local-destination-curate");
+  $("#guided-input-destination-getting-started-locally").on("click", () => {
+    ipcRenderer.send("guided-open-file-dialog-local-destination-curate");
   });
 
   $("#guided-create-empty-dataset").on("click", () => {
