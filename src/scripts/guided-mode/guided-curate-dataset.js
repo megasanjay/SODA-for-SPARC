@@ -471,7 +471,6 @@ $(document).ready(() => {
     guidedSodaJSONObj["metadata"] = {};
     guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
     guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
-    console.log(guidedSodaJSONObj);
     $("#guided_basic_description-tab").hide();
     $("#guided_folder_importation-tab").css("display", "flex");
   });

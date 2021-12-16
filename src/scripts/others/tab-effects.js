@@ -1215,6 +1215,7 @@ const create_json_object = (action, sodaJSONObj) => {
   }
 
   sodaJSONObj["dataset-structure"] = { folders: {} };
+  console.log(sodaJSONObj);
   let stats = "";
   // Get high level folders and metadata files first
   fs.readdirSync(root_folder_path).forEach((file) => {
@@ -1267,7 +1268,8 @@ const create_json_object = (action, sodaJSONObj) => {
       action,
       sodaJSONObj["dataset-structure"]["folders"][folder],
       folder,
-      path.join(root_folder_path, folder)
+      path.join(root_folder_path, folder),
+      sodaJSONObj
     );
   }
 };
@@ -1303,8 +1305,12 @@ const recursive_structure_create = (
   action,
   dataset_folder,
   high_level_folder,
-  root_folder_path
+  root_folder_path,
+  jsonObj
 ) => {
+  console.log(dataset_folder);
+  console.log(high_level_folder);
+  console.log(root_folder_path);
   current_folder_path = dataset_folder["path"];
   let manifest_object = {
     filename: "",
@@ -1324,9 +1330,9 @@ const recursive_structure_create = (
       !/(^|\/)\.[^\/\.]/g.test(file) && //not a hidden file
       high_level_folder != dataset_folder
     ) {
-      if (sodaJSONObj["starting-point"][high_level_folder]["path"] !== "") {
+      if (jsonObj["starting-point"][high_level_folder]["path"] !== "") {
         extension = path.extname(
-          sodaJSONObj["starting-point"][high_level_folder]["path"]
+          jsonObj["starting-point"][high_level_folder]["path"]
         );
         if (extension == ".xlsx") {
           temp_current_file_path = current_file_path.replace("\\", "/");
@@ -1334,33 +1340,33 @@ const recursive_structure_create = (
             root_folder_path + "/",
             ""
           );
-          for (item in sodaJSONObj["starting-point"][high_level_folder][
+          for (item in jsonObj["starting-point"][high_level_folder][
             "manifest"
           ]) {
             if (
-              sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                item
-              ]["A"] == relative_path
+              jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                "A"
+              ] == relative_path
             ) {
               if (
-                sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                  item
-                ]["C"] != undefined
+                jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                  "C"
+                ] != undefined
               ) {
                 manifest_object["description"] =
-                  sodaJSONObj["starting-point"][high_level_folder]["manifest"][
+                  jsonObj["starting-point"][high_level_folder]["manifest"][
                     item
                   ]["C"];
               } else {
                 manifest_object["description"] = "";
               }
               if (
-                sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                  item
-                ]["E"] != undefined
+                jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                  "E"
+                ] != undefined
               ) {
                 manifest_object["additional-metadata"] =
-                  sodaJSONObj["starting-point"][high_level_folder]["manifest"][
+                  jsonObj["starting-point"][high_level_folder]["manifest"][
                     item
                   ]["E"];
               } else {
@@ -1374,33 +1380,33 @@ const recursive_structure_create = (
             root_folder_path + "/",
             ""
           );
-          for (item in sodaJSONObj["starting-point"][high_level_folder][
+          for (item in jsonObj["starting-point"][high_level_folder][
             "manifest"
           ]) {
             if (
-              sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                item
-              ]["filename"] == relative_path
+              jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                "filename"
+              ] == relative_path
             ) {
               if (
-                sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                  item
-                ]["description"] != undefined
+                jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                  "description"
+                ] != undefined
               ) {
                 manifest_object["description"] =
-                  sodaJSONObj["starting-point"][high_level_folder]["manifest"][
+                  jsonObj["starting-point"][high_level_folder]["manifest"][
                     item
                   ]["description"];
               } else {
                 manifest_object["description"] = "";
               }
               if (
-                sodaJSONObj["starting-point"][high_level_folder]["manifest"][
-                  item
-                ]["AdditionalMetadata"] != undefined
+                jsonObj["starting-point"][high_level_folder]["manifest"][item][
+                  "AdditionalMetadata"
+                ] != undefined
               ) {
                 manifest_object["additional-metadata"] =
-                  sodaJSONObj["starting-point"][high_level_folder]["manifest"][
+                  jsonObj["starting-point"][high_level_folder]["manifest"][
                     item
                   ]["AdditionalMetadata"];
               } else {
@@ -1463,7 +1469,8 @@ const recursive_structure_create = (
       action,
       dataset_folder["folders"][folder],
       high_level_folder,
-      root_folder_path
+      root_folder_path,
+      jsonObj
     );
   }
   return;

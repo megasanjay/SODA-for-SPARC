@@ -5492,7 +5492,6 @@ ipcRenderer.on(
     console.log(filepath);
     if (filepath.length > 0) {
       if (filepath != null) {
-        console.log("1");
         guidedSodaJSONObj["starting-point"]["local-path"] = "";
         //EVENTUALLY CHANGE LOCATION WHERE STARTING POINT IS SET
         guidedSodaJSONObj["starting-point"]["type"] = "local";
@@ -5504,7 +5503,6 @@ ipcRenderer.on(
           guidedSodaJSONObj["starting-point"]["type"] === "local" &&
           guidedSodaJSONObj["starting-point"]["local-path"] == ""
         ) {
-          console.log("2");
           valid_dataset = verify_sparc_folder(
             $("#guided-input-destination-getting-started-locally").attr(
               "placeholder"
@@ -5512,14 +5510,11 @@ ipcRenderer.on(
           );
           console.log(valid_dataset);
           if (valid_dataset == true) {
-            console.log("3");
             var action = "";
             irregularFolderArray = [];
             detectIrregularFolders(path.basename(filepath[0]), filepath[0]);
             var footer = `<a style='text-decoration: none !important' class='swal-popover' data-content='A folder name cannot contains any of the following special characters: <br> ${nonAllowedCharacters}' rel='popover' data-html='true' data-placement='right' data-trigger='hover'>What characters are not allowed?</a>`;
             if (irregularFolderArray.length > 0) {
-              console.log("4");
-
               Swal.fire({
                 title:
                   "The following folders contain non-allowed characters in their names. How should we handle them?",
@@ -5554,7 +5549,6 @@ ipcRenderer.on(
                   $("#para-continue-location-dataset-getting-started").text("");
                   return;
                 }
-                console.log("7");
                 guidedSodaJSONObj["starting-point"]["local-path"] = filepath[0];
                 create_json_object(action, guidedSodaJSONObj);
                 guidedDatasetStructureJSONObj =
@@ -5569,21 +5563,13 @@ ipcRenderer.on(
                 console.log(guidedDatasetStructureJSONObj);
               });
             } else {
-              console.log("j");
               action = "";
               guidedSodaJSONObj["starting-point"]["local-path"] = filepath[0];
               guidedSodaJSONObj["object-mode"] = "guided";
-              console.log("k");
               create_json_object(action, guidedSodaJSONObj);
-              console.log("a");
-
               guidedDatasetStructureJSONObj =
                 guidedSodaJSONObj["dataset-structure"];
-              console.log("9");
-
               populate_existing_folders(guidedDatasetStructureJSONObj);
-              console.log("10");
-
               populate_existing_metadata(guidedSodaJSONObj);
               console.log(guidedSodaJSONObj);
               console.log(guidedDatasetStructureJSONObj);
@@ -5625,7 +5611,6 @@ ipcRenderer.on(
         }
       }
     } else {
-      console.log("33");
       document.getElementById("nextBtn").disabled = true;
       $("#para-continue-location-dataset-getting-started").text("");
     }
