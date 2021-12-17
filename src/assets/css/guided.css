@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 40px;
+}
+
 .hide {
   pointer-events: none;
   visibility: hidden;
@@ -25,26 +32,20 @@
   margin: 0px;
 }
 
-.pink {
-  background-color: red;
-}
-
 .guided--header {
   display: flex;
   margin-left: 15px;
   margin-right: 45px;
   margin-bottom: 10px;
-  border-bottom: 5px solid #b80d49;
 }
 
 .guided--progression-tab {
   display: flex;
+  flex-direction: column;
   flex: 1;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 5px;
 }
 
 .guided--progression-tab-container {
@@ -54,8 +55,37 @@
   align-items: center;
 }
 
+.guided--progression-bar {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.guided--subsection-progress-status {
+  display: flex;
+  flex: 1;
+  background-color: #b80d49;
+  height: 5px;
+}
+.guided--subsection-progress-status.complete {
+  background-color: lightgreen;
+}
+.guided--subsection-progress-status.in-progress {
+  background-color: yellow;
+}
+.guided--subsection-progress-status.not-started {
+  background-color: lightgrey;
+}
+.guided--progression-tab-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+}
+
 .selected-tab {
-  background-color: pink;
+  background-color: whitesmoke;
 }
 
 .guided--splash {
