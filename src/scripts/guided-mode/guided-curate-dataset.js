@@ -342,7 +342,7 @@ $(document).ready(() => {
     tabPanel.siblings().hide();
     tabPanel.show();
   });
-
+  //click new dataset card until from existing and from Pennsieve functionalities are built.
   $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
