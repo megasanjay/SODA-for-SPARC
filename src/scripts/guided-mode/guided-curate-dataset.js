@@ -328,61 +328,21 @@ function guidedDropHelper(
   $("body").removeClass("waiting");
 }
 
-const updateOverallGuidedJSONStructure = (id) => {
-  /*DELvar optionCards = document.getElementsByClassName(
-    "option-card high-level-folders"
-  );*/
-  var newDatasetStructureJSONObj = { folders: {}, files: {} };
-  var keys = [];
-  for (var card of optionCards) {
-    if ($(card).hasClass("checked")) {
-      keys.push($(card).children()[0].innerText);
-    }
-  }
-  // keys now have all the high-level folders from Step 2
-  // datasetStructureJSONObj["folders"] have all the folders both from the old step 2 and -deleted folders in step 3
-
-  // 1st: check if folder in keys, not in datasetStructureJSONObj["folders"], then add an empty object
-  // 2nd: check if folder in datasetStructureJSONObj["folders"], add that to newDatasetStructureJSONObj["folders"]
-  // 3rd: assign old to new
-  // 1st
-  keys.forEach((folder) => {
-    if ("folders" in datasetStructureJSONObj) {
-      if (Object.keys(datasetStructureJSONObj["folders"]).includes(folder)) {
-        // clone a new json object
-        newDatasetStructureJSONObj["folders"][folder] =
-          datasetStructureJSONObj["folders"][folder];
-      } else {
-        newDatasetStructureJSONObj["folders"][folder] = {
-          folders: {},
-          files: {},
-          type: "",
-          action: [],
-        };
-      }
-    }
-  });
-  // 2nd
-  if ("folders" in datasetStructureJSONObj) {
-    Object.keys(datasetStructureJSONObj["folders"]).forEach((folderKey) => {
-      if (!keys.includes(folderKey)) {
-        newDatasetStructureJSONObj["folders"][folderKey] =
-          datasetStructureJSONObj["folders"][folderKey];
-      }
-    });
-  }
-  // 3rd
-  datasetStructureJSONObj = newDatasetStructureJSONObj;
-  listItems(datasetStructureJSONObj, "#items");
-  getInFolder(
-    ".single-item",
-    "#items",
-    organizeDSglobalPath,
-    datasetStructureJSONObj
-  );
-};
-
 $(document).ready(() => {
+  //Handles high-level progress and their respective panels opening and closing
+  $(".guided--progression-tab").on("click", function () {
+    const selectedTab = $(this);
+    selectedTab.siblings().removeClass("selected-tab");
+    selectedTab.addClass("selected-tab");
+
+    const tabPanelId = selectedTab
+      .attr("id")
+      .replace("progression-tab", "parent-tab");
+    const tabPanel = $("#" + tabPanelId);
+    tabPanel.siblings().hide();
+    tabPanel.show();
+  });
+
   $("#guided-curate-new-dataset-card").click();
   $("#pennsieve-dataset-name").on("keyup", () => {
     let newName = $("#pennsieve-dataset-name").val().trim();
@@ -422,6 +382,11 @@ $(document).ready(() => {
     current_selected_folder.css("opacity", "0.2");
     current_selected_folder.next().css("opacity", "1.0");
     current_selected_folder = current_selected_folder.next();
+  });
+
+  $("#prepare-dataset-tab").on("click", () => {
+    $("#guided_basic_description-tab").hide();
+    $("#guided-prepare-dataset-parent-tab").css("display", "flex");
   });
 
   $("#guided-confirm-folder-organization").on("click", () => {

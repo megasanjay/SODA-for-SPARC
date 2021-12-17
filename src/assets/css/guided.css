@@ -25,11 +25,38 @@
   margin: 0px;
 }
 
+.pink {
+  background-color: red;
+}
+
 .guided--header {
   display: flex;
   margin-left: 15px;
   margin-right: 45px;
   margin-bottom: 10px;
+  border-bottom: 5px solid #b80d49;
+}
+
+.guided--progression-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 50px;
+  background-color: blanchedalmond;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.guided--progression-tab-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-tab {
+  background-color: pink;
 }
 
 .guided--splash {
