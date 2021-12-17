@@ -439,4 +439,39 @@ $(document).ready(() => {
     $("#guided_basic_description-tab").hide();
     $("#guided_folder_importation-tab").css("display", "flex");
   });
+
+  const previousBtn = document.getElementById("previousBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const finishBtn = document.getElementById("finishBtn");
+  const content = document.getElementById("content");
+  const bullets = [...document.querySelectorAll(".bullet")];
+
+  const MAX_STEPS = 4;
+  let currentStep = 1;
+
+  $("#nextBtn2").on("click", () => {
+    bullets[currentStep - 1].classList.add("completed");
+    currentStep += 1;
+    previousBtn.disabled = false;
+    if (currentStep === MAX_STEPS) {
+      nextBtn.disabled = true;
+      finishBtn.disabled = false;
+    }
+    content.innerText = `Step Number ${currentStep}`;
+  });
+
+  previousBtn2.addEventListener("click", () => {
+    bullets[currentStep - 2].classList.remove("completed");
+    currentStep -= 1;
+    nextBtn.disabled = false;
+    finishBtn.disabled = true;
+    if (currentStep === 1) {
+      previousBtn.disabled = true;
+    }
+    content.innerText = `Step Number ${currentStep}`;
+  });
+
+  finishBtn2.addEventListener("click", () => {
+    location.reload();
+  });
 });
