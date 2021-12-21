@@ -17,7 +17,7 @@
             id="prepare-dataset-progression-tab"
           >
             <div class="guided--progression-tab-head">
-              <label class="tab-label">Prepare dataset</label>
+              <h1 class="guided--progression-tab-label">Prepare dataset</h1>
             </div>
             <div class="guided--progression-bar">
               <div class="guided--subsection-progress-status complete"></div>
@@ -32,7 +32,7 @@
             id="prepare-metadata-progression-tab"
           >
             <div class="guided--progression-tab-head">
-              <label class="tab-label">Prepare metadata</label>
+              <h1 class="guided--progression-tab-label">Prepare metadata</h1>
             </div>
             <div class="guided--progression-bar">
               <div class="guided--subsection-progress-status complete"></div>
@@ -47,7 +47,7 @@
             id="prepare-digital-metadata-progression-tab"
           >
             <div class="guided--progression-tab-head">
-              <label class="tab-label">Manage dataset</label>
+              <h1 class="guided--progression-tab-label">Manage dataset</h1>
             </div>
             <div class="guided--progression-bar">
               <div class="guided--subsection-progress-status not-started"></div>
@@ -62,7 +62,7 @@
             id="disseminate-dataset-progression-tab"
           >
             <div class="guided--progression-tab-head">
-              <label class="tab-label">Disseminate dataset</label>
+              <h1 class="guided--progression-tab-label">Manage dataset</h1>
             </div>
             <div class="guided--progression-bar">
               <div class="guided--subsection-progress-status not-started"></div>
@@ -74,33 +74,21 @@
           </div>
         </div>
       </header>
-      <div>
-        <div id="prepare-dataset-parent-tab">
+      <div style="overflow-y: auto; height: 100vh">
+        <div class="guided--capsule-container">
+          <div
+            class="guided--capsule active"
+            id="guided-basic-description-capsule"
+          ></div>
+          <div
+            class="guided--capsule"
+            id="guided-folder-importation-capsule"
+          ></div>
+          <div class="guided--capsule"></div>
+          <div class="guided--capsule"></div>
+        </div>
+        <div id="prepare-dataset-parent-tab" style="height: 100%">
           <div id="guided_basic_description-tab" class="guided--container">
-            <div id="stepProgressBar">
-              <div class="step">
-                <p class="step-text">buz</p>
-                <div class="bullet">1</div>
-              </div>
-              <div class="step">
-                <p class="step-text">foo</p>
-                <div class="bullet">2</div>
-              </div>
-              <div class="step">
-                <p class="step-text">bar</p>
-                <div class="bullet">3</div>
-              </div>
-              <div class="step">
-                <p class="step-text">baz</p>
-                <div class="bullet">4</div>
-              </div>
-            </div>
-            <div id="main">
-              <p id="content" class="text-center">Step Number 1</p>
-              <button id="previousBtn2">Previous</button>
-              <button id="nextBtn2">Next</button>
-              <button id="finishBtn2">Finish</button>
-            </div>
             <div class="guided--progress-container">
               <div style="margin: 15px 0">
                 <div
@@ -153,7 +141,12 @@
                   data-trigger="hover"
                 >
                   <div
-                    class="option-card radio-button getting-started-1st-questionnon-selected non-selected"
+                    class="
+                      option-card
+                      radio-button
+                      getting-started-1st-questionnon-selected
+                      non-selected
+                    "
                     style="pointer-events: none"
                     id="guided-curate-existing-local-dataset-card"
                     data-next="Question-getting-started-locally-destination"
@@ -202,7 +195,12 @@
                   data-trigger="hover"
                 >
                   <div
-                    class="option-card radio-button getting-started-1st-question non-selected"
+                    class="
+                      option-card
+                      radio-button
+                      getting-started-1st-question
+                      non-selected
+                    "
                     id="guided-curate-existing-Pennsieve-dataset-card"
                     style="pointer-events: none"
                     data-next="Question-getting-started-BF-account"
@@ -245,60 +243,43 @@
                 </div>
               </div>
             </div>
-            <div class="guided--question show" id="guided_dataset_name_div">
-              <label class="guided--prompt-text"
-                >Dataset name:
-                <i
-                  class="fas fa-info-circle popover-tooltip"
-                  data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
-                  rel="popover"
-                  data-html="true"
-                  data-placement="right"
-                  data-trigger="hover"
-                ></i>
-              </label>
-              <div
-                class="field"
-                style="display: flex; justify-content: center; width: 100%"
-              >
+            <form class="ui form guided--form" style="width: 600px !important">
+              <div class="field guided--field">
+                <label
+                  >Dataset name:
+                  <i
+                    class="fas fa-info-circle popover-tooltip"
+                    data-content="Enter desired name for your new dataset. This is the field that will be displayed in public as the title of the dataset. Please make sure that your dataset title is different than your other dataset titles and that it is relatively informative."
+                    rel="popover"
+                    data-html="true"
+                    data-placement="right"
+                    data-trigger="hover"
+                  ></i
+                ></label>
                 <input
                   type="text"
-                  class="form-control"
-                  style="background: #fff !important; width: 500px"
-                  id="pennsieve-dataset-name"
+                  name="guided-dataset-name"
                   placeholder="Enter dataset name here"
+                  id="pennsieve-dataset-name"
                 />
               </div>
-              <p
-                class="hidden"
-                style="color: red; width: 500px; text-align: left; margin: auto"
-                id="guided-dataset-name-warning-message"
-              ></p>
-            </div>
-
-            <div class="guided--question show" id="guided_dataset_sub_div">
-              <label class="guided--prompt-text"
-                >Dataset subtitle:
-                <i
-                  class="fas fa-info-circle popover-tooltip"
-                  data-content="Add two or three sentences (limit of 256 characters) that describe the content of your dataset such that it is possible to differentiate it from other datasets. This field will become the short description visible immediately under the title of your dataset once it is published."
-                  rel="popover"
-                  data-html="true"
-                  data-placement="right"
-                  data-trigger="hover"
-                ></i>
-              </label>
-              <div
-                class="field"
-                style="display: flex; justify-content: center; width: 100%"
-              >
+              <div class="field guided--field">
+                <label
+                  >Dataset subtitle:
+                  <i
+                    class="fas fa-info-circle popover-tooltip"
+                    data-content="Add two or three sentences (limit of 256 characters) that describe the content of your dataset such that it is possible to differentiate it from other datasets. This field will become the short description visible immediately under the title of your dataset once it is published."
+                    rel="popover"
+                    data-html="true"
+                    data-placement="right"
+                    data-trigger="hover"
+                  ></i
+                ></label>
                 <textarea
+                  type="text"
+                  name="guided-dataset-subtitle"
+                  placeholder="Enter datset subtitle here"
                   id="guided-dataset-subtitle"
-                  class="demo-response"
-                  style="position: relative"
-                  rows="6"
-                  maxlength="256"
-                  placeholder="Enter dataset subtitle here"
                 ></textarea>
                 <p>
                   <span
@@ -314,65 +295,43 @@
                   </span>
                 </p>
               </div>
+            </form>
+          </div>
+
+          <div
+            id="guided_folder_importation-tab"
+            class="guided--container hidden"
+          >
+            <div class="guided--question show" id="guided_dataset_name_div">
+              <label class="guided--prompt-text"
+                >What is the location of the dataset?
+                <i
+                  class="fas fa-info-circle popover-tooltip"
+                  data-content="Dataset location text"
+                  rel="popover"
+                  data-html="true"
+                  data-placement="right"
+                  data-trigger="hover"
+                ></i>
+              </label>
+              <div
+                class="field"
+                style="display: flex; justify-content: center; width: 100%"
+              >
+                <input
+                  class="form-control"
+                  style="width: 440px !important"
+                  id="guided-input-destination-getting-started-locally"
+                  type="text"
+                  readonly
+                  placeholder="Browse here"
+                />
+              </div>
               <p
                 class="hidden"
                 style="color: red; width: 500px; text-align: left; margin: auto"
                 id="guided-dataset-name-warning-message"
               ></p>
-            </div>
-
-            <div
-              class="individual-question manage-dataset show"
-              id="guided_dataset_subtitle_div"
-            >
-              <div class="ui form" style="width: 500px">
-                <div class="grouped fields" style="width: 500px; margin: auto">
-                  <div
-                    class="field"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      width: 100%;
-                      flex-direction: column;
-                    "
-                  >
-                    <div style="display: flex; flex-direction: column">
-                      <div
-                        id="div-button-add-subtitle"
-                        style="
-                          display: flex;
-                          flex-direction: column;
-                          justify-content: center;
-                          align-items: center;
-                          margin: 0 auto;
-                          padding-top: 30px;
-                        "
-                      >
-                        <button
-                          id="guided-create-empty-dataset"
-                          data-next="div-create-new-empty-dataset"
-                          class="btn_animated show"
-                          style="width: 120px"
-                          disabled
-                        >
-                          Confirm
-                        </button>
-                        <div
-                          id="bf-add-subtitle-dataset-spinner"
-                          class="spinner"
-                          style="display: none"
-                        >
-                          <div class="rect1"></div>
-                          <div class="rect2"></div>
-                          <div class="rect3"></div>
-                          <div class="rect4"></div>
-                          <div class="rect5"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -387,40 +346,6 @@
 
         <div id="disseminate-dataset-parent-tab" class="hidden">
           Disseminate dataset tab
-        </div>
-      </div>
-
-      <div id="guided_folder_importation-tab" class="guided--container hidden">
-        <div class="guided--question show" id="guided_dataset_name_div">
-          <label class="guided--prompt-text"
-            >What is the location of the dataset?
-            <i
-              class="fas fa-info-circle popover-tooltip"
-              data-content="Dataset location text"
-              rel="popover"
-              data-html="true"
-              data-placement="right"
-              data-trigger="hover"
-            ></i>
-          </label>
-          <div
-            class="field"
-            style="display: flex; justify-content: center; width: 100%"
-          >
-            <input
-              class="form-control"
-              style="width: 440px !important"
-              id="guided-input-destination-getting-started-locally"
-              type="text"
-              readonly
-              placeholder="Browse here"
-            />
-          </div>
-          <p
-            class="hidden"
-            style="color: red; width: 500px; text-align: left; margin: auto"
-            id="guided-dataset-name-warning-message"
-          ></p>
         </div>
       </div>
 
@@ -587,6 +512,20 @@
           Nextbttn
         </button>
       </div>
+      <footer class="guided--footer">
+        <button
+          class="negative ui button guided--button-footer"
+          id="guided-previous-button"
+        >
+          Regress
+        </button>
+        <button
+          class="positive ui button guided--button-footer"
+          id="guided-next-button"
+        >
+          Progress
+        </button>
+      </footer>
     </div>
   </section>
 
