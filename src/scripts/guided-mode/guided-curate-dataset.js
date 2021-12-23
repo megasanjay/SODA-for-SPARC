@@ -11,7 +11,8 @@ const guided_dataset_subtitle_char_count = document.getElementById(
 const create_dataset_button = $("#guided-create-empty-dataset");
 let current_selected_folder = $("#code-card");
 let current_progression_tab = $("#prepare-dataset-progression-tab");
-let current_sub_step = $("#guided_basic_description-tab");
+let current_sub_step = $("#guided-basic-description-tab");
+let current_sub_step_capsule = $("#guided-basic-description-capsule");
 
 const enableProgressButton = () => {
   $("#guided-next-button").prop("disabled", false);
@@ -403,7 +404,7 @@ $(document).ready(() => {
   });
 
   $("#prepare-dataset-tab").on("click", () => {
-    $("#guided_basic_description-tab").hide();
+    $("#guided-basic-description-tab").hide();
     $("#guided-prepare-dataset-parent-tab").css("display", "flex");
   });
 
@@ -446,42 +447,43 @@ $(document).ready(() => {
     enableProgressButton();
   });
 
+  const update_sub_step_capsule = (sub_step_id) => {
+    current_sub_step;
+  };
+
   $("#guided-next-button").on("click", () => {
-    console.log(
-      $("#guided-input-destination-getting-started-locally").attr("placeholder")
-    );
-    if (
-      $("#guided-input-destination-getting-started-locally").attr(
-        "placeholder"
-      ) != "Browse here"
-    ) {
-      $("#prepare-metadata-progression-tab").click();
+    //individual sub step processes
+    if (current_sub_step.attr("id") == "guided-basic-description-tab") {
+      guidedSodaJSONObj["starting-point"] = {};
+      guidedSodaJSONObj["starting-point"]["type"] = "new";
+      guidedSodaJSONObj["dataset-structure"] = {};
+      guidedDatasetStructureJSONObj = { folders: {}, files: {} };
+      guidedSodaJSONObj["metadata-files"] = {};
+      guidedSodaJSONObj["metadata"] = {};
+      guidedSodaJSONObj["metadata"]["name"] = $("#guided-dataset-name-input")
+        .val()
+        .trim();
+      guidedSodaJSONObj["metadata"]["subtitle"] = $(
+        "#guided-dataset-subtitle-input"
+      )
+        .val()
+        .trim();
+      console.log("Soda Json Object attributes appended");
     }
-    guidedSodaJSONObj["starting-point"] = {};
-    guidedSodaJSONObj["starting-point"]["type"] = "new";
-    guidedSodaJSONObj["dataset-structure"] = {};
-    guidedDatasetStructureJSONObj = { folders: {}, files: {} };
-    guidedSodaJSONObj["metadata-files"] = {};
-    guidedSodaJSONObj["metadata"] = {};
-    guidedSodaJSONObj["metadata"]["name"] = $("#guided-dataset-name-input")
-      .val()
-      .trim();
-    guidedSodaJSONObj["metadata"]["subtitle"] = $(
-      "#guided-dataset-subtitle-input"
-    )
-      .val()
-      .trim();
 
-    $("#guided_basic_description-tab").hide();
-    $("#guided_folder_importation-tab").css("display", "flex");
-    current_sub_step.hide();
-    current_sub_step.next().css("display", "flex");
-    $("#guided-basic-description-capsule").css("background-color", "#ddd");
-
-    $("#guided-folder-importation-capsule").css(
-      "background-color",
-      "var(--color-light-green)"
-    );
+    //if more tabs in parent tab, go to next tab and update capsule
+    if (current_sub_step.next().attr("id") !== undefined) {
+      current_sub_step.hide();
+      current_sub_step = current_sub_step.next();
+      current_sub_step_capsule.css("background-color", "#ddd");
+      current_sub_step_capsule
+        .next()
+        .css("background-color", "var(--color-light-green)");
+      current_sub_step.css("display", "flex");
+    } else {
+      //go to next tab
+      current_progression_tab.next().click();
+    }
     disableProgressButton();
   });
 });
