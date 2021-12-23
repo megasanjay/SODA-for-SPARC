@@ -34,8 +34,9 @@
 
 .guided--header {
   display: flex;
-  margin-left: 15px;
-  margin-right: 45px;
+  justify-content: center;
+  align-items: center;
+  padding-right: 30px;
   margin-bottom: 10px;
 }
 
@@ -59,8 +60,9 @@
   position: relative;
 }
 
-.guided--progression-tab-triangle::before {
+.guided--progression-tab-triangle::after {
   content: "";
+  background-color: inherit;
   width: 10px;
   height: 10px;
   border-top: 2px solid var(--color-border);

@@ -13,7 +13,7 @@
       <header class="guided--header">
         <div class="guided--progression-tab-container">
           <div
-            class="guided--progression-tab guided--progression-tab-triangle"
+            class="guided--progression-tab guided--progression-tab-triangle selected-tab"
             id="prepare-dataset-progression-tab"
           >
             <div class="guided--progression-tab-head">
@@ -41,12 +41,12 @@
             id="disseminate-dataset-progression-tab"
           >
             <div class="guided--progression-tab-head">
-              <h1 class="guided--progression-tab-label">Manage dataset</h1>
+              <h1 class="guided--progression-tab-label">Disseminate dataset</h1>
             </div>
           </div>
         </div>
       </header>
-      <div style="overflow-y: auto; height: 100vh">
+      <div style="overflow-y: hidden; height: 80vh">
         <div class="guided--capsule-container">
           <div
             class="guided--capsule active"
@@ -56,8 +56,6 @@
             class="guided--capsule"
             id="guided-folder-importation-capsule"
           ></div>
-          <div class="guided--capsule"></div>
-          <div class="guided--capsule"></div>
         </div>
         <div id="prepare-dataset-parent-tab" style="height: 100%">
           <div id="guided_basic_description-tab" class="guided--container">
@@ -222,8 +220,12 @@
                   type="text"
                   name="guided-dataset-name"
                   placeholder="Enter dataset name here"
-                  id="pennsieve-dataset-name"
+                  id="guided-dataset-name-input"
                 />
+                <p
+                  style="color: red"
+                  id="guided-dataset-name-input-warning-message"
+                ></p>
               </div>
               <div class="field guided--field">
                 <label
@@ -241,7 +243,7 @@
                   type="text"
                   name="guided-dataset-subtitle"
                   placeholder="Enter datset subtitle here"
-                  id="guided-dataset-subtitle"
+                  id="guided-dataset-subtitle-input"
                 ></textarea>
                 <p>
                   <span
@@ -292,7 +294,7 @@
               <p
                 class="hidden"
                 style="color: red; width: 500px; text-align: left; margin: auto"
-                id="guided-dataset-name-warning-message"
+                id="guided-input-destination-getting-started-locally-warning-message"
               ></p>
             </div>
           </div>
@@ -484,6 +486,7 @@
         <button
           class="positive ui button guided--button-footer"
           id="guided-next-button"
+          disabled
         >
           Progress
         </button>

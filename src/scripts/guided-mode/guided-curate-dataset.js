@@ -1,22 +1,37 @@
-//SHARED VARIABLES  (is this vanilla js bad practice? IDK)
+//SHARED VARIABLES
 
-const dataset_name = $("#pennsieve-dataset-name");
-const dataset_subtitle = $("#guided-dataset-subtitle");
+const guided_dataset_name = $("#guided-dataset-name-input");
+const guided_dataset_subtitle = document.getElementById(
+  "guided-dataset-subtitle-input"
+);
+const guided_dataset_subtitle_char_count = document.getElementById(
+  "guided-subtitle-char-count"
+);
+
 const create_dataset_button = $("#guided-create-empty-dataset");
 let current_selected_folder = $("#code-card");
 let current_progression_tab = $("#prepare-dataset-progression-tab");
 let current_sub_step = $("#guided_basic_description-tab");
 
-const handleDescriptionConfirmButton = () => {
-  //True if user input is invalid
+const enableProgressButton = () => {
+  $("#guided-next-button").prop("disabled", false);
+};
+const disableProgressButton = () => {
+  $("#guided-next-button").prop("disabled", true);
+};
+
+const validateGuidedBasicDescriptionTabInput = () => {
+  //True if dataset name and dataset subtitle inputs are valid
   if (
-    check_forbidden_characters_bf(dataset_name.val().trim()) ||
-    dataset_name.val().length == 0 ||
-    dataset_subtitle.val().length == 0
+    check_forbidden_characters_bf(
+      $("#guided-dataset-name-input").val().trim()
+    ) ||
+    $("#guided-dataset-name-input").val().trim().length == 0 ||
+    $("#guided-dataset-subtitle-input").val().trim().length == 0
   ) {
-    create_dataset_button.prop("disabled", true);
+    $("#guided-next-button").prop("disabled", true);
   } else {
-    create_dataset_button.prop("disabled", false);
+    $("#guided-next-button").prop("disabled", false);
   }
 };
 
@@ -346,30 +361,31 @@ $(document).ready(() => {
   });
   //click new dataset card until from existing and from Pennsieve functionalities are built.
   $("#guided-curate-new-dataset-card").click();
-  $("#pennsieve-dataset-name").on("keyup", () => {
-    let newName = $("#pennsieve-dataset-name").val().trim();
-
+  $("#guided-dataset-name-input").on("keyup", () => {
+    let newName = $("#guided-dataset-name-input").val().trim();
     if (newName !== "") {
       if (check_forbidden_characters_bf(newName)) {
-        $("#guided-dataset-name-warning-message").text(
+        $("#guided-dataset-name-input-warning-message").text(
           "A Pennsieve dataset name cannot contain any of the following characters: /:*?'<>."
         );
-        $("#guided-dataset-name-warning-message").show();
+        $("#guided-dataset-name-input-warning-message").show();
+        disableProgressButton();
       } else {
         /*change this to continue button $("#create-pennsieve-dataset").hide(); */
-
-        $("#create-pennsieve-dataset").show();
+        $("#guided-dataset-name-input-warning-message").hide();
+        validateGuidedBasicDescriptionTabInput();
       }
     } else {
-      /*change this to continue button $("#create-pennsieve-dataset").hide(); */
-      $("#guided-dataset-name-warning-message").hide();
+      $("#guided-dataset-name-input-warning-message").hide();
     }
-    handleDescriptionConfirmButton();
   });
 
-  $("#guided-dataset-subtitle").on("keyup", () => {
-    countCharacters(guidedDatasetSubtitle, guidedDatasetSubtitleCharCount);
-    handleDescriptionConfirmButton();
+  $("#guided-dataset-subtitle-input").on("keyup", () => {
+    countCharacters(
+      guided_dataset_subtitle,
+      guided_dataset_subtitle_char_count
+    );
+    validateGuidedBasicDescriptionTabInput();
   });
 
   //Dropbox event listeners
@@ -427,22 +443,37 @@ $(document).ready(() => {
 
   $("#guided-input-destination-getting-started-locally").on("click", () => {
     ipcRenderer.send("guided-open-file-dialog-local-destination-curate");
+    enableProgressButton();
   });
 
-  $("#guided-create-empty-dataset").on("click", () => {
+  $("#guided-next-button").on("click", () => {
+    console.log(
+      $("#guided-input-destination-getting-started-locally").attr("placeholder")
+    );
+    if (
+      $("#guided-input-destination-getting-started-locally").attr(
+        "placeholder"
+      ) != "Browse here"
+    ) {
+      $("#prepare-metadata-progression-tab").click();
+    }
     guidedSodaJSONObj["starting-point"] = {};
     guidedSodaJSONObj["starting-point"]["type"] = "new";
     guidedSodaJSONObj["dataset-structure"] = {};
     guidedDatasetStructureJSONObj = { folders: {}, files: {} };
     guidedSodaJSONObj["metadata-files"] = {};
     guidedSodaJSONObj["metadata"] = {};
-    guidedSodaJSONObj["metadata"]["name"] = dataset_name.val().trim();
-    guidedSodaJSONObj["metadata"]["subtitle"] = dataset_subtitle.val().trim();
+    guidedSodaJSONObj["metadata"]["name"] = $("#guided-dataset-name-input")
+      .val()
+      .trim();
+    guidedSodaJSONObj["metadata"]["subtitle"] = $(
+      "#guided-dataset-subtitle-input"
+    )
+      .val()
+      .trim();
+
     $("#guided_basic_description-tab").hide();
     $("#guided_folder_importation-tab").css("display", "flex");
-  });
-
-  $("#guided-next-button").on("click", () => {
     current_sub_step.hide();
     current_sub_step.next().css("display", "flex");
     $("#guided-basic-description-capsule").css("background-color", "#ddd");
@@ -451,5 +482,6 @@ $(document).ready(() => {
       "background-color",
       "var(--color-light-green)"
     );
+    disableProgressButton();
   });
 });
