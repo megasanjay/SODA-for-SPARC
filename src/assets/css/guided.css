@@ -40,33 +40,60 @@
   margin-bottom: 10px;
 }
 
+.guided--body {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 30px;
+  padding-top: 10px;
+}
+
 .guided--progression-tab-container {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  border-bottom: 5px solid #b80d49;
 }
 
 .guided--progression-tab {
+  position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 1;
   justify-content: center;
   align-items: center;
   border-right: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
 }
 
+.guided--footer div:first-child {
+  margin-left: 50px;
+}
+.dot {
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--color-light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
 .guided--progression-tab-triangle {
   position: relative;
 }
 
-.guided--progression-tab-triangle::after {
+.guided--progression-tab-triangle::before {
   content: "";
   background-color: inherit;
   width: 10px;
   height: 10px;
-  border-top: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-border);
+  border-right: 2px solid var(--color-border);
   transform: rotate(45deg);
   position: absolute;
   top: 50%;
@@ -77,14 +104,11 @@
 .guided--progression-tab-content {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   height: 50px;
   width: 100%;
   padding-left: 15px;
-}
-.test {
-  content: "bar";
+  padding-right: 15px;
 }
 
 .guided--progression-tab-label {
@@ -397,7 +421,7 @@
   width: 50px;
   margin-left: 5px;
   margin-right: 5px;
-  background-color: #ddd;
+  background-color: var(--color-border);
   border: none;
   display: inline-block;
   cursor: pointer;
@@ -413,20 +437,17 @@
   align-items: center;
   justify-content: space-between;
   margin-right: 30px;
-
   margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 7px;
 }
 
 .guided--footer button:first-child {
-  margin-left: 25px;
+  margin-left: 150px;
 }
 
 .guided--footer button:last-child {
-  margin-right: 25px;
-}
-
-.guided--button-footer {
-  margin: 7px !important;
+  margin-right: 150px;
 }
 
 .guided--field {
