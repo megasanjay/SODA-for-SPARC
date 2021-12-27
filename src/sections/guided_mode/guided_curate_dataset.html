@@ -18,7 +18,14 @@
           >
             <div class="guided--progression-tab-content">
               <span class="dot">1</span>
-              <h1 class="guided--progression-tab-label">Prepare dataset</h1>
+              <div class="guided--progression-tab-labels">
+                <h1 class="guided--progression-tab-label-main">
+                  Prepare dataset
+                </h1>
+                <h2 class="guided--progression-tab-label-sub">
+                  Prepare dataset
+                </h2>
+              </div>
             </div>
           </div>
           <div
@@ -26,7 +33,13 @@
             id="prepare-metadata-progression-tab"
           >
             <div class="guided--progression-tab-content">
-              <h1 class="guided--progression-tab-label">Prepare metadata</h1>
+              <span class="dot">2</span>
+              <div class="guided--progression-tab-labels">
+                <h1 class="guided--progression-tab-label-main">
+                  Prepare dataset
+                </h1>
+                <h2 class="guided--progression-tab-label-sub">Not started</h2>
+              </div>
             </div>
           </div>
           <div
@@ -34,7 +47,13 @@
             id="prepare-digital-metadata-progression-tab"
           >
             <div class="guided--progression-tab-content">
-              <h1 class="guided--progression-tab-label">Manage dataset</h1>
+              <span class="dot">3</span>
+              <div class="guided--progression-tab-labels">
+                <h1 class="guided--progression-tab-label-main">
+                  Prepare dataset
+                </h1>
+                <h2 class="guided--progression-tab-label-sub">Not started</h2>
+              </div>
             </div>
           </div>
           <div
@@ -42,17 +61,36 @@
             id="disseminate-dataset-progression-tab"
           >
             <div class="guided--progression-tab-content">
-              <h1 class="guided--progression-tab-label">Disseminate dataset</h1>
+              <span class="dot">4</span>
+              <div class="guided--progression-tab-labels">
+                <h1 class="guided--progression-tab-label-main">
+                  Prepare dataset
+                </h1>
+                <h2 class="guided--progression-tab-label-sub">Not started</h2>
+              </div>
             </div>
           </div>
         </div>
       </header>
+
       <div class="guided--body">
         <div id="prepare-dataset-parent-tab">
           <div class="guided--capsule-container">
             <div
               class="guided--capsule active"
               id="guided-basic-description-capsule"
+            ></div>
+            <div
+              class="guided--capsule"
+              id="guided-folder-importation-capsule"
+            ></div>
+            <div
+              class="guided--capsule"
+              id="guided-folder-importation-capsule"
+            ></div>
+            <div
+              class="guided--capsule"
+              id="guided-folder-importation-capsule"
             ></div>
             <div
               class="guided--capsule"
@@ -206,7 +244,7 @@
             </div>
             <form class="ui form guided--form" style="width: 600px !important">
               <div class="field guided--field">
-                <label
+                <label class="guided--form-label"
                   >Dataset name:
                   <i
                     class="fas fa-info-circle popover-tooltip"
@@ -229,7 +267,7 @@
                 ></p>
               </div>
               <div class="field guided--field">
-                <label
+                <label class="guided--form-label"
                   >Dataset subtitle:
                   <i
                     class="fas fa-info-circle popover-tooltip"
