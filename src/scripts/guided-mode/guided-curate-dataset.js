@@ -444,7 +444,6 @@ $(document).ready(() => {
 
   $("#guided-input-destination-getting-started-locally").on("click", () => {
     ipcRenderer.send("guided-open-file-dialog-local-destination-curate");
-    enableProgressButton();
   });
 
   const update_sub_step_capsule = (sub_step_id) => {

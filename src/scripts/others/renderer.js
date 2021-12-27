@@ -767,13 +767,6 @@ const bfDatasetSubtitleCharCount = document.querySelector(
   "#para-char-count-metadata"
 );
 
-const guidedDatasetSubtitle = document.querySelector(
-  "#guided-dataset-subtitle"
-);
-const guidedDatasetSubtitleCharCount = document.querySelector(
-  "#guided-subtitle-char-count"
-);
-
 const bfCurrentBannerImg = document.getElementById("current-banner-img");
 
 const bfViewImportedImage = document.querySelector("#image-banner");
@@ -5558,7 +5551,7 @@ ipcRenderer.on(
                 $("#para-continue-location-dataset-getting-started").text(
                   "Please continue below."
                 );
-                $("#nextBtn").prop("disabled", false);
+                $("#guided-next-button").prop("disabled", false);
                 console.log(guidedSodaJSONObj);
                 console.log(guidedDatasetStructureJSONObj);
               });
@@ -5576,7 +5569,7 @@ ipcRenderer.on(
               $("#para-continue-location-dataset-getting-started").text(
                 "Please continue below."
               );
-              $("#nextBtn").prop("disabled", false);
+              $("#guided-next-button").prop("disabled", false);
             }
           } else {
             Swal.fire({
