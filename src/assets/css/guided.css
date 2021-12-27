@@ -46,6 +46,7 @@
   height: 100%;
   overflow-y: auto;
   padding-top: 10px;
+  padding-right: 30px;
 }
 
 .guided--progression-tab-container {
@@ -408,7 +409,6 @@
   align-items: center;
   margin-top: 15px;
   margin-bottom: 15px;
-  padding-right: 30px;
 }
 .guided--capsule {
   height: 5px;
@@ -435,7 +435,6 @@
   justify-content: space-between;
   margin-top: 10px;
   margin-right: 30px;
-  padding-left: 30px;
   padding-top: 15px;
   margin-bottom: 10px;
 }

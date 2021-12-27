@@ -476,9 +476,11 @@ $(document).ready(() => {
       current_sub_step.hide();
       current_sub_step = current_sub_step.next();
       current_sub_step_capsule.css("background-color", "#ddd");
-      current_sub_step_capsule
-        .next()
-        .css("background-color", "var(--color-light-green)");
+      current_sub_step_capsule = current_sub_step_capsule.next();
+      current_sub_step_capsule.css(
+        "background-color",
+        "var(--color-light-green)"
+      );
       current_sub_step.css("display", "flex");
     } else {
       //go to next tab
