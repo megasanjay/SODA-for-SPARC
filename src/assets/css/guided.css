@@ -440,6 +440,10 @@
   margin-bottom: 10px;
 }
 
+.guided--button-footer {
+  width: 120px important;
+}
+
 .guided--footer button:first-child {
   margin-left: 10%;
 }

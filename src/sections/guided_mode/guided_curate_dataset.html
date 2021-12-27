@@ -23,7 +23,7 @@
                   Prepare dataset
                 </h1>
                 <h2 class="guided--progression-tab-label-sub">
-                  Prepare dataset
+                  Dataset description
                 </h2>
               </div>
             </div>
@@ -353,17 +353,22 @@
       </div>
       <footer class="guided--footer">
         <button
-          class="negative ui button guided--button-footer"
+          class="ui secondary basic button guided--button-footer"
           id="guided-previous-button"
+          style="width: 120px !important"
         >
-          Regress
+          <i class="fas fa-arrow-left" style="margin-right: 10px"></i>Back
         </button>
         <button
-          class="positive ui button guided--button-footer"
+          class="ui positive button guided--button-footer"
           id="guided-next-button"
           disabled
+          style="
+            background-color: var(--color-light-green) !important;
+            width: 120px !important;
+          "
         >
-          Progress
+          Next
         </button>
       </footer>
     </div>
