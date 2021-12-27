@@ -443,11 +443,11 @@
 }
 
 .guided--footer button:first-child {
-  margin-left: 150px;
+  margin-left: 4%;
 }
 
 .guided--footer button:last-child {
-  margin-right: 150px;
+  margin-right: 4%;
 }
 
 .guided--field {
