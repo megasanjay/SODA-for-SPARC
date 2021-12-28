@@ -453,13 +453,10 @@ $(document).ready(() => {
     selectedTab.removeClass("non-selected");
     selectedTab.addClass("checked");
 
-    /*const tabPanelId = selectedTab
-      .attr("id")
-      .replace("progression-tab", "parent-tab");
+    const tabPanelId = selectedTab.attr("id").replace("-card", "-panel");
     const tabPanel = $("#" + tabPanelId);
     tabPanel.siblings().hide();
-    tabPanel.show();
-  */
+    tabPanel.css("display", "flex");
   });
 
   $("#guided-next-button").on("click", () => {
