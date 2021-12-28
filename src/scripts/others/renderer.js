@@ -3937,9 +3937,11 @@ function showDefaultBFAccount() {
               $("#para-account-detail-curate").html(res);
               $("#current-bf-account").text(defaultBfAccount);
               $("#current-bf-account-generate").text(defaultBfAccount);
+              $("#guided-bf-account").text(defaultBfAccount);
               $("#create_empty_dataset_BF_account_span").text(defaultBfAccount);
               $(".bf-account-span").text(defaultBfAccount);
               $("#para-account-detail-curate-generate").html(res);
+              $("#guided-account-details").html(res);
               $("#para_create_empty_dataset_BF_account").html(res);
               $(".bf-account-details-span").html(res);
 
