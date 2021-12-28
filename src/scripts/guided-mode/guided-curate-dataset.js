@@ -446,9 +446,21 @@ $(document).ready(() => {
     ipcRenderer.send("guided-open-file-dialog-local-destination-curate");
   });
 
-  const update_sub_step_capsule = (sub_step_id) => {
-    current_sub_step;
-  };
+  $(".guided--generate-location-card").on("click", function () {
+    const selectedTab = $(this);
+    selectedTab.siblings().removeClass("checked");
+    selectedTab.siblings().addClass("non-selected");
+    selectedTab.removeClass("non-selected");
+    selectedTab.addClass("checked");
+
+    /*const tabPanelId = selectedTab
+      .attr("id")
+      .replace("progression-tab", "parent-tab");
+    const tabPanel = $("#" + tabPanelId);
+    tabPanel.siblings().hide();
+    tabPanel.show();
+  */
+  });
 
   $("#guided-next-button").on("click", () => {
     //individual sub step processes
