@@ -13,7 +13,10 @@
       <header class="guided--header">
         <div class="guided--progression-tab-container">
           <div
-            class="guided--progression-tab guided--progression-tab-triangle selected-tab"
+            class="
+              guided--progression-tab guided--progression-tab-triangle
+              selected-tab
+            "
             id="prepare-dataset-progression-tab"
           >
             <div class="guided--progression-tab-content">
@@ -66,7 +69,7 @@
       </header>
 
       <div class="guided--body">
-        <div id="prepare-dataset-parent-tab">
+        <div id="prepare-dataset-parent-tab" class="guided--main-tab">
           <div class="guided--capsule-container">
             <div
               class="guided--capsule active"
@@ -137,7 +140,12 @@
                   data-trigger="hover"
                 >
                   <div
-                    class="option-card radio-button getting-started-1st-questionnon-selected non-selected"
+                    class="
+                      option-card
+                      radio-button
+                      getting-started-1st-questionnon-selected
+                      non-selected
+                    "
                     style="pointer-events: none"
                     id="guided-curate-existing-local-dataset-card"
                     data-next="Question-getting-started-locally-destination"
@@ -186,7 +194,12 @@
                   data-trigger="hover"
                 >
                   <div
-                    class="option-card radio-button getting-started-1st-question non-selected"
+                    class="
+                      option-card
+                      radio-button
+                      getting-started-1st-question
+                      non-selected
+                    "
                     id="guided-curate-existing-Pennsieve-dataset-card"
                     style="pointer-events: none"
                     data-next="Question-getting-started-BF-account"
@@ -334,7 +347,12 @@
 
                 <div class="guided--card-container">
                   <div
-                    class="option-card radio-button guided--generate-location-card non-selected"
+                    class="
+                      option-card
+                      radio-button
+                      guided--generate-location-card
+                      non-selected
+                    "
                     data-next="Question-generate-dataset-locally-destination"
                     id="generate-dataset-local-card"
                   >
@@ -346,7 +364,12 @@
                   </div>
 
                   <div
-                    class="option-card radio-button checked guided--generate-location-card"
+                    class="
+                      option-card
+                      radio-button
+                      checked
+                      guided--generate-location-card
+                    "
                     data-next="Question-generate-dataset-BF-account"
                     id="generate-dataset-pennsieve-card"
                   >
@@ -436,7 +459,10 @@
                                   >
                                 </div>
                                 <svg
-                                  class="svg-change-current-account bi bi-pencil-fill"
+                                  class="
+                                    svg-change-current-account
+                                    bi bi-pencil-fill
+                                  "
                                   onclick="openDropdownPrompt(this, 'bf')"
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="18"
@@ -507,9 +533,37 @@
             id="guided-dataset-generation-confirmation-tab"
             class="guided--panel"
           >
-            <div
-              style="background-color: pink; height: 50px; width: 50px"
-            ></div>
+            <div class="guided--generate-dataset-preview">
+              <div class="guided--flex-center">
+                <div class="guided--preview-row">
+                  <h4
+                    style="
+                      width: 100%;
+                      text-align: center;
+                      color: #000;
+                      margin: 0;
+                    "
+                  >
+                    Current dataset structure
+                  </h4>
+                  <i
+                    class="far fa-edit jump-back"
+                    onclick="traverse_back(4)"
+                    style="color: #000"
+                  ></i>
+                </div>
+              </div>
+            </div>
+            <button
+              class="ui positive button guided--button"
+              id="Guided-generate-dataset-button"
+              style="
+                background-color: var(--color-light-green) !important;
+                width: 120px !important;
+              "
+            >
+              Generate
+            </button>
           </div>
         </div>
 
