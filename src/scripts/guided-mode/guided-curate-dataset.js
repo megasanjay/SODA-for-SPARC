@@ -458,6 +458,10 @@ $(document).ready(() => {
     tabPanel.siblings().hide();
     tabPanel.css("display", "flex");
   });
+  $("#Pennsieve-account-confirm-button").on("click", () => {
+    enableProgressButton();
+    $("#guided-next-button").click();
+  });
 
   $("#guided-next-button").on("click", () => {
     //individual sub step processes
