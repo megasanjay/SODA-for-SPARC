@@ -175,13 +175,18 @@
 }
 
 .guided--question {
+  padding-top: 15px;
   display: flex;
-  visibility: visible;
   flex-direction: column;
   justify-content: center;
-  /* transition: all 0.3s ease-out !important; */
-  width: 500px;
-  margin-top: 20px;
+}
+
+.guided--panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .guided--question.show {
@@ -456,7 +461,12 @@
 }
 
 .guided--button-footer {
-  width: 120px important;
+  width: 120px !important;
+}
+
+.guided--button {
+  width: 100px !important;
+  margin-top: 10px !important;
 }
 
 .guided--footer button:first-child {
