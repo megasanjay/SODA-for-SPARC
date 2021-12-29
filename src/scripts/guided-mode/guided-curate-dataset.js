@@ -500,4 +500,151 @@ $(document).ready(() => {
     }
     disableProgressButton();
   });
+
+  $("#guided-generate-dataset-button").on("click", async function () {
+    // updateJSON structure after Generate dataset tab
+    console.log("GGGGSSSSJJJJ");
+    console.log(guidedSodaJSONObj);
+    updateJSONStructureGenerate();
+    if (sodaJSONObj["starting-point"]["type"] === "local") {
+      sodaJSONObj["starting-point"]["type"] = "new";
+    }
+
+    let dataset_name = "";
+    let dataset_destination = "";
+
+    if ("bf-dataset-selected" in sodaJSONObj) {
+      dataset_name = sodaJSONObj["bf-dataset-selected"]["dataset-name"];
+      dataset_destination = "Pennsieve";
+    } else if ("generate-dataset" in sodaJSONObj) {
+      if ("destination" in sodaJSONObj["generate-dataset"]) {
+        let destination = sodaJSONObj["generate-dataset"]["destination"];
+        if (destination == "local") {
+          dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+          dataset_destination = "Local";
+        }
+        if (destination == "bf") {
+          dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+          dataset_destination = "Pennsieve";
+        }
+      }
+    }
+
+    generateProgressBar.value = 0;
+
+    document.getElementById("para-new-curate-progress-bar-status").innerHTML =
+      "Please wait while we verify a few things...";
+
+    if (dataset_destination == "Pennsieve") {
+      let supplementary_checks = await run_pre_flight_checks(false);
+      if (!supplementary_checks) {
+        $("#sidebarCollapse").prop("disabled", false);
+        return;
+      }
+    }
+
+    //  from here you can modify
+    document.getElementById("para-please-wait-new-curate").innerHTML =
+      "Please wait...";
+    document.getElementById(
+      "para-new-curate-progress-bar-error-status"
+    ).innerHTML = "";
+    document.getElementById("para-new-curate-progress-bar-status").innerHTML =
+      "";
+    document.getElementById("div-new-curate-progress").style.display = "none";
+
+    progressBarNewCurate.value = 0;
+
+    // delete datasetStructureObject["files"] value (with metadata files (if any)) that was added only for the Preview tree view
+    if ("files" in sodaJSONObj["dataset-structure"]) {
+      sodaJSONObj["dataset-structure"]["files"] = {};
+    }
+    // delete manifest files added for treeview
+    for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
+      if (
+        "manifest.xlsx" in
+          sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
+        sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
+          "manifest.xlsx"
+        ]["forTreeview"]
+      ) {
+        delete sodaJSONObj["dataset-structure"]["folders"][highLevelFol][
+          "files"
+        ]["manifest.xlsx"];
+      }
+    }
+
+    client.invoke(
+      "api_check_empty_files_folders",
+      sodaJSONObj,
+      (error, res) => {
+        if (error) {
+          var emessage = userError(error);
+          document.getElementById(
+            "para-new-curate-progress-bar-error-status"
+          ).innerHTML =
+            "<span style='color: red;'> Error: " + emessage + "</span>";
+          document.getElementById("para-please-wait-new-curate").innerHTML = "";
+          console.error(error);
+          $("#sidebarCollapse").prop("disabled", false);
+        } else {
+          document.getElementById("para-please-wait-new-curate").innerHTML =
+            "Please wait...";
+          log.info("Continue with curate");
+          var message = "";
+          error_files = res[0];
+          error_folders = res[1];
+
+          if (error_files.length > 0) {
+            var error_message_files =
+              backend_to_frontend_warning_message(error_files);
+            message += error_message_files;
+          }
+
+          if (error_folders.length > 0) {
+            var error_message_folders =
+              backend_to_frontend_warning_message(error_folders);
+            message += error_message_folders;
+          }
+
+          if (message) {
+            message += "Would you like to continue?";
+            message = "<div style='text-align: left'>" + message + "</div>";
+            Swal.fire({
+              icon: "warning",
+              html: message,
+              showCancelButton: true,
+              cancelButtonText: "No, I want to review my files",
+              focusCancel: true,
+              confirmButtonText: "Yes, Continue",
+              backdrop: "rgba(0,0,0, 0.4)",
+              reverseButtons: reverseSwalButtons,
+              heightAuto: false,
+              showClass: {
+                popup: "animate__animated animate__zoomIn animate__faster",
+              },
+              hideClass: {
+                popup: "animate__animated animate__zoomOut animate__faster",
+              },
+            }).then((result) => {
+              if (result.isConfirmed) {
+                console.log("Continue");
+                initiate_generate();
+              } else {
+                console.log("Stop");
+                $("#sidebarCollapse").prop("disabled", false);
+                document.getElementById(
+                  "para-please-wait-new-curate"
+                ).innerHTML = "Return to make changes";
+                document.getElementById("div-generate-comeback").style.display =
+                  "flex";
+              }
+            });
+          } else {
+            initiate_generate();
+          }
+        }
+      }
+    );
+  });
 });
