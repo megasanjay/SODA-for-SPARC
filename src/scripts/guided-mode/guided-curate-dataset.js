@@ -458,10 +458,22 @@ $(document).ready(() => {
     tabPanel.siblings().hide();
     tabPanel.css("display", "flex");
   });
-  $("#Pennsieve-account-confirm-button").on("click", () => {
+
+  $("#pennsieve-account-confirm-button").on("click", () => {
     enableProgressButton();
     $("#guided-next-button").click();
   });
+
+  const complete_curr_question = (questionID) => {
+    questionID.css("opacity", ".5");
+    nextQuestion = questionID.next();
+    nextQuestion.css("display", "flex");
+    nextId = nextQuestion.attr("id");
+    document.getElementById(nextId).scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
 
   $("#guided-next-button").on("click", () => {
     //individual sub step processes
@@ -471,6 +483,9 @@ $(document).ready(() => {
       guidedSodaJSONObj["dataset-structure"] = {};
       guidedDatasetStructureJSONObj = { folders: {}, files: {} };
       guidedSodaJSONObj["metadata-files"] = {};
+      guidedSodaJSONObj["manifest-files"] = {};
+      guidedSodaJSONObj["generate-dataset"] = {};
+
       guidedSodaJSONObj["metadata"] = {};
       guidedSodaJSONObj["metadata"]["name"] = $("#guided-dataset-name-input")
         .val()
@@ -480,7 +495,15 @@ $(document).ready(() => {
       )
         .val()
         .trim();
-      console.log("Soda Json Object attributes appended");
+    }
+
+    if (current_sub_step.attr("id") == "guided-dataset-generation-tab") {
+      if ($("#generate-dataset-local-card").hasClass("checked")) {
+        guidedSodaJSONObj["generate-dataset"]["destination"] = "local";
+      }
+      if ($("#generate-dataset-pennsieve-card").hasClass("checked")) {
+        guidedSodaJSONObj["generate-dataset"]["destination"] = "bf";
+      }
     }
 
     //if more tabs in parent tab, go to next tab and update capsule
@@ -499,41 +522,44 @@ $(document).ready(() => {
       current_progression_tab.next().click();
     }
     disableProgressButton();
+    console.log(guidedSodaJSONObj);
+    console.log(current_sub_step);
+    console.log(current_progression_tab);
   });
 
   $("#guided-generate-dataset-button").on("click", async function () {
+    alert("guided generate dataset button pushed");
     // updateJSON structure after Generate dataset tab
     console.log("GGGGSSSSJJJJ");
     console.log(guidedSodaJSONObj);
     updateJSONStructureGenerate();
-    if (sodaJSONObj["starting-point"]["type"] === "local") {
-      sodaJSONObj["starting-point"]["type"] = "new";
+    if (guidedSodaJSONObj["starting-point"]["type"] === "local") {
+      guidedSodaJSONObj["starting-point"]["type"] = "new";
     }
 
     let dataset_name = "";
     let dataset_destination = "";
 
-    if ("bf-dataset-selected" in sodaJSONObj) {
-      dataset_name = sodaJSONObj["bf-dataset-selected"]["dataset-name"];
+    if ("bf-dataset-selected" in guidedSodaJSONObj) {
+      dataset_name = guidedSodaJSONObj["bf-dataset-selected"]["dataset-name"];
       dataset_destination = "Pennsieve";
-    } else if ("generate-dataset" in sodaJSONObj) {
-      if ("destination" in sodaJSONObj["generate-dataset"]) {
-        let destination = sodaJSONObj["generate-dataset"]["destination"];
+    } else if ("generate-dataset" in guidedSodaJSONObj) {
+      if ("destination" in guidedSodaJSONObj["generate-dataset"]) {
+        let destination = guidedSodaJSONObj["generate-dataset"]["destination"];
         if (destination == "local") {
-          dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+          dataset_name = guidedSodaJSONObj["generate-dataset"]["dataset-name"];
           dataset_destination = "Local";
         }
         if (destination == "bf") {
-          dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+          dataset_name = guidedSodaJSONObj["generate-dataset"]["dataset-name"];
           dataset_destination = "Pennsieve";
         }
       }
     }
-
+    /*
     generateProgressBar.value = 0;
-
     document.getElementById("para-new-curate-progress-bar-status").innerHTML =
-      "Please wait while we verify a few things...";
+      "Please wait while we verify a few things...";*/
 
     if (dataset_destination == "Pennsieve") {
       let supplementary_checks = await run_pre_flight_checks(false);

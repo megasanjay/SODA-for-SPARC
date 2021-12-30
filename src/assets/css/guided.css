@@ -179,6 +179,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .guided--panel {
@@ -483,7 +484,7 @@
 
 .guided--button {
   width: 100px !important;
-  margin-top: 10px !important;
+  margin-top: 15px !important;
 }
 
 .guided--footer button:first-child {
