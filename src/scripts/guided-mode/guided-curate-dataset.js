@@ -446,7 +446,7 @@ $(document).ready(() => {
     ipcRenderer.send("guided-open-file-dialog-local-destination-curate");
   });
 
-  $(".guided--generate-location-card").on("click", function () {
+  $(".guided--card-container > div").on("click", function () {
     const selectedTab = $(this);
     selectedTab.siblings().removeClass("checked");
     selectedTab.siblings().addClass("non-selected");

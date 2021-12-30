@@ -79,10 +79,7 @@
               class="guided--capsule"
               id="guided-folder-importation-capsule"
             ></div>
-            <div
-              class="guided--capsule"
-              id="guided-generate-dataset-capsule"
-            ></div>
+            <div class="guided--capsule"></div>
             <div class="guided--capsule"></div>
             <div class="guided--capsule"></div>
           </div>
@@ -301,7 +298,7 @@
             </form>
           </div>
 
-          <div id="guided_folder_importation-tab" class="hidden">
+          <div id="guided-folder-importation-tab" class="hidden">
             <div class="guided--question show" id="guided_dataset_name_div">
               <label class="guided--prompt-text" style="color: black"
                 >What is the location of the dataset?
@@ -335,7 +332,7 @@
             </div>
           </div>
 
-          <div id="guided-dataset-generation-tab" class="hidden">
+          <div id="guided-dataset-generate-location-tab" class="hidden">
             <div class="ui form" style="width: 100%">
               <div class="grouped fields">
                 <h1 class="guided--sub-step-text">
@@ -353,8 +350,7 @@
                       guided--generate-location-card
                       non-selected
                     "
-                    data-next="Question-generate-dataset-locally-destination"
-                    id="generate-dataset-local-card"
+                    id="guided-generate-dataset-local-card"
                   >
                     <div class="card-head"></div>
                     <div class="card-body">
@@ -371,7 +367,7 @@
                       guided--generate-location-card
                     "
                     data-next="Question-generate-dataset-BF-account"
-                    id="generate-dataset-pennsieve-card"
+                    id="guided-generate-dataset-pennsieve-card"
                   >
                     <div class="card-head"></div>
                     <div class="card-body">
@@ -401,13 +397,13 @@
                 </div>
                 <div id="generate-dataset-location-panels">
                   <div
-                    id="generate-dataset-local-panel"
+                    id="guided-generate-dataset-local-panel"
                     class="guided--panel hidden"
                   >
                     local
                   </div>
                   <div
-                    id="generate-dataset-pennsieve-panel"
+                    id="guided-generate-dataset-pennsieve-panel"
                     class="guided--panel hidden"
                   >
                     <div class="guided--question">
@@ -529,10 +525,104 @@
             </div>
           </div>
 
-          <div
-            id="guided-dataset-generation-confirmation-tab"
-            class="guided--panel hidden"
-          >
+          <div id="guided-dataset-generate-destination-tab" class="hidden">
+            <div class="ui form" style="width: 100%">
+              <div class="grouped fields">
+                <h1 class="guided--sub-step-text">
+                  Which dataset would you like to generate on? <br /><span
+                    style="color: #898989; font-size: 12px"
+                    >Please select one:</span
+                  >
+                </h1>
+
+                <div class="guided--card-container">
+                  <div
+                    class="
+                      option-card
+                      radio-button
+                      guided--generate-location-card
+                      non-selected
+                    "
+                    id="guided-generate-dataset-new-card"
+                  >
+                    <div class="card-head"></div>
+                    <div class="card-body">
+                      <svg
+                        width="40px"
+                        height="40px"
+                        viewBox="0 0 16 16"
+                        class="bi bi-folder-plus"
+                        fill="var(--color-bg-orange)"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M9.828 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H9.828zm-2.95-1.707L7.587 3H2.19c-.24 0-.47.042-.684.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293z"
+                          fill="#565E6B"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M13.5 10a.5.5 0 0 1 .5.5V12h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V13h-1.5a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"
+                          fill="#13716D"
+                        />
+                      </svg>
+                      <h2>I want to generate on a new dataset</h2>
+                    </div>
+                  </div>
+
+                  <div
+                    class="
+                      option-card
+                      radio-button
+                      guided--generate-location-card
+                      non-selected
+                    "
+                    id="guided-generate-dataset-existing-card"
+                  >
+                    <div class="card-head"></div>
+                    <div class="card-body">
+                      <svg
+                        width="40px"
+                        height="40px"
+                        viewBox="0 0 16 16"
+                        class="bi bi-folder-check"
+                        fill="var(--tagify-dd-color-primary)"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M9.828 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H9.828zm-2.95-1.707L7.587 3H2.19c-.24 0-.47.042-.684.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293z"
+                          fill="#565E6B"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0z"
+                          fill="#13716D"
+                        />
+                      </svg>
+                      <h2>I want to generate on an existing dataset</h2>
+                    </div>
+                  </div>
+                </div>
+                <div id="generate-dataset-destination-panels">
+                  <div
+                    id="guided-generate-dataset-new-panel"
+                    class="guided--panel hidden"
+                  >
+                    new
+                  </div>
+                  <div
+                    id="guided-generate-dataset-existing-panel"
+                    class="guided--panel hidden"
+                  >
+                    existing
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="guided-dataset-generation-confirmation-tab" class="hidden">
             <div class="guided--generate-dataset-preview">
               <div class="guided--flex-center">
                 <div class="guided--preview-row">
