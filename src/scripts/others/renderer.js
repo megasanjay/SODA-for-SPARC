@@ -3930,7 +3930,6 @@ function showDefaultBFAccount() {
               $("#para-account-detail-curate-generate").html("None");
               $("#para_create_empty_dataset_BF_account").html("None");
               $(".bf-account-details-span").html("None");
-
               $("#div-bf-account-load-progress").css("display", "none");
               showHideDropdownButtons("account", "hide");
             } else {
@@ -3938,10 +3937,12 @@ function showDefaultBFAccount() {
               $("#current-bf-account").text(defaultBfAccount);
               $("#current-bf-account-generate").text(defaultBfAccount);
               $("#guided-bf-account").text(defaultBfAccount);
+              $("#guided-bf-account-generate").text(defaultBfAccount);
               $("#create_empty_dataset_BF_account_span").text(defaultBfAccount);
               $(".bf-account-span").text(defaultBfAccount);
               $("#para-account-detail-curate-generate").html(res);
               $("#guided-account-details").html(res);
+              $("#guided-account-details-generate").html(res);
               $("#para_create_empty_dataset_BF_account").html(res);
               $(".bf-account-details-span").html(res);
 
