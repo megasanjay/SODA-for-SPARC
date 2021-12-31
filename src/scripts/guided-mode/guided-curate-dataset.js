@@ -448,6 +448,10 @@ $(document).ready(() => {
 
   $(".guided--card-container > div").on("click", function () {
     const selectedTab = $(this);
+    if (selectedTab.attr("id") == "guided-generate-dataset-new-card") {
+      enableProgressButton();
+      $("#guided-next-button").click();
+    }
     selectedTab.siblings().removeClass("checked");
     selectedTab.siblings().addClass("non-selected");
     selectedTab.removeClass("non-selected");
@@ -460,6 +464,7 @@ $(document).ready(() => {
   });
 
   $("#pennsieve-account-confirm-button").on("click", () => {
+    guidedSodaJSONObj["generate-dataset"]["destination"] = "bf";
     enableProgressButton();
     $("#guided-next-button").click();
   });
@@ -487,7 +492,9 @@ $(document).ready(() => {
       guidedSodaJSONObj["generate-dataset"] = {};
 
       guidedSodaJSONObj["metadata"] = {};
-      guidedSodaJSONObj["metadata"]["name"] = $("#guided-dataset-name-input")
+      guidedSodaJSONObj["generate-dataset"]["dataset-name"] = $(
+        "#guided-dataset-name-input"
+      )
         .val()
         .trim();
       guidedSodaJSONObj["metadata"]["subtitle"] = $(
@@ -532,7 +539,7 @@ $(document).ready(() => {
     // updateJSON structure after Generate dataset tab
     console.log("GGGGSSSSJJJJ");
     console.log(guidedSodaJSONObj);
-    updateJSONStructureGenerate();
+    //updateJSONStructureGenerate();
     if (guidedSodaJSONObj["starting-point"]["type"] === "local") {
       guidedSodaJSONObj["starting-point"]["type"] = "new";
     }
@@ -602,7 +609,7 @@ $(document).ready(() => {
 
     client.invoke(
       "api_check_empty_files_folders",
-      sodaJSONObj,
+      guidedSodaJSONObj,
       (error, res) => {
         if (error) {
           var emessage = userError(error);
