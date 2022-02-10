@@ -4,6 +4,7 @@ from gevent import monkey
 monkey.patch_all()
 import gevent
 from pysoda import (
+    check_upload_status,
     submit_dataset_progress,
     bf_add_account_api_key,
     bf_add_account_username,
@@ -512,6 +513,12 @@ class SodaApi(object):
     ):
         try:
             return get_pennsieve_api_key_secret(email, password, keyname)
+        except Exception as e:
+            raise e
+
+    def api_check_upload_status(self):
+        try:
+            return check_upload_status()
         except Exception as e:
             raise e
 

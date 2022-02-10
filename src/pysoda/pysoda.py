@@ -800,6 +800,10 @@ def bf_rename_dataset(accountname, current_dataset_name, renamed_dataset_name):
         jsonfile = {"name": datasetname}
         bf._api.datasets._put("/" + str(selected_dataset_id), json=jsonfile)
 
+def check_upload_status():
+    command = [agent_cmd(), "upload-status"]
+    proc = subprocess.run(command) #checking if there is any uploads
+    return proc
 
 def clear_queue():
 
