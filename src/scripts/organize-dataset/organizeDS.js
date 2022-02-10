@@ -367,17 +367,13 @@ function regenerate() {
 
 //function to check current uploads
 function uploadCheck() {
-  client.invoke(
-    "api_check_upload_status",
-    (error, res) => {
-      if(error) {
-        console.log(error);
-      }
-      else {
-        console.log(res);
-      }
+  client.invoke("api_check_upload_status", (error, res) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(res);
     }
-  )
+  });
 }
 
 // helper function to rename files/folders

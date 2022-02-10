@@ -6662,17 +6662,13 @@ function initiate_generate() {
         log.error(error);
         console.error(error);
       } else {
-        client.invoke(
-          "api_check_upload_status",
-          (error, res) => {
-            if(error) {
-              console.log(error);
-            }
-            else {
-              console.log(res);
-            }
+        client.invoke("api_check_upload_status", (error, res) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(res);
           }
-        )
+        });
         main_curate_status = res[0];
         var start_generate = res[1];
         var main_curate_progress_message = res[2];
