@@ -804,7 +804,9 @@ def bf_rename_dataset(accountname, current_dataset_name, renamed_dataset_name):
 def check_upload_status():
     command = ["pennsieve", "upload-status"]
 
-    proc = subprocess.check_output(command, universal_newlines=True)  # env=agent_env(?settings?)
+    proc = subprocess.check_output(
+        command, universal_newlines=True
+    )  # env=agent_env(?settings?)
     return proc
 
 
