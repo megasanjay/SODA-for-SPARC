@@ -371,6 +371,9 @@ function uploadCheck() {
     if (error) {
       console.log(error);
     } else {
+      console.log(typeof(res));
+      let output = res;
+      output.replaceAll("-", "");
       console.log(res);
     }
   });
