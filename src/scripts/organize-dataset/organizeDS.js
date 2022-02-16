@@ -410,15 +410,16 @@ function uploadCheck() {
 
 function verifyCompletedUploads(count) {
   //need to store properly to compare with json file
+  let pennsieveCompletes = {};
   client.invoke("api_upload_verify", count, (error, res) => {
     if (error) {
       console.log(error);
     } else {
       let dataset_dest = res[3];
-      let completed_files = {
-        
-      }
       for(let i = 0; i < res.length; i++) {
+        if(i % 1 === 0) {
+          //
+        }
         if(i % 4 === 0) {
 
         }
