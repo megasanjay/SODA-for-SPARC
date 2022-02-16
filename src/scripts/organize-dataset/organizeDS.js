@@ -414,11 +414,19 @@ function verifyCompletedUploads(count) {
     if (error) {
       console.log(error);
     } else {
+      let dataset_dest = res[3];
+      let completed_files = {
+        
+      }
+      for(let i = 0; i < res.length; i++) {
+        if(i % 4 === 0) {
+
+        }
+      }
       res = res.split("|");
       res.splice(0, 10);
       res.splice(res.length, 1);
       console.log(res);
-      console.log(res[3] + " this is the dataset collection");
     }
   });
 }
