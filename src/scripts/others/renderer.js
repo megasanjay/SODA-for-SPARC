@@ -6156,7 +6156,6 @@ const divGenerateProgressBar = document.getElementById(
 );
 const generateProgressBar = document.getElementById("progress-bar-new-curate");
 
-
 //button for generating completed dataset
 document
   .getElementById("button-generate")

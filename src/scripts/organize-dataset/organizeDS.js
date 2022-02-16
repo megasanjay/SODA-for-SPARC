@@ -382,10 +382,10 @@ function uploadCheck() {
         //uploadFileCount += 1;
         //console.log(typeof output);
         let slash = output[11].lastIndexOf("\\");
-        if(slash === -1) {
+        if (slash === -1) {
           output[11].lastIndexOf("/");
         }
-        if(!idCount.includes(output[10])) {
+        if (!idCount.includes(output[10])) {
           idCount.push(output[10]);
         }
         console.log(
@@ -410,35 +410,36 @@ function uploadCheck() {
 
 function verifyCompletedUploads(count) {
   //need to store properly to compare with json file
-  client.invoke(
-    "api_upload_verify", count, (error, res) => {
-      if(error) {
-        console.log(error);
-      }
-      else {
-        res = res.split("|");
-        res.splice(0, 10);
-        res.splice(res.length, 1);
-        console.log(res);
-        console.log(res[3] + " this is the dataset collection")
-      }
+  client.invoke("api_upload_verify", count, (error, res) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res = res.split("|");
+      res.splice(0, 10);
+      res.splice(res.length, 1);
+      console.log(res);
+      console.log(res[3] + " this is the dataset collection");
     }
-  )
+  });
 }
 
 function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
   fileCount = file_count;
   folderCount = folder_count;
-  if("files" in datasetfolder) {
-    for(let file in datasetfolder["files"]) {
+  if ("files" in datasetfolder) {
+    for (let file in datasetfolder["files"]) {
       //console.log(fileCount);
       fileCount += 1;
     }
   }
-  if("folders" in datasetfolder) {
-    for(let folder in datasetfolder["folders"]) {
+  if ("folders" in datasetfolder) {
+    for (let folder in datasetfolder["folders"]) {
       folderCount += 1;
-      getNumberFilesandFolders(datasetfolder["folders"][folder], fileCount, folderCount);
+      getNumberFilesandFolders(
+        datasetfolder["folders"][folder],
+        fileCount,
+        folderCount
+      );
     }
   }
   return [fileCount, folderCount];
@@ -454,18 +455,24 @@ function checkAutosaveJSON() {
   let numberofFolders = 0;
   try {
     let content = fs.readFileSync(filePath);
-    jsonContent  = JSON.parse(content);
-    let values = getNumberFilesandFolders(jsonContent["dataset-structure"], numberOfFiles, numberofFolders);
+    jsonContent = JSON.parse(content);
+    let values = getNumberFilesandFolders(
+      jsonContent["dataset-structure"],
+      numberOfFiles,
+      numberofFolders
+    );
     numberOfFiles = values[0];
     numberofFolders = values[1];
     console.log(numberOfFiles);
     console.log(numberofFolders);
-    if(jsonContent.hasOwnProperty("manifest-files")) {
+    if (jsonContent.hasOwnProperty("manifest-files")) {
       console.log("uhhh");
-      if(jsonContent["manifest-files"]["destination"] === "generate-dataset") {
-        console.log("auto generate will create one manifest file per folder so account for that");
+      if (jsonContent["manifest-files"]["destination"] === "generate-dataset") {
+        console.log(
+          "auto generate will create one manifest file per folder so account for that"
+        );
         numberOfFiles = numberOfFiles + numberofFolders;
-        console.log(numberOfFiles)
+        console.log(numberOfFiles);
       }
     } else {
       console.log("does not have property");
@@ -474,7 +481,7 @@ function checkAutosaveJSON() {
     //this will call the right amount of completed folders
     return jsonContent;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     log.error(error);
 
     //add logging for metadata
@@ -482,8 +489,6 @@ function checkAutosaveJSON() {
   }
   //why not compare here and then load to sodaJSONObj
   //loadProgressFile extraction goes here
-
-
 }
 
 // helper function to rename files/folders

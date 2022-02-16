@@ -3248,7 +3248,7 @@ document
     //when user wants to organize a dataset let's check the last completed files and compare it to the most recent autosave
     //list should be equal to show that no error occured
     //if not prompt if they would like to resume that upload
-    let JSON_content = checkAutosaveJSON()
+    let JSON_content = checkAutosaveJSON();
     console.log(JSON_content);
     //verifyCompletedUploads()
     $(".vertical-progress-bar").css("display", "flex");
@@ -3333,7 +3333,7 @@ const saveOrganizeProgressPrompt = (auto_save) => {
     // if no, ask users what to name it, and create file
   } else {
     console.log(auto_save);
-    if(auto_save === "") {
+    if (auto_save === "") {
       Swal.fire({
         icon: "info",
         title: "Saving progress as...",
