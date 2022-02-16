@@ -6156,9 +6156,13 @@ const divGenerateProgressBar = document.getElementById(
 );
 const generateProgressBar = document.getElementById("progress-bar-new-curate");
 
+
+//button for generating completed dataset
 document
   .getElementById("button-generate")
   .addEventListener("click", async function () {
+    let auto_save = "autosave";
+    saveOrganizeProgressPrompt(auto_save);
     $($($(this).parent()[0]).parents()[0]).removeClass("tab-active");
     document.getElementById(
       "para-new-curate-progress-bar-error-status"
@@ -6651,8 +6655,10 @@ function initiate_generate() {
 
   // Progress tracking function for main curate
   var countDone = 0;
+  var uploadFile_count = 0;
   var timerProgress = setInterval(main_progressfunction, 1000);
   function main_progressfunction() {
+    //auto save already has to be updated here
     client.invoke("api_main_curate_function_progress", (error, res) => {
       if (error) {
         var emessage = userError(error);
@@ -6661,8 +6667,11 @@ function initiate_generate() {
         ).innerHTML = "<span style='color: red;'>" + emessage + "</span>";
         log.error(error);
         console.error(error);
+        //if error occurs write that in the json file so when selected it will know to show the retry options
       } else {
-        uploadCheck();
+        uploadFile_count = uploadCheck();
+        //uploadCheck will give me a count of how many files got completed
+        //need to fix how accurate it is (count queued and in progress of same file)
         main_curate_status = res[0];
         var start_generate = res[1];
         var main_curate_progress_message = res[2];
@@ -6684,6 +6693,8 @@ function initiate_generate() {
               (main_generated_dataset_size / main_total_generate_dataset_size) *
               100;
             generateProgressBar.value = value;
+            //progress bar will need to be adjusted based on total items - completed / total items
+            //this will give the feel that it is resuming progress
             if (main_total_generate_dataset_size < displaySize) {
               var totalSizePrint =
                 main_total_generate_dataset_size.toFixed(2) + " B";
@@ -6746,6 +6757,8 @@ function initiate_generate() {
       $("#sidebarCollapse").prop("disabled", false);
       countDone++;
       if (countDone > 1) {
+        //verifyCompletedUploads(uploadFile_count);
+        console.log(uploadFile_count);
         log.info("Done curate track");
         // then show the sidebar again
         // forceActionSidebar("show");

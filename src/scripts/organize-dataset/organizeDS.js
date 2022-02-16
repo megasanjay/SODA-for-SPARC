@@ -361,22 +361,129 @@ function delFolder(
   }
 }
 
-function regenerate() {
+function retry_upload() {
+  //regenerate button will iterate through autosave json file and compare with a list of completed files
+  //that is requested through pennsieve agent
+  //recalls main_progress function?
   document.getElementById("button-generate").click();
 }
 
 //function to check current uploads
+var idCount = [];
 function uploadCheck() {
   client.invoke("api_check_upload_status", (error, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(typeof res);
-      let output = res;
-      output.replaceAll("-", "");
-      console.log(res);
+      //output.replace("/-/g", "");
+      let output = res.split("|");
+      //keep tabs of id and only increase uploadFileCount once per id count
+      if (output.length > 1) {
+        //uploadFileCount += 1;
+        //console.log(typeof output);
+        let slash = output[11].lastIndexOf("\\");
+        if(slash === -1) {
+          output[11].lastIndexOf("/");
+        }
+        if(!idCount.includes(output[10])) {
+          idCount.push(output[10]);
+        }
+        console.log(
+          "ID:" +
+            output[10] +
+            "\nFile: " +
+            output[11].slice(slash + 1, output[11].length - 1) +
+            "\nDataset: " +
+            output[13] +
+            "\nCollection: " +
+            output[14] +
+            "\nStatus: " +
+            output[15] +
+            "\nPercentage: " +
+            output[17]
+        );
+      }
     }
   });
+  return idCount.length;
+}
+
+function verifyCompletedUploads(count) {
+  //need to store properly to compare with json file
+  client.invoke(
+    "api_upload_verify", count, (error, res) => {
+      if(error) {
+        console.log(error);
+      }
+      else {
+        res = res.split("|");
+        res.splice(0, 10);
+        res.splice(res.length, 1);
+        console.log(res);
+        console.log(res[3] + " this is the dataset collection")
+      }
+    }
+  )
+}
+
+function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
+  fileCount = file_count;
+  folderCount = folder_count;
+  if("files" in datasetfolder) {
+    for(let file in datasetfolder["files"]) {
+      //console.log(fileCount);
+      fileCount += 1;
+    }
+  }
+  if("folders" in datasetfolder) {
+    for(let folder in datasetfolder["folders"]) {
+      folderCount += 1;
+      getNumberFilesandFolders(datasetfolder["folders"][folder], fileCount, folderCount);
+    }
+  }
+  return [fileCount, folderCount];
+}
+
+function checkAutosaveJSON() {
+  //pulled from progressFileParse
+  //this should pull in the autosave onto datasetStructureJSON/sodaJSONOBJ
+  let fileName = "autosave.json";
+  let filePath = path.join(progressFilePath, fileName);
+  let jsonContent;
+  let numberOfFiles = 0;
+  let numberofFolders = 0;
+  try {
+    let content = fs.readFileSync(filePath);
+    jsonContent  = JSON.parse(content);
+    let values = getNumberFilesandFolders(jsonContent["dataset-structure"], numberOfFiles, numberofFolders);
+    numberOfFiles = values[0];
+    numberofFolders = values[1];
+    console.log(numberOfFiles);
+    console.log(numberofFolders);
+    if(jsonContent.hasOwnProperty("manifest-files")) {
+      console.log("uhhh");
+      if(jsonContent["manifest-files"]["destination"] === "generate-dataset") {
+        console.log("auto generate will create one manifest file per folder so account for that");
+        numberOfFiles = numberOfFiles + numberofFolders;
+        console.log(numberOfFiles)
+      }
+    } else {
+      console.log("does not have property");
+    }
+    verifyCompletedUploads(numberOfFiles);
+    //this will call the right amount of completed folders
+    return jsonContent;
+  } catch (error) {
+    console.log(error)
+    log.error(error);
+
+    //add logging for metadata
+    return {};
+  }
+  //why not compare here and then load to sodaJSONObj
+  //loadProgressFile extraction goes here
+
+
 }
 
 // helper function to rename files/folders

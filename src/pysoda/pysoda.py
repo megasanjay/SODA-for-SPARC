@@ -2,6 +2,7 @@
 
 ### Import required python modules
 
+from concurrent.futures import process
 from gevent import monkey
 
 monkey.patch_all()
@@ -808,6 +809,21 @@ def check_upload_status():
         command, universal_newlines=True
     )  # env=agent_env(?settings?)
     return proc
+
+def collection_check(dataset, collection):
+    process = subprocess.run('pennsieve ls --dataset={} --collection=={}'.format(dataset, collection), shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
+    output = process.stdout
+    return output
+
+def dataset_check(dataset):
+    process = subprocess.run('pennsieve ls --dataset={}'.format(dataset), shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
+    output = process.stdout
+    return output
+
+def upload_verify(count):
+    process = subprocess.run('pennsieve upload-status --completed {}'.format(count), shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
+    output = process.stdout
+    return output
 
 
 def clear_queue():

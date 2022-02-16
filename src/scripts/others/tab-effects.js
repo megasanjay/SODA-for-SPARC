@@ -3245,6 +3245,12 @@ document
 document
   .getElementById("organize_dataset_btn")
   .addEventListener("click", () => {
+    //when user wants to organize a dataset let's check the last completed files and compare it to the most recent autosave
+    //list should be equal to show that no error occured
+    //if not prompt if they would like to resume that upload
+    let JSON_content = checkAutosaveJSON()
+    console.log(JSON_content);
+    //verifyCompletedUploads()
     $(".vertical-progress-bar").css("display", "flex");
     document.getElementById("generate-dataset-progress-tab").style.display =
       "none";
@@ -3318,7 +3324,7 @@ const saveSODAJSONProgress = (progressFileName) => {
 };
 
 // function to save Progress
-const saveOrganizeProgressPrompt = () => {
+const saveOrganizeProgressPrompt = (auto_save) => {
   // check if "save-progress" key is in JSON object
   // if yes, keep saving to that file
   if ("save-progress" in sodaJSONObj) {
@@ -3326,36 +3332,42 @@ const saveOrganizeProgressPrompt = () => {
     saveSODAJSONProgress(sodaJSONObj["save-progress"]);
     // if no, ask users what to name it, and create file
   } else {
-    Swal.fire({
-      icon: "info",
-      title: "Saving progress as...",
-      text: "Enter a name for your progress below:",
-      heightAuto: false,
-      input: "text",
-      showCancelButton: true,
-      cancelButtonText: "Cancel",
-      confirmButtonText: "OK",
-      reverseButtons: reverseSwalButtons,
-      backdrop: "rgba(0,0,0, 0.4)",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown animate__faster",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp animate__faster",
-      },
-    }).then((result) => {
-      if (result.value) {
-        if (result.value !== null && result.value !== "") {
-          sodaJSONObj["save-progress"] = result.value.trim();
-          saveSODAJSONProgress(result.value.trim());
-          addOption(
-            progressFileDropdown,
-            result.value.trim(),
-            result.value.trim() + ".json"
-          );
+    console.log(auto_save);
+    if(auto_save === "") {
+      Swal.fire({
+        icon: "info",
+        title: "Saving progress as...",
+        text: "Enter a name for your progress below:",
+        heightAuto: false,
+        input: "text",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        confirmButtonText: "OK",
+        reverseButtons: reverseSwalButtons,
+        backdrop: "rgba(0,0,0, 0.4)",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown animate__faster",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp animate__faster",
+        },
+      }).then((result) => {
+        if (result.value) {
+          if (result.value !== null && result.value !== "") {
+            sodaJSONObj["save-progress"] = result.value.trim();
+            saveSODAJSONProgress(result.value.trim());
+            addOption(
+              progressFileDropdown,
+              result.value.trim(),
+              result.value.trim() + ".json"
+            );
+          }
         }
-      }
-    });
+      });
+    } else {
+      sodaJSONObj["save-progress"] = auto_save;
+      saveSODAJSONProgress(auto_save);
+    }
   }
 };
 

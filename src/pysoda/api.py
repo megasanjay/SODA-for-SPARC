@@ -4,6 +4,9 @@ from gevent import monkey
 monkey.patch_all()
 import gevent
 from pysoda import (
+    collection_check,
+    dataset_check,
+    upload_verify,
     check_upload_status,
     submit_dataset_progress,
     bf_add_account_api_key,
@@ -519,6 +522,24 @@ class SodaApi(object):
     def api_check_upload_status(self):
         try:
             return check_upload_status()
+        except Exception as e:
+            raise e
+
+    def api_upload_verify(self, count):
+        try:
+            return upload_verify(count)
+        except Exception as e:
+            raise e
+
+    def api_dataset_check(self, dataset):
+        try:
+            return dataset_check(dataset)
+        except Exception as e:
+            raise e
+
+    def api_collection_check(self, dataset, collection):
+        try:
+            return collection_check(dataset, collection)
         except Exception as e:
             raise e
 
