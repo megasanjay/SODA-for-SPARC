@@ -426,7 +426,7 @@ function verifyCompletedUploads(count) {
       let j = 1;
       let x = 3;
       let y = 4;
-      for(let u = 0; i < res.length; u += 9) {
+      for (let u = 0; i < res.length; u += 9) {
         console.log(u);
 
         pennsieveArr.push(res[i]);
