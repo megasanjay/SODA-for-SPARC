@@ -6351,9 +6351,13 @@ function initiate_generate() {
     numberofFolders
   );
   console.log(datasetStructureJSONObj["files"]);
-  if(datasetStructureJSONObj["files"] === {}) {
+  if (datasetStructureJSONObj["files"] === {}) {
     console.log("then we check manifest_files just to ensure");
-    let manifest_files = getNumberFilesandFolders(sodaJSONObj["manifest-files"], numberOfFiles, numberofFolders);
+    let manifest_files = getNumberFilesandFolders(
+      sodaJSONObj["manifest-files"],
+      numberOfFiles,
+      numberofFolders
+    );
     console.log(manifest_files);
     console.log("value of manifest_files");
   }
