@@ -409,25 +409,36 @@ function uploadCheck() {
 }
 
 function verifyCompletedUploads(count) {
+  console.log(count);
+  console.log("amount of completed files we're going to call back");
   //need to store properly to compare with json file
   let pennsieveCompletes = {};
+  pennsieveArr = [];
   client.invoke("api_upload_verify", count, (error, res) => {
     if (error) {
       console.log(error);
     } else {
-      let dataset_dest = res[3];
-      for(let i = 0; i < res.length; i++) {
-        if(i % 1 === 0) {
-          //
-        }
-        if(i % 4 === 0) {
-
-        }
-      }
       res = res.split("|");
       res.splice(0, 10);
       res.splice(res.length, 1);
-      console.log(res);
+      let dataset_dest = res[3];
+      let i = 0;
+      let j = 1;
+      let x = 3;
+      let y = 4;
+      for(let u = 0; i < res.length; u += 9) {
+        console.log(u);
+        pennsieveArr.push(res[i]);
+        pennsieveArr.push(res[j]);
+        pennsieveArr.push(res[x]);
+        pennsieveArr.push(res[y]);
+        i += 9;
+        j += 9;
+        x += 9;
+        y += 9;
+      }
+
+      console.log(pennsieveArr);
     }
   });
 }
@@ -451,6 +462,7 @@ function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
       );
     }
   }
+  console.log(fileCount);
   return [fileCount, folderCount];
 }
 
@@ -465,8 +477,10 @@ function checkAutosaveJSON() {
   try {
     let content = fs.readFileSync(filePath);
     jsonContent = JSON.parse(content);
+    console.log(datasetStructureJSONObj);
+    console.log(jsonContent);
     let values = getNumberFilesandFolders(
-      jsonContent["dataset-structure"],
+      datasetStructureJSONObj,
       numberOfFiles,
       numberofFolders
     );

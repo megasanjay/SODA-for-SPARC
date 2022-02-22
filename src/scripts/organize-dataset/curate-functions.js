@@ -1093,7 +1093,7 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
       var bfDataset = "";
 
       // if users edit Current dataset
-      datasetPermissionDiv.style.display = "block";
+      datasetPermissionDiv.style.display = "none";
       $(datasetPermissionDiv)
         .find("#curatebfdatasetlist")
         .find("option")
@@ -1258,6 +1258,7 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
           didOpen: () => {
             $(".ui.active.green.inline.loader.small").css("display", "none");
             $("#curatebfdatasetlist").attr("disabled", false);
+            $(datasetPermissionDiv).css("display", "block");
             $(datasetPermissionDiv)
               .find("#div-filter-datasets-progress-2")
               .css("display", "none");

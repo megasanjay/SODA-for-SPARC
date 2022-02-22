@@ -3027,6 +3027,7 @@ const Cropper = require("cropperjs");
 const { default: Swal } = require("sweetalert2");
 const { waitForDebugger } = require("inspector");
 const { resolve } = require("path");
+const { data } = require("jquery");
 var cropOptions = {
   aspectRatio: 1,
   movable: false,
@@ -6335,10 +6336,29 @@ let file_counter = 0;
 let folder_counter = 0;
 
 function initiate_generate() {
+  console.log("checking for updates");
   // Initiate curation by calling Python function
   let manifest_files_requested = false;
   var main_curate_status = "Solving";
   var main_total_generate_dataset_size;
+  let numberOfFiles = 0;
+  let numberofFolders = 0;
+
+  console.log(datasetStructureJSONObj);
+  let values = getNumberFilesandFolders(
+    datasetStructureJSONObj,
+    numberOfFiles,
+    numberofFolders
+  );
+  console.log(datasetStructureJSONObj["files"]);
+  if(datasetStructureJSONObj["files"] === {}) {
+    console.log("then we check manifest_files just to ensure");
+    let manifest_files = getNumberFilesandFolders(sodaJSONObj["manifest-files"], numberOfFiles, numberofFolders);
+    console.log(manifest_files);
+    console.log("value of manifest_files");
+  }
+  console.log(values);
+  console.log("This is the number of files + auto generated manifests");
 
   document.getElementById("para-new-curate-progress-bar-status").innerHTML =
     "Preparing files ...";
@@ -6756,7 +6776,8 @@ function initiate_generate() {
       $("#sidebarCollapse").prop("disabled", false);
       countDone++;
       if (countDone > 1) {
-        //verifyCompletedUploads(uploadFile_count);
+        console.log(uploadFile_count);
+        verifyCompletedUploads(uploadFile_count);
         console.log(uploadFile_count);
         log.info("Done curate track");
         // then show the sidebar again
