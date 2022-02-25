@@ -408,11 +408,11 @@ function uploadCheck() {
   return idCount.length;
 }
 
+var pennsieveCompletes = {};
 function verifyCompletedUploads(count) {
-  console.log(count);
-  console.log("amount of completed files we're going to call back");
   //need to store properly to compare with json file
-  let pennsieveCompletes = {};
+  let datasetID = "";
+  pennsieveCompletes = {};
   pennsieveArr = [];
   client.invoke("api_upload_verify", count, (error, res) => {
     if (error) {
@@ -421,25 +421,73 @@ function verifyCompletedUploads(count) {
       res = res.split("|");
       res.splice(0, 10);
       res.splice(res.length, 1);
-      let dataset_dest = res[3];
+
       let i = 0;
       let j = 1;
       let x = 3;
       let y = 4;
+      console.log(res);
       for (let u = 0; i < res.length; u += 9) {
         console.log(u);
+        let lastSlash = res[j].lastIndexOf("\\") + 1;
+        
+        if (lastSlash === 0) {
+          //in case it's on mac
+          lastSlash = res[j].lastIndexOf("/") + 1;
+        }
+        let fileName = res[j].substring(lastSlash, res[j].length - 1);
+        //check for collection name and dataset here
 
-        pennsieveArr.push(res[i]);
-        pennsieveArr.push(res[j]);
-        pennsieveArr.push(res[x]);
-        pennsieveArr.push(res[y]);
+        pennsieveCompletes[res[i].trim()] = {
+          "file-name": fileName.trim(),
+          "file-path": res[j].trim(),
+          "dataset-id": res[x].trim(),
+          "collection-id": res[y].trim(),
+        }
+
+        //pennsieveArr.push(res[i]);  //id
+        //pennsieveArr.push(res[j]);  //file path
+        //pennsieveArr.push(res[x]);  //dataset
+        if(!pennsieveArr.includes(res[y].trim() && res[y].trim() != "N/A")) {
+          pennsieveArr.push(res[y].trim());  //collection
+        }
         i += 9;
         j += 9;
         x += 9;
         y += 9;
+        if(res[x] === undefined) {
+          x -= 9;
+          datasetID = res[x].trim();
+        }
       }
-
-      console.log(pennsieveArr);
+      console.log(datasetID);
+      for(let i = 0; i < pennsieveArr.length; i++) {
+        client.invoke("api_collection_check", datasetID, pennsieveArr[i], (error, res) => {
+          if(error) {
+            console.log(error);
+          } else {
+            res = res.split("|");
+            let collection_name = res[5].trim();
+            let collection_id = res[6].trim()
+            let value_of = {
+              "collection-name": collection_name
+            }
+            for(const [key, value] of Object.entries(pennsieveCompletes)) {
+              console.log(pennsieveCompletes[key]["collection-id"]);
+              if(pennsieveCompletes[key]["collection-id"] === collection_id) {
+                Object.assign(pennsieveCompletes[key], value_of);
+              }
+            }
+            //res.splice(0, 14);
+            //console.log(dataset_name);
+            console.log(res);
+            //res.splice(res.length, 1);
+          }
+        });
+      }
+      
+      //console.log(pennsieveArr);
+      console.log(pennsieveCompletes);
     }
   });
 }
@@ -463,7 +511,6 @@ function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
       );
     }
   }
-  console.log(fileCount);
   return [fileCount, folderCount];
 }
 
@@ -475,39 +522,41 @@ function checkAutosaveJSON() {
   let jsonContent;
   let numberOfFiles = 0;
   let numberofFolders = 0;
+  console.log(filePath);
   try {
     let content = fs.readFileSync(filePath);
     jsonContent = JSON.parse(content);
-    console.log(datasetStructureJSONObj);
-    console.log(jsonContent);
+
     let values = getNumberFilesandFolders(
-      datasetStructureJSONObj,
+      jsonContent["dataset-structure"],
       numberOfFiles,
       numberofFolders
     );
+
     numberOfFiles = values[0];
     numberofFolders = values[1];
-    console.log(numberOfFiles);
-    console.log(numberofFolders);
+
+    let mani_check = jsonContent["dataset-structure"]["files"];
+    if(Object.keys(mani_check).length === 0) {
+      //check manifest files
+      if(jsonContent.hasOwnProperty("metadata-files")) {
+        let mani_value = Object.keys(jsonContent["metadata-files"]).length
+        numberOfFiles += mani_value;
+      }
+    }
+
     if (jsonContent.hasOwnProperty("manifest-files")) {
-      console.log("uhhh");
       if (jsonContent["manifest-files"]["destination"] === "generate-dataset") {
-        console.log(
-          "auto generate will create one manifest file per folder so account for that"
-        );
         numberOfFiles = numberOfFiles + numberofFolders;
-        console.log(numberOfFiles);
       }
     } else {
-      console.log("does not have property");
+      console.log("does not have manifest-files: generate-datset property");
     }
     verifyCompletedUploads(numberOfFiles);
-    //this will call the right amount of completed folders
+
     return jsonContent;
   } catch (error) {
     console.log(error);
-    log.error(error);
-
     //add logging for metadata
     return {};
   }

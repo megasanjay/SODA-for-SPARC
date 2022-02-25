@@ -6303,8 +6303,7 @@ const generateProgressBar = document.getElementById("progress-bar-new-curate");
 document
   .getElementById("button-generate")
   .addEventListener("click", async function () {
-    let auto_save = "autosave";
-    saveOrganizeProgressPrompt(auto_save);
+    autosaveProgress(); //function will autosave progress in SODA/Progress as autosave.json
     $($($(this).parent()[0]).parents()[0]).removeClass("tab-active");
     document.getElementById(
       "para-new-curate-progress-bar-error-status"
@@ -6495,13 +6494,14 @@ function initiate_generate() {
   if (datasetStructureJSONObj["files"] === {}) {
     console.log("then we check manifest_files just to ensure");
     let manifest_files = getNumberFilesandFolders(
-      sodaJSONObj["manifest-files"],
+      sodaJSONObj["metadata-files"],
       numberOfFiles,
       numberofFolders
     );
     console.log(manifest_files);
     console.log("value of manifest_files");
   }
+
   console.log(values);
   console.log("This is the number of files + auto generated manifests");
 

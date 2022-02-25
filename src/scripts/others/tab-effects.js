@@ -3579,8 +3579,57 @@ const saveSODAJSONProgress = (progressFileName) => {
   });
 };
 
+//create autosave progress based off function below
+//autosave needs to clear previous autosave and store new content
+function autosaveProgress() {
+  let progressFileName = "autosave"
+  try {
+    fs.mkdirSync(progressFilePath, { recursive: true });
+  } catch (error) {
+    log.error(error);
+    console.log(error);
+  }
+  var filePath = path.join(progressFilePath, progressFileName + ".json");
+  //check if autosave exists, if so delete to create new one
+  console.log(filePath);
+  let autosave_check = fs.exists(filePath)
+  if(autosave_check === true) {
+    console.log("deleting previous autosave");
+    fs.unlinkSync(filePath);
+      // record all information listed in SODA JSON Object before saving
+    updateJSONObjectProgress();
+  } else {
+    console.log("no autosave was found");
+    // record all information listed in SODA JSON Object before saving
+    updateJSONObjectProgress();
+  }
+  // delete sodaJSONObj["dataset-structure"] value that was added only for the Preview tree view
+  if ("files" in sodaJSONObj["dataset-structure"]) {
+    sodaJSONObj["dataset-structure"]["files"] = {};
+  }
+  // delete manifest files added for treeview
+  for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
+    if (
+      "manifest.xlsx" in
+        sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
+      sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
+        "manifest.xlsx"
+      ]["forTreeview"] === true
+    ) {
+      delete sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
+        "manifest.xlsx"
+      ];
+    }
+  }
+  fs.writeFileSync(filePath, JSON.stringify(sodaJSONObj));
+  console.log(sodaJSONObj);
+  console.log("what is being written on the autosave file");
+
+  //no swal
+}
+
 // function to save Progress
-const saveOrganizeProgressPrompt = (auto_save) => {
+const saveOrganizeProgressPrompt = () => {
   // check if "save-progress" key is in JSON object
   // if yes, keep saving to that file
   if ("save-progress" in sodaJSONObj) {
@@ -3588,42 +3637,36 @@ const saveOrganizeProgressPrompt = (auto_save) => {
     saveSODAJSONProgress(sodaJSONObj["save-progress"]);
     // if no, ask users what to name it, and create file
   } else {
-    console.log(auto_save);
-    if (auto_save === "") {
-      Swal.fire({
-        icon: "info",
-        title: "Saving progress as...",
-        text: "Enter a name for your progress below:",
-        heightAuto: false,
-        input: "text",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-        confirmButtonText: "OK",
-        reverseButtons: reverseSwalButtons,
-        backdrop: "rgba(0,0,0, 0.4)",
-        showClass: {
-          popup: "animate__animated animate__fadeInDown animate__faster",
-        },
-        hideClass: {
-          popup: "animate__animated animate__fadeOutUp animate__faster",
-        },
-      }).then((result) => {
-        if (result.value) {
-          if (result.value !== null && result.value !== "") {
-            sodaJSONObj["save-progress"] = result.value.trim();
-            saveSODAJSONProgress(result.value.trim());
-            addOption(
-              progressFileDropdown,
-              result.value.trim(),
-              result.value.trim() + ".json"
-            );
-          }
+    Swal.fire({
+      icon: "info",
+      title: "Saving progress as...",
+      text: "Enter a name for your progress below:",
+      heightAuto: false,
+      input: "text",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+      confirmButtonText: "OK",
+      reverseButtons: reverseSwalButtons,
+      backdrop: "rgba(0,0,0, 0.4)",
+      showClass: {
+        popup: "animate__animated animate__fadeInDown animate__faster",
+      },
+      hideClass: {
+        popup: "animate__animated animate__fadeOutUp animate__faster",
+      },
+    }).then((result) => {
+      if (result.value) {
+        if (result.value !== null && result.value !== "") {
+          sodaJSONObj["save-progress"] = result.value.trim();
+          saveSODAJSONProgress(result.value.trim());
+          addOption(
+            progressFileDropdown,
+            result.value.trim(),
+            result.value.trim() + ".json"
+          );
         }
-      });
-    } else {
-      sodaJSONObj["save-progress"] = auto_save;
-      saveSODAJSONProgress(auto_save);
-    }
+      }
+    });
   }
 };
 
