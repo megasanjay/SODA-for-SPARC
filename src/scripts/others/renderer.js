@@ -45,6 +45,9 @@ const shell = electron.shell;
 const Clipboard = electron.clipboard;
 var noAirtable = false;
 
+var pennsieveCompletes = {};
+var pennsieveArr = [];
+
 var nextBtnDisabledVariable = true;
 var reverseSwalButtons = false;
 
@@ -6476,6 +6479,8 @@ let file_counter = 0;
 let folder_counter = 0;
 
 function initiate_generate() {
+  pennsieveCompletes = {};
+  pennsieveArr = [];
   console.log("checking for updates");
   // Initiate curation by calling Python function
   let manifest_files_requested = false;

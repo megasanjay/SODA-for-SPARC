@@ -369,6 +369,8 @@ function retry_upload() {
 }
 
 //function to check current uploads
+//not used to compare with autosave
+//doesn't catch every file sometimes
 var idCount = [];
 function uploadCheck() {
   client.invoke("api_check_upload_status", (error, res) => {
@@ -408,9 +410,12 @@ function uploadCheck() {
   return idCount.length;
 }
 
-var pennsieveCompletes = {};
+
 function verifyCompletedUploads(count) {
   //need to store properly to compare with json file
+  //need to create a function to recursively go through a collection until there are no more
+  //that will create a full file path that is on pennsieve
+
   let datasetID = "";
   pennsieveCompletes = {};
   pennsieveArr = [];
@@ -426,9 +431,9 @@ function verifyCompletedUploads(count) {
       let j = 1;
       let x = 3;
       let y = 4;
-      console.log(res);
+      //console.log(res);
       for (let u = 0; i < res.length; u += 9) {
-        console.log(u);
+        //console.log(u);
         let lastSlash = res[j].lastIndexOf("\\") + 1;
         
         if (lastSlash === 0) {
@@ -448,8 +453,10 @@ function verifyCompletedUploads(count) {
         //pennsieveArr.push(res[i]);  //id
         //pennsieveArr.push(res[j]);  //file path
         //pennsieveArr.push(res[x]);  //dataset
-        if(!pennsieveArr.includes(res[y].trim() && res[y].trim() != "N/A")) {
-          pennsieveArr.push(res[y].trim());  //collection
+        if(res[y].trim() != "N/A") {
+          if(!pennsieveArr.includes(res[y].trim())) {
+            pennsieveArr.push(res[y].trim())
+          }
         }
         i += 9;
         j += 9;
@@ -460,7 +467,6 @@ function verifyCompletedUploads(count) {
           datasetID = res[x].trim();
         }
       }
-      console.log(datasetID);
       for(let i = 0; i < pennsieveArr.length; i++) {
         client.invoke("api_collection_check", datasetID, pennsieveArr[i], (error, res) => {
           if(error) {
@@ -473,25 +479,26 @@ function verifyCompletedUploads(count) {
               "collection-name": collection_name
             }
             for(const [key, value] of Object.entries(pennsieveCompletes)) {
-              console.log(pennsieveCompletes[key]["collection-id"]);
               if(pennsieveCompletes[key]["collection-id"] === collection_id) {
                 Object.assign(pennsieveCompletes[key], value_of);
               }
             }
             //res.splice(0, 14);
             //console.log(dataset_name);
-            console.log(res);
             //res.splice(res.length, 1);
           }
         });
       }
       
       //console.log(pennsieveArr);
-      console.log(pennsieveCompletes);
+      //console.log(pennsieveCompletes);
+      console.log("end of function");
     }
   });
 }
 
+
+//count just surface folders to 
 function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
   fileCount = file_count;
   folderCount = folder_count;
@@ -547,14 +554,21 @@ function checkAutosaveJSON() {
 
     if (jsonContent.hasOwnProperty("manifest-files")) {
       if (jsonContent["manifest-files"]["destination"] === "generate-dataset") {
-        numberOfFiles = numberOfFiles + numberofFolders;
+        let surface_files = Object.keys(jsonContent["dataset-structure"]["folders"])
+        numberOfFiles = numberOfFiles + surface_files.length;
       }
     } else {
       console.log("does not have manifest-files: generate-datset property");
     }
-    verifyCompletedUploads(numberOfFiles);
+    let verifyCompletes_promise = new Promise ((resolved, rejected) => {
+      resolved(verifyCompletedUploads(numberOfFiles));
+    }).then(() => {
+      console.log("this is verifyCompletes");
+      console.log(pennsieveCompletes.length);
+      return jsonContent;
+    })
 
-    return jsonContent;
+    //return jsonContent;
   } catch (error) {
     console.log(error);
     //add logging for metadata
@@ -562,6 +576,12 @@ function checkAutosaveJSON() {
   }
   //why not compare here and then load to sodaJSONObj
   //loadProgressFile extraction goes here
+}
+
+//function here will compare json_content and pennsievecompletes and remove what is already been uploaded
+function compareAutosave(autosave, pennsieve_completes) {
+  console.log(autosave);
+  console.log(pennsieve_completes);
 }
 
 // helper function to rename files/folders
