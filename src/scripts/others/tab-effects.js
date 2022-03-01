@@ -3499,19 +3499,18 @@ document
 
 document
   .getElementById("organize_dataset_btn")
-  .addEventListener("click", () => {
+  .addEventListener("click", async () => {
     var JSON_content;
     //when user wants to organize a dataset let's check the last completed files and compare it to the most recent autosave
     //list should be equal to show that no error occured
     //if not prompt if they would like to resume that upload
-    let JSON_promise = new Promise((resolved, rejected) => {
-      resolved(checkAutosaveJSON());
-    })
-    JSON_promise.then((val) => {
-      JSON_content = val;
-    });
+
+    //promise is created here for awaiting result on checkAutosaveJSON
+    JSON_content = await checkAutosaveJSON();
+  
     console.log(JSON_content);
     console.log(pennsieveCompletes);
+    console.log("then function first layer");
     //compareAutosave(JSON_content, pennsieveCompletes);
 
     //compareAutosave(JSON_content, pennsieveCompletes)

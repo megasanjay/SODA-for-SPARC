@@ -411,7 +411,7 @@ function uploadCheck() {
 }
 
 
-function verifyCompletedUploads(count) {
+async function verifyCompletedUploads(count) {
   //need to store properly to compare with json file
   //need to create a function to recursively go through a collection until there are no more
   //that will create a full file path that is on pennsieve
@@ -419,10 +419,15 @@ function verifyCompletedUploads(count) {
   let datasetID = "";
   pennsieveCompletes = {};
   pennsieveArr = [];
-  client.invoke("api_upload_verify", count, (error, res) => {
+  console.log("entering client invoke async");
+  //create a new promise here
+  client.invoke("api_upload_verify", count, async (error, res) => {
     if (error) {
       console.log(error);
+      reject(error);
     } else {
+      //need to have it await for response handling
+      console.log("does it return to layer one here?");
       res = res.split("|");
       res.splice(0, 10);
       res.splice(res.length, 1);
@@ -432,7 +437,7 @@ function verifyCompletedUploads(count) {
       let x = 3;
       let y = 4;
       //console.log(res);
-      for (let u = 0; i < res.length; u += 9) {
+      for(let u = 0; i < res.length; u += 9) {
         //console.log(u);
         let lastSlash = res[j].lastIndexOf("\\") + 1;
         
@@ -467,18 +472,20 @@ function verifyCompletedUploads(count) {
           datasetID = res[x].trim();
         }
       }
-      for(let i = 0; i < pennsieveArr.length; i++) {
-        client.invoke("api_collection_check", datasetID, pennsieveArr[i], (error, res) => {
+      for await(let i of pennsieveArr) {
+        console.log("third layer");
+        await client.invoke("api_collection_check", datasetID, pennsieveArr[i], async (error, res) => {
           if(error) {
             console.log(error);
           } else {
+            console.log("going through res in final layer")
             res = res.split("|");
             let collection_name = res[5].trim();
             let collection_id = res[6].trim()
             let value_of = {
               "collection-name": collection_name
             }
-            for(const [key, value] of Object.entries(pennsieveCompletes)) {
+            for await(const [key, value] of Object.entries(pennsieveCompletes)) {
               if(pennsieveCompletes[key]["collection-id"] === collection_id) {
                 Object.assign(pennsieveCompletes[key], value_of);
               }
@@ -491,15 +498,17 @@ function verifyCompletedUploads(count) {
       }
       
       //console.log(pennsieveArr);
-      //console.log(pennsieveCompletes);
+      console.log(pennsieveCompletes);
       console.log("end of function");
+      return;
     }
   });
+
 }
 
 
 //count just surface folders to 
-function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
+async function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
   fileCount = file_count;
   folderCount = folder_count;
   if ("files" in datasetfolder) {
@@ -521,7 +530,8 @@ function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
   return [fileCount, folderCount];
 }
 
-function checkAutosaveJSON() {
+//maybe entire function needs to be created into a promises
+async function checkAutosaveJSON() {
   //pulled from progressFileParse
   //this should pull in the autosave onto datasetStructureJSON/sodaJSONOBJ
   let fileName = "autosave.json";
@@ -531,10 +541,13 @@ function checkAutosaveJSON() {
   let numberofFolders = 0;
   console.log(filePath);
   try {
+    //make into promise?
     let content = fs.readFileSync(filePath);
     jsonContent = JSON.parse(content);
 
-    let values = getNumberFilesandFolders(
+
+    //make into promise
+    let values = await getNumberFilesandFolders(
       jsonContent["dataset-structure"],
       numberOfFiles,
       numberofFolders
@@ -560,13 +573,11 @@ function checkAutosaveJSON() {
     } else {
       console.log("does not have manifest-files: generate-datset property");
     }
-    let verifyCompletes_promise = new Promise ((resolved, rejected) => {
-      resolved(verifyCompletedUploads(numberOfFiles));
-    }).then(() => {
-      console.log("this is verifyCompletes");
-      console.log(pennsieveCompletes.length);
-      return jsonContent;
-    })
+    await verifyCompletedUploads(numberOfFiles);
+    console.log("second layer of promise");
+    console.log("this is verifyCompletes");
+    //console.log(pennsieveCompletes.length);
+    return jsonContent;
 
     //return jsonContent;
   } catch (error) {
