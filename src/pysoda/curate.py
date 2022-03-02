@@ -3154,7 +3154,7 @@ def bf_generate_new_dataset(soda_json_structure, bf, ds):
             agent_running()
 
             BUCKET_SIZE = 500
-            
+
             # determine if the current folder's files exceeds 750 (past 750 is a breaking point atm)
             # if so proceed to batch uploading
             if len(list_upload) > BUCKET_SIZE:
