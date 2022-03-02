@@ -3497,21 +3497,25 @@ document
     showParentTab(currentTab, 1);
   });
 
+
+var JSON_content = {};
 document
   .getElementById("organize_dataset_btn")
   .addEventListener("click", async () => {
-    var JSON_content;
     //when user wants to organize a dataset let's check the last completed files and compare it to the most recent autosave
     //list should be equal to show that no error occured
     //if not prompt if they would like to resume that upload
 
     //promise is created here for awaiting result on checkAutosaveJSON
+    JSON_content = {};
     JSON_content = await checkAutosaveJSON();
+    //what will return here is an updated version
+    //if some files failed then 
   
     console.log(JSON_content);
     console.log(pennsieveCompletes);
     console.log("then function first layer");
-    //compareAutosave(JSON_content, pennsieveCompletes);
+    
 
     //compareAutosave(JSON_content, pennsieveCompletes)
     //verifyCompletedUploads()

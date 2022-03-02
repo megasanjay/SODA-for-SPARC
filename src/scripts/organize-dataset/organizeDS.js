@@ -419,9 +419,12 @@ async function verifyCompletedUploads(count) {
   let datasetID = "";
   pennsieveCompletes = {};
   pennsieveArr = [];
-  console.log("entering client invoke async");
+  console.log("entering promise");
   //create a new promise here
-  client.invoke("api_upload_verify", count, async (error, res) => {
+  let firstPromise = new Promise((resolved, rejected) => {
+    console.log("does anything run here");
+    //insert client invoke here
+    client.invoke("api_upload_verify", count, async (error, res) => {
     if (error) {
       console.log(error);
       reject(error);
@@ -432,10 +435,11 @@ async function verifyCompletedUploads(count) {
       res.splice(0, 10);
       res.splice(res.length, 1);
 
-      let i = 0;
-      let j = 1;
-      let x = 3;
-      let y = 4;
+      datasetID = res[3].trim();
+      let i = 0;  //id
+      let j = 1;  //file path
+      let x = 3;  //dataset
+      let y = 4;  //collection
       //console.log(res);
       for(let u = 0; i < res.length; u += 9) {
         //console.log(u);
@@ -467,43 +471,46 @@ async function verifyCompletedUploads(count) {
         j += 9;
         x += 9;
         y += 9;
-        if(res[x] === undefined) {
-          x -= 9;
-          datasetID = res[x].trim();
-        }
       }
-      for await(let i of pennsieveArr) {
-        console.log("third layer");
-        await client.invoke("api_collection_check", datasetID, pennsieveArr[i], async (error, res) => {
-          if(error) {
-            console.log(error);
-          } else {
-            console.log("going through res in final layer")
-            res = res.split("|");
-            let collection_name = res[5].trim();
-            let collection_id = res[6].trim()
-            let value_of = {
-              "collection-name": collection_name
-            }
-            for await(const [key, value] of Object.entries(pennsieveCompletes)) {
-              if(pennsieveCompletes[key]["collection-id"] === collection_id) {
-                Object.assign(pennsieveCompletes[key], value_of);
-              }
-            }
-            //res.splice(0, 14);
-            //console.log(dataset_name);
-            //res.splice(res.length, 1);
-          }
-        });
-      }
-      
-      //console.log(pennsieveArr);
-      console.log(pennsieveCompletes);
-      console.log("end of function");
-      return;
+      console.log("checking collection array here");
+      console.log(pennsieveArr);
+      //resolved();
     }
   });
+  });
 
+
+  firstPromise.then(() => {
+    console.log(pennsieveArr);
+    console.log(datasetID);
+    console.log("after first promise then()")
+    for(let collection of pennsieveArr) {
+    client.invoke("api_collection_check", datasetID, collection, async (error, res) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log("going through res in final layer")
+        res = res.split("|");
+        let collection_name = res[5].trim();
+        let collection_id = res[6].trim()
+        let value_of = {
+          "collection-name": collection_name
+        }
+        for(const [key, value] of Object.entries(pennsieveCompletes)) {
+          if(pennsieveCompletes[key]["collection-id"] === collection_id) {
+            Object.assign(pennsieveCompletes[key], value_of);
+          }
+        }
+        //res.splice(0, 14);
+        //console.log(dataset_name);
+        //res.splice(res.length, 1);
+        resolved();
+      }
+    });
+  }
+  console.log(pennsieveCompletes);
+  //resolved();
+  });
 }
 
 
