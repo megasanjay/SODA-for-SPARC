@@ -312,7 +312,7 @@ ipcMain.on("app_version", (event) => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
 
-autoUpdater.on("update-available", () => {
+/*autoUpdater.on("update-available", () => {
   log.info("update_available");
   mainWindow.webContents.send("update_available");
 });
@@ -320,12 +320,12 @@ autoUpdater.on("update-available", () => {
 autoUpdater.on("update-downloaded", () => {
   log.info("update_downloaded");
   mainWindow.webContents.send("update_downloaded");
-});
+});*/
 
 ipcMain.on("restart_app", () => {
   user_restart_confirmed = true;
   log.info("quitAndInstall");
-  autoUpdater.quitAndInstall();
+  //autoUpdater.quitAndInstall();
 });
 
 const wait = async (delay) => {
