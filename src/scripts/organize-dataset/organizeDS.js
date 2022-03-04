@@ -412,6 +412,7 @@ function uploadCheck() {
 
 
 async function verifyCompletedUploads(count) {
+  //THIS FUNCTION IS NO LONGER NECESSARY
   //need to store properly to compare with json file
   //need to create a function to recursively go through a collection until there are no more
   //that will create a full file path that is on pennsieve
@@ -419,7 +420,6 @@ async function verifyCompletedUploads(count) {
   let datasetID = "";
   pennsieveCompletes = {};
   pennsieveArr = [];
-  console.log("entering promise");
   //create a new promise here
   let firstPromise = new Promise((resolved, rejected) => {
     console.log("does anything run here");
@@ -513,14 +513,12 @@ async function verifyCompletedUploads(count) {
   });
 }
 
-
 //count just surface folders to 
 async function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
   fileCount = file_count;
   folderCount = folder_count;
   if ("files" in datasetfolder) {
     for (let file in datasetfolder["files"]) {
-      //console.log(fileCount);
       fileCount += 1;
     }
   }
@@ -537,23 +535,17 @@ async function getNumberFilesandFolders(datasetfolder, file_count, folder_count)
   return [fileCount, folderCount];
 }
 
-//maybe entire function needs to be created into a promises
 async function checkAutosaveJSON() {
-  //pulled from progressFileParse
-  //this should pull in the autosave onto datasetStructureJSON/sodaJSONOBJ
   let fileName = "autosave.json";
   let filePath = path.join(progressFilePath, fileName);
   let jsonContent;
   let numberOfFiles = 0;
   let numberofFolders = 0;
-  console.log(filePath);
+
   try {
-    //make into promise?
     let content = fs.readFileSync(filePath);
     jsonContent = JSON.parse(content);
 
-
-    //make into promise
     let values = await getNumberFilesandFolders(
       jsonContent["dataset-structure"],
       numberOfFiles,
@@ -562,6 +554,13 @@ async function checkAutosaveJSON() {
 
     numberOfFiles = values[0];
     numberofFolders = values[1];
+
+    //modify  for when a new dataset is created and make sure it wasn't already created during failure
+    //it will return an error if you try creating a new one with the same name
+    //bf-dataset-selected is the parameter we need to fill if not there
+    if(jsonContent.hasOwnProperty("bf-dataset-selected")) {
+      console.log("checking if bf-dataset-selected has been created\nlooks like it is");
+    }
 
     let mani_check = jsonContent["dataset-structure"]["files"];
     if(Object.keys(mani_check).length === 0) {
@@ -580,9 +579,7 @@ async function checkAutosaveJSON() {
     } else {
       console.log("does not have manifest-files: generate-datset property");
     }
-    await verifyCompletedUploads(numberOfFiles);
-    console.log("second layer of promise");
-    console.log("this is verifyCompletes");
+    //await verifyCompletedUploads(numberOfFiles);
     //console.log(pennsieveCompletes.length);
     return jsonContent;
 
@@ -598,8 +595,80 @@ async function checkAutosaveJSON() {
 
 //function here will compare json_content and pennsievecompletes and remove what is already been uploaded
 function compareAutosave(autosave, pennsieve_completes) {
-  console.log(autosave);
-  console.log(pennsieve_completes);
+  let metadata_check = compareKeys(autosave["metadata-files"], pennsieve_completes["metadata-files"]);
+  recursivelyCompareObjects(JSON_content["dataset-structure"], retrieved_files["dataset-structure"]);
+  if(metadata_check === true) {
+    autosave["metadata-files"] = {};
+  }
+}
+
+function recursivelyCompareObjects(datasetfolder, retrieved_object) {
+  //not checking all files
+  //fileCount = file_count;
+  //folderCount = folder_count;
+  //console.log(datasetfolder);
+  if ("files" in datasetfolder) {
+    let result = compareKeys(datasetfolder["files"], retrieved_object["files"]);
+    console.log(result);
+    if(result === true) {
+      delete datasetfolder["files"];
+      if(datasetfolder["folders"] === {}) {
+        //will this delete inner folder or outer?
+        console.log("deleting folder")
+        delete datasetfolder["folders"]
+      }
+    } else {
+      console.log("not a match");
+    }
+    console.log("file comparison")
+    console.log(result);
+    for (let file in datasetfolder["files"]) {
+      console.log("outputing file in datasetfolder['files']")
+      console.log(file);
+      //fileCount += 1;
+    }
+  }
+  if ("folders" in datasetfolder) {
+    let result = compareKeys(datasetfolder["folders"], retrieved_object["folders"])
+    console.log(result);
+    if(result === true) {
+      //delete datasetfolder["folders"];
+    }
+    console.log("folder comparison");
+    console.log(result);
+    for (let folder in datasetfolder["folders"]) {
+      console.log(folder);
+      console.log("this is when we output folder in datasetfolder['folders']");
+
+      //folderCount += 1;
+      recursivelyCompareObjects(
+        datasetfolder["folders"][folder],
+        retrieved_object["folders"][folder]
+      );
+    }
+  }
+}
+
+function compareKeys(a, b) {
+  //a is autosave
+  //b is pennsieve_dataset
+  var aKeys = Object.keys(a).sort();
+  var bKeys = Object.keys(b).sort();
+  if(aKeys.includes("manifest.xlsx")) {
+    aKeys.splice(aKeys.indexOf("manifest.xlsx"), 1);
+  }
+  console.log(aKeys);
+  console.log(bKeys);
+  console.log(JSON.stringify(aKeys) === JSON.stringify(bKeys));
+  let keyComparison = JSON.stringify(aKeys) === JSON.stringify(bKeys)
+  if(keyComparison === true) {
+    delete a;
+    console.log(a);
+  }
+  return keyComparison;
+
+  //what do when returns false?
+  //need to store the instances they are false and be able to go back to those instances
 }
 
 // helper function to rename files/folders

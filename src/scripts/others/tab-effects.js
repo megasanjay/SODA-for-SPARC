@@ -1809,6 +1809,8 @@ async function transitionSubQuestionsButton(
     var result;
     try {
       var res = await bf_request_and_populate_dataset(sodaJSONObj);
+      console.log(res);
+      console.log(sodaJSONObj);
       result = [true, res];
     } catch (err) {
       result = [false, err];
@@ -3499,33 +3501,62 @@ document
 
 
 var JSON_content = {};
+var retrieved_files = {};
 document
   .getElementById("organize_dataset_btn")
   .addEventListener("click", async () => {
+    JSON_content = {};
+    retrieved_files = {};
     //when user wants to organize a dataset let's check the last completed files and compare it to the most recent autosave
     //list should be equal to show that no error occured
     //if not prompt if they would like to resume that upload
 
     //promise is created here for awaiting result on checkAutosaveJSON
-    JSON_content = {};
-    JSON_content = await checkAutosaveJSON();
-    //what will return here is an updated version
-    //if some files failed then 
-  
-    console.log(JSON_content);
-    console.log(pennsieveCompletes);
-    console.log("then function first layer");
-    
-
-    //compareAutosave(JSON_content, pennsieveCompletes)
-    //verifyCompletedUploads()
     $(".vertical-progress-bar").css("display", "flex");
     document.getElementById("generate-dataset-progress-tab").style.display =
       "none";
     $("#save-progress-btn").css("display", "none");
     $("#start-over-btn").css("display", "none");
     showParentTab(currentTab, 1);
+
+    JSON_content = await checkAutosaveJSON();
+    console.log("JSON_content has been retrieved and will now request uploaded data");
+    let retrieve_content = await new Promise((resolve, reject) => {
+    client.invoke(
+      "api_bf_get_dataset_files_folders",
+      JSON_content,
+      (error, res) => {
+        if (error) {
+          reject(userError(error));
+          log.error(error);
+          console.error(error);
+          ipcRenderer.send(
+            "track-event",
+            "Error",
+            "Retrieve Dataset - Pennsieve",
+            defaultBfDatasetId
+          );
+        } else {
+          resolve(res);
+          ipcRenderer.send(
+            "track-event",
+            "Success",
+            "Retrieve Dataset - Pennsieve",
+            defaultBfDatasetId
+          );
+        }
+      }
+    );
+  }).then((val) => {
+    console.log("before entering the key comparison");
+    retrieved_files = val[0];
+    compareAutosave(JSON_content, retrieved_files);
+    //JSON_content should be adjusted and files that are already uploaded will be removed
+    sodaJSONObj = JSON_content;
   });
+  //compareAutosave(JSON_content, retrieved_files);
+  //console.log("is anything happening after the promise?");
+});
 
 const hideNextDivs = (currentDiv) => {
   // make currentDiv current class
