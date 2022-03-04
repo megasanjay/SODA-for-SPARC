@@ -114,7 +114,7 @@ function initialize() {
 
     mainWindow.webContents.once("dom-ready", () => {
       if (updatechecked == false) {
-        autoUpdater.checkForUpdatesAndNotify();
+        // autoUpdater.checkForUpdatesAndNotify();
       }
     });
 
@@ -201,7 +201,7 @@ function initialize() {
           run_pre_flight_checks();
         }
         run_pre_flight_checks();
-        autoUpdater.checkForUpdatesAndNotify();
+        // autoUpdater.checkForUpdatesAndNotify();
         updatechecked = true;
       }, 6000);
     });
