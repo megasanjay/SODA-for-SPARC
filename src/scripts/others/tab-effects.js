@@ -3499,7 +3499,6 @@ document
     showParentTab(currentTab, 1);
   });
 
-
 var JSON_content = {};
 var retrieved_files = {};
 document
@@ -3520,43 +3519,45 @@ document
     showParentTab(currentTab, 1);
 
     JSON_content = await checkAutosaveJSON();
-    console.log("JSON_content has been retrieved and will now request uploaded data");
-    let retrieve_content = await new Promise((resolve, reject) => {
-    client.invoke(
-      "api_bf_get_dataset_files_folders",
-      JSON_content,
-      (error, res) => {
-        if (error) {
-          reject(userError(error));
-          log.error(error);
-          console.error(error);
-          ipcRenderer.send(
-            "track-event",
-            "Error",
-            "Retrieve Dataset - Pennsieve",
-            defaultBfDatasetId
-          );
-        } else {
-          resolve(res);
-          ipcRenderer.send(
-            "track-event",
-            "Success",
-            "Retrieve Dataset - Pennsieve",
-            defaultBfDatasetId
-          );
-        }
-      }
+    console.log(
+      "JSON_content has been retrieved and will now request uploaded data"
     );
-  }).then((val) => {
-    console.log("before entering the key comparison");
-    retrieved_files = val[0];
-    compareAutosave(JSON_content, retrieved_files);
-    //JSON_content should be adjusted and files that are already uploaded will be removed
-    sodaJSONObj = JSON_content;
+    let retrieve_content = await new Promise((resolve, reject) => {
+      client.invoke(
+        "api_bf_get_dataset_files_folders",
+        JSON_content,
+        (error, res) => {
+          if (error) {
+            reject(userError(error));
+            log.error(error);
+            console.error(error);
+            ipcRenderer.send(
+              "track-event",
+              "Error",
+              "Retrieve Dataset - Pennsieve",
+              defaultBfDatasetId
+            );
+          } else {
+            resolve(res);
+            ipcRenderer.send(
+              "track-event",
+              "Success",
+              "Retrieve Dataset - Pennsieve",
+              defaultBfDatasetId
+            );
+          }
+        }
+      );
+    }).then((val) => {
+      console.log("before entering the key comparison");
+      retrieved_files = val[0];
+      compareAutosave(JSON_content, retrieved_files);
+      //JSON_content should be adjusted and files that are already uploaded will be removed
+      sodaJSONObj = JSON_content;
+    });
+    //compareAutosave(JSON_content, retrieved_files);
+    //console.log("is anything happening after the promise?");
   });
-  //compareAutosave(JSON_content, retrieved_files);
-  //console.log("is anything happening after the promise?");
-});
 
 const hideNextDivs = (currentDiv) => {
   // make currentDiv current class
@@ -3625,7 +3626,7 @@ const saveSODAJSONProgress = (progressFileName) => {
 //create autosave progress based off function below
 //autosave needs to clear previous autosave and store new content
 function autosaveProgress() {
-  let progressFileName = "autosave"
+  let progressFileName = "autosave";
   try {
     fs.mkdirSync(progressFilePath, { recursive: true });
   } catch (error) {
@@ -3635,11 +3636,11 @@ function autosaveProgress() {
   var filePath = path.join(progressFilePath, progressFileName + ".json");
   //check if autosave exists, if so delete to create new one
   console.log(filePath);
-  let autosave_check = fs.exists(filePath)
-  if(autosave_check === true) {
+  let autosave_check = fs.exists(filePath);
+  if (autosave_check === true) {
     console.log("deleting previous autosave");
     fs.unlinkSync(filePath);
-      // record all information listed in SODA JSON Object before saving
+    // record all information listed in SODA JSON Object before saving
     updateJSONObjectProgress();
   } else {
     console.log("no autosave was found");

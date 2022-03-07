@@ -410,7 +410,6 @@ function uploadCheck() {
   return idCount.length;
 }
 
-
 async function verifyCompletedUploads(count) {
   //THIS FUNCTION IS NO LONGER NECESSARY
   //need to store properly to compare with json file
@@ -425,96 +424,104 @@ async function verifyCompletedUploads(count) {
     console.log("does anything run here");
     //insert client invoke here
     client.invoke("api_upload_verify", count, async (error, res) => {
-    if (error) {
-      console.log(error);
-      reject(error);
-    } else {
-      //need to have it await for response handling
-      console.log("does it return to layer one here?");
-      res = res.split("|");
-      res.splice(0, 10);
-      res.splice(res.length, 1);
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        //need to have it await for response handling
+        console.log("does it return to layer one here?");
+        res = res.split("|");
+        res.splice(0, 10);
+        res.splice(res.length, 1);
 
-      datasetID = res[3].trim();
-      let i = 0;  //id
-      let j = 1;  //file path
-      let x = 3;  //dataset
-      let y = 4;  //collection
-      //console.log(res);
-      for(let u = 0; i < res.length; u += 9) {
-        //console.log(u);
-        let lastSlash = res[j].lastIndexOf("\\") + 1;
-        
-        if (lastSlash === 0) {
-          //in case it's on mac
-          lastSlash = res[j].lastIndexOf("/") + 1;
-        }
-        let fileName = res[j].substring(lastSlash, res[j].length - 1);
-        //check for collection name and dataset here
+        datasetID = res[3].trim();
+        let i = 0; //id
+        let j = 1; //file path
+        let x = 3; //dataset
+        let y = 4; //collection
+        //console.log(res);
+        for (let u = 0; i < res.length; u += 9) {
+          //console.log(u);
+          let lastSlash = res[j].lastIndexOf("\\") + 1;
 
-        pennsieveCompletes[res[i].trim()] = {
-          "file-name": fileName.trim(),
-          "file-path": res[j].trim(),
-          "dataset-id": res[x].trim(),
-          "collection-id": res[y].trim(),
-        }
-
-        //pennsieveArr.push(res[i]);  //id
-        //pennsieveArr.push(res[j]);  //file path
-        //pennsieveArr.push(res[x]);  //dataset
-        if(res[y].trim() != "N/A") {
-          if(!pennsieveArr.includes(res[y].trim())) {
-            pennsieveArr.push(res[y].trim())
+          if (lastSlash === 0) {
+            //in case it's on mac
+            lastSlash = res[j].lastIndexOf("/") + 1;
           }
-        }
-        i += 9;
-        j += 9;
-        x += 9;
-        y += 9;
-      }
-      console.log("checking collection array here");
-      console.log(pennsieveArr);
-      //resolved();
-    }
-  });
-  });
+          let fileName = res[j].substring(lastSlash, res[j].length - 1);
+          //check for collection name and dataset here
 
+          pennsieveCompletes[res[i].trim()] = {
+            "file-name": fileName.trim(),
+            "file-path": res[j].trim(),
+            "dataset-id": res[x].trim(),
+            "collection-id": res[y].trim(),
+          };
+
+          //pennsieveArr.push(res[i]);  //id
+          //pennsieveArr.push(res[j]);  //file path
+          //pennsieveArr.push(res[x]);  //dataset
+          if (res[y].trim() != "N/A") {
+            if (!pennsieveArr.includes(res[y].trim())) {
+              pennsieveArr.push(res[y].trim());
+            }
+          }
+          i += 9;
+          j += 9;
+          x += 9;
+          y += 9;
+        }
+        console.log("checking collection array here");
+        console.log(pennsieveArr);
+        //resolved();
+      }
+    });
+  });
 
   firstPromise.then(() => {
     console.log(pennsieveArr);
     console.log(datasetID);
-    console.log("after first promise then()")
-    for(let collection of pennsieveArr) {
-    client.invoke("api_collection_check", datasetID, collection, async (error, res) => {
-      if(error) {
-        console.log(error);
-      } else {
-        console.log("going through res in final layer")
-        res = res.split("|");
-        let collection_name = res[5].trim();
-        let collection_id = res[6].trim()
-        let value_of = {
-          "collection-name": collection_name
-        }
-        for(const [key, value] of Object.entries(pennsieveCompletes)) {
-          if(pennsieveCompletes[key]["collection-id"] === collection_id) {
-            Object.assign(pennsieveCompletes[key], value_of);
+    console.log("after first promise then()");
+    for (let collection of pennsieveArr) {
+      client.invoke(
+        "api_collection_check",
+        datasetID,
+        collection,
+        async (error, res) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("going through res in final layer");
+            res = res.split("|");
+            let collection_name = res[5].trim();
+            let collection_id = res[6].trim();
+            let value_of = {
+              "collection-name": collection_name,
+            };
+            for (const [key, value] of Object.entries(pennsieveCompletes)) {
+              if (pennsieveCompletes[key]["collection-id"] === collection_id) {
+                Object.assign(pennsieveCompletes[key], value_of);
+              }
+            }
+            //res.splice(0, 14);
+            //console.log(dataset_name);
+            //res.splice(res.length, 1);
+            resolved();
           }
         }
-        //res.splice(0, 14);
-        //console.log(dataset_name);
-        //res.splice(res.length, 1);
-        resolved();
-      }
-    });
-  }
-  console.log(pennsieveCompletes);
-  //resolved();
+      );
+    }
+    console.log(pennsieveCompletes);
+    //resolved();
   });
 }
 
-//count just surface folders to 
-async function getNumberFilesandFolders(datasetfolder, file_count, folder_count) {
+//count just surface folders to
+async function getNumberFilesandFolders(
+  datasetfolder,
+  file_count,
+  folder_count
+) {
   fileCount = file_count;
   folderCount = folder_count;
   if ("files" in datasetfolder) {
@@ -558,22 +565,26 @@ async function checkAutosaveJSON() {
     //modify  for when a new dataset is created and make sure it wasn't already created during failure
     //it will return an error if you try creating a new one with the same name
     //bf-dataset-selected is the parameter we need to fill if not there
-    if(jsonContent.hasOwnProperty("bf-dataset-selected")) {
-      console.log("checking if bf-dataset-selected has been created\nlooks like it is");
+    if (jsonContent.hasOwnProperty("bf-dataset-selected")) {
+      console.log(
+        "checking if bf-dataset-selected has been created\nlooks like it is"
+      );
     }
 
     let mani_check = jsonContent["dataset-structure"]["files"];
-    if(Object.keys(mani_check).length === 0) {
+    if (Object.keys(mani_check).length === 0) {
       //check manifest files
-      if(jsonContent.hasOwnProperty("metadata-files")) {
-        let mani_value = Object.keys(jsonContent["metadata-files"]).length
+      if (jsonContent.hasOwnProperty("metadata-files")) {
+        let mani_value = Object.keys(jsonContent["metadata-files"]).length;
         numberOfFiles += mani_value;
       }
     }
 
     if (jsonContent.hasOwnProperty("manifest-files")) {
       if (jsonContent["manifest-files"]["destination"] === "generate-dataset") {
-        let surface_files = Object.keys(jsonContent["dataset-structure"]["folders"])
+        let surface_files = Object.keys(
+          jsonContent["dataset-structure"]["folders"]
+        );
         numberOfFiles = numberOfFiles + surface_files.length;
       }
     } else {
@@ -595,9 +606,15 @@ async function checkAutosaveJSON() {
 
 //function here will compare json_content and pennsievecompletes and remove what is already been uploaded
 function compareAutosave(autosave, pennsieve_completes) {
-  let metadata_check = compareKeys(autosave["metadata-files"], pennsieve_completes["metadata-files"]);
-  recursivelyCompareObjects(JSON_content["dataset-structure"], retrieved_files["dataset-structure"]);
-  if(metadata_check === true) {
+  let metadata_check = compareKeys(
+    autosave["metadata-files"],
+    pennsieve_completes["metadata-files"]
+  );
+  recursivelyCompareObjects(
+    JSON_content["dataset-structure"],
+    retrieved_files["dataset-structure"]
+  );
+  if (metadata_check === true) {
     autosave["metadata-files"] = {};
   }
 }
@@ -610,28 +627,31 @@ function recursivelyCompareObjects(datasetfolder, retrieved_object) {
   if ("files" in datasetfolder) {
     let result = compareKeys(datasetfolder["files"], retrieved_object["files"]);
     console.log(result);
-    if(result === true) {
+    if (result === true) {
       delete datasetfolder["files"];
-      if(datasetfolder["folders"] === {}) {
+      if (datasetfolder["folders"] === {}) {
         //will this delete inner folder or outer?
-        console.log("deleting folder")
-        delete datasetfolder["folders"]
+        console.log("deleting folder");
+        delete datasetfolder["folders"];
       }
     } else {
       console.log("not a match");
     }
-    console.log("file comparison")
+    console.log("file comparison");
     console.log(result);
     for (let file in datasetfolder["files"]) {
-      console.log("outputing file in datasetfolder['files']")
+      console.log("outputing file in datasetfolder['files']");
       console.log(file);
       //fileCount += 1;
     }
   }
   if ("folders" in datasetfolder) {
-    let result = compareKeys(datasetfolder["folders"], retrieved_object["folders"])
+    let result = compareKeys(
+      datasetfolder["folders"],
+      retrieved_object["folders"]
+    );
     console.log(result);
-    if(result === true) {
+    if (result === true) {
       //delete datasetfolder["folders"];
     }
     console.log("folder comparison");
@@ -654,14 +674,14 @@ function compareKeys(a, b) {
   //b is pennsieve_dataset
   var aKeys = Object.keys(a).sort();
   var bKeys = Object.keys(b).sort();
-  if(aKeys.includes("manifest.xlsx")) {
+  if (aKeys.includes("manifest.xlsx")) {
     aKeys.splice(aKeys.indexOf("manifest.xlsx"), 1);
   }
   console.log(aKeys);
   console.log(bKeys);
   console.log(JSON.stringify(aKeys) === JSON.stringify(bKeys));
-  let keyComparison = JSON.stringify(aKeys) === JSON.stringify(bKeys)
-  if(keyComparison === true) {
+  let keyComparison = JSON.stringify(aKeys) === JSON.stringify(bKeys);
+  if (keyComparison === true) {
     delete a;
     console.log(a);
   }
