@@ -3553,7 +3553,27 @@ document
       retrieved_files = val[0];
       compareAutosave(JSON_content, retrieved_files);
       //JSON_content should be adjusted and files that are already uploaded will be removed
-      sodaJSONObj = JSON_content;
+      if(JSON_content["dataset-structure"] != {}) {
+        console.log("dataset-structure is not empty");
+        sodaJSONObj = JSON_content;
+        Swal.fire({
+          title: "An incomplete upload was found",
+          text: `Some items didn't make it to Pennsieve on your last dataset. Would you like to finish upload?`,
+          heightAuto: false,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+          backdrop: "rgba(0,0,0, 0.4)",
+          allowOutsideClick: false,
+          showClass: {
+            popup: "animate__animated animate__fadeInDown animate__faster",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp animate__faster",
+          },
+        })
+      }
     });
     //compareAutosave(JSON_content, retrieved_files);
     //console.log("is anything happening after the promise?");

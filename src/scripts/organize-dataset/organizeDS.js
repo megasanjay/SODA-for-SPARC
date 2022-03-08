@@ -410,112 +410,6 @@ function uploadCheck() {
   return idCount.length;
 }
 
-async function verifyCompletedUploads(count) {
-  //THIS FUNCTION IS NO LONGER NECESSARY
-  //need to store properly to compare with json file
-  //need to create a function to recursively go through a collection until there are no more
-  //that will create a full file path that is on pennsieve
-
-  let datasetID = "";
-  pennsieveCompletes = {};
-  pennsieveArr = [];
-  //create a new promise here
-  let firstPromise = new Promise((resolved, rejected) => {
-    console.log("does anything run here");
-    //insert client invoke here
-    client.invoke("api_upload_verify", count, async (error, res) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else {
-        //need to have it await for response handling
-        console.log("does it return to layer one here?");
-        res = res.split("|");
-        res.splice(0, 10);
-        res.splice(res.length, 1);
-
-        datasetID = res[3].trim();
-        let i = 0; //id
-        let j = 1; //file path
-        let x = 3; //dataset
-        let y = 4; //collection
-        //console.log(res);
-        for (let u = 0; i < res.length; u += 9) {
-          //console.log(u);
-          let lastSlash = res[j].lastIndexOf("\\") + 1;
-
-          if (lastSlash === 0) {
-            //in case it's on mac
-            lastSlash = res[j].lastIndexOf("/") + 1;
-          }
-          let fileName = res[j].substring(lastSlash, res[j].length - 1);
-          //check for collection name and dataset here
-
-          pennsieveCompletes[res[i].trim()] = {
-            "file-name": fileName.trim(),
-            "file-path": res[j].trim(),
-            "dataset-id": res[x].trim(),
-            "collection-id": res[y].trim(),
-          };
-
-          //pennsieveArr.push(res[i]);  //id
-          //pennsieveArr.push(res[j]);  //file path
-          //pennsieveArr.push(res[x]);  //dataset
-          if (res[y].trim() != "N/A") {
-            if (!pennsieveArr.includes(res[y].trim())) {
-              pennsieveArr.push(res[y].trim());
-            }
-          }
-          i += 9;
-          j += 9;
-          x += 9;
-          y += 9;
-        }
-        console.log("checking collection array here");
-        console.log(pennsieveArr);
-        //resolved();
-      }
-    });
-  });
-
-  firstPromise.then(() => {
-    console.log(pennsieveArr);
-    console.log(datasetID);
-    console.log("after first promise then()");
-    for (let collection of pennsieveArr) {
-      client.invoke(
-        "api_collection_check",
-        datasetID,
-        collection,
-        async (error, res) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log("going through res in final layer");
-            res = res.split("|");
-            let collection_name = res[5].trim();
-            let collection_id = res[6].trim();
-            let value_of = {
-              "collection-name": collection_name,
-            };
-            for (const [key, value] of Object.entries(pennsieveCompletes)) {
-              if (pennsieveCompletes[key]["collection-id"] === collection_id) {
-                Object.assign(pennsieveCompletes[key], value_of);
-              }
-            }
-            //res.splice(0, 14);
-            //console.log(dataset_name);
-            //res.splice(res.length, 1);
-            resolved();
-          }
-        }
-      );
-    }
-    console.log(pennsieveCompletes);
-    //resolved();
-  });
-}
-
 //count just surface folders to
 async function getNumberFilesandFolders(
   datasetfolder,
@@ -606,67 +500,109 @@ async function checkAutosaveJSON() {
 
 //function here will compare json_content and pennsievecompletes and remove what is already been uploaded
 function compareAutosave(autosave, pennsieve_completes) {
-  let metadata_check = compareKeys(
-    autosave["metadata-files"],
-    pennsieve_completes["metadata-files"]
-  );
-  recursivelyCompareObjects(
+  if(autosave.hasOwnProperty("metadata-files")) {
+    console.log("metadata files exists");
+    let metadata_check = compareKeys(
+      autosave["metadata-files"],
+      pennsieve_completes["metadata-files"]
+    );
+    if (metadata_check === true) {
+      //if metadata-files exist and match pennsieve then delete
+      delete JSON_content["metadata-files"];
+      console.log("deleting metadata-files");
+    } else {
+      //one of the files in here aren't in pennsieve
+    }
+  }
+
+  //now iterate through dataset-structure
+  let dataset_structure = recursivelyCompareObjects(
     JSON_content["dataset-structure"],
     retrieved_files["dataset-structure"]
   );
-  if (metadata_check === true) {
-    autosave["metadata-files"] = {};
-  }
+  console.log(dataset_structure);
 }
 
-function recursivelyCompareObjects(datasetfolder, retrieved_object) {
-  //not checking all files
-  //fileCount = file_count;
-  //folderCount = folder_count;
-  //console.log(datasetfolder);
-  if ("files" in datasetfolder) {
-    let result = compareKeys(datasetfolder["files"], retrieved_object["files"]);
-    console.log(result);
+function recursivelyCompareObjects(autosave, retrieved_object) {
+  //iterate through json object and compare if they are equal
+  //if equal remove from autosave and leave only ones that have not matching retrieved_object
+  console.log(autosave);
+  if (autosave.hasOwnProperty("files")) {
+    //comparing file keys below
+    let result = compareKeys(autosave["files"], retrieved_object["files"]);
     if (result === true) {
-      delete datasetfolder["files"];
-      if (datasetfolder["folders"] === {}) {
-        //will this delete inner folder or outer?
-        console.log("deleting folder");
-        delete datasetfolder["folders"];
+      //all files match so delete values and key
+      delete autosave["files"];
+      if(Object.values(autosave["folders"]).length === 0) {
+        console.log("empty .values")
+        delete autosave["folders"];
+      }
+      if(!autosave.hasOwnProperty("files")) {
+        if(!autosave.hasOwnProperty("folders")) {
+          //both files and folders have been deleted
+          //delete overall folder
+          delete autosave;
+        }
       }
     } else {
+      //some files aren't in pennsieve so need to remove the ones that are
+      //BUT keep the ones that aren't
       console.log("not a match");
     }
-    console.log("file comparison");
-    console.log(result);
-    for (let file in datasetfolder["files"]) {
-      console.log("outputing file in datasetfolder['files']");
-      console.log(file);
-      //fileCount += 1;
-    }
   }
-  if ("folders" in datasetfolder) {
-    let result = compareKeys(
-      datasetfolder["folders"],
-      retrieved_object["folders"]
-    );
-    console.log(result);
-    if (result === true) {
-      //delete datasetfolder["folders"];
-    }
-    console.log("folder comparison");
-    console.log(result);
-    for (let folder in datasetfolder["folders"]) {
-      console.log(folder);
-      console.log("this is when we output folder in datasetfolder['folders']");
-
-      //folderCount += 1;
-      recursivelyCompareObjects(
-        datasetfolder["folders"][folder],
-        retrieved_object["folders"][folder]
+  if (autosave.hasOwnProperty("folders")) {
+    let result;
+    //now check if folder values is 0 (no subfolders)
+    if (Object.values(autosave["folders"]).length === 0) {
+      //check if there are still any files that are being kept
+      if(autosave.hasOwnProperty("files")) {
+        if(Object.values(autosave["files"].length > 0)) {
+          delete autosave["folders"];
+        }
+      } else {
+        //delete the entire section        
+        console.log("deleting KEY");
+        console.log(autosave);
+        delete autosave;
+      }
+    } else {
+      result = compareKeys(
+        autosave["folders"],
+        retrieved_object["folders"]
       );
     }
+    //compareKey returns true then empty or has subfolders
+    if(result === true) {
+      if(Object.values(autosave["folders"]).length === 0) {
+        delete autosave["folders"];
+      } else {
+        //subfolders found and a match so go through each folder
+        for (let folder in autosave["folders"]) {
+          console.log(autosave["folders"][folder]);
+        
+          recursivelyCompareObjects(
+            autosave["folders"][folder],
+            retrieved_object["folders"][folder]
+          );
+          if(!autosave["folders"][folder].hasOwnProperty("files")) {
+            if(!autosave["folders"][folder].hasOwnProperty("folders")) {
+              //both files and folders have been deleted
+              //delete overall folder
+              delete autosave["folders"][folder];
+            }
+          }
+        }
+      }
+    } else {
+      //returned false meaning there are some folders that aren't in pennsieve
+      //need to find index of ones that aren't autosave and delete the rest
+      console.log("something FALSE");
+      console.log(autosave["folders"]);
+      console.log(retrieved_object["folders"]);
+    }
   }
+  console.log(autosave);
+  return autosave;
 }
 
 function compareKeys(a, b) {
@@ -681,10 +617,10 @@ function compareKeys(a, b) {
   console.log(bKeys);
   console.log(JSON.stringify(aKeys) === JSON.stringify(bKeys));
   let keyComparison = JSON.stringify(aKeys) === JSON.stringify(bKeys);
-  if (keyComparison === true) {
+  /*if (keyComparison === true) {
     delete a;
     console.log(a);
-  }
+  }*/
   return keyComparison;
 
   //what do when returns false?
