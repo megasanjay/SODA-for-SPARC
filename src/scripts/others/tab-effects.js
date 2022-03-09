@@ -7,7 +7,7 @@ var allParentStepsJSON = {
   "organize-dataset": "organize-dataset-tab",
   "metadata-files": "metadata-files-tab",
   "manifest-file": "manifest-file-tab",
-  "generate-dataset": "generate-dataset-tab",
+  "generate-dataset": "generate-dataset-tab"
 };
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -124,36 +124,35 @@ const showParentTab = (tabNow, nextOrPrev) => {
           steps: [
             {
               title: "Welcome",
-              intro:
-                "This is where you will organize your dataset for curation",
+              intro: "This is where you will organize your dataset for curation"
             },
             {
               title: "Expand folders",
               element: document.querySelector(".div-organize-items"),
-              intro: "Double click on any of the folders to expand them.",
+              intro: "Double click on any of the folders to expand them."
             },
             {
               title: "More options",
               element: document.querySelector(".single-item"),
               intro:
-                "You can rename, delete and move folders and files by right clicking here.",
+                "You can rename, delete and move folders and files by right clicking here."
             },
             {
               title: "Manifest info",
               element: document.querySelector(".single-item"),
               intro:
-                "You can also add descriptions to your manifest file by clicking the 'More details' options after right click.",
+                "You can also add descriptions to your manifest file by clicking the 'More details' options after right click."
             },
             {
               title: "Adding metadata",
               element: document.querySelector("#nextBtn"),
               intro:
-                "Click here after you are done organizing to add your metadata files to this dataset.",
-            },
+                "Click here after you are done organizing to add your metadata files to this dataset."
+            }
           ],
           exitOnEsc: false,
           exitOnOverlayClick: false,
-          disableInteraction: false,
+          disableInteraction: false
         })
         .onbeforeexit(function () {
           introStatus.organizeStep3 = true;
@@ -464,7 +463,7 @@ const traverse_back = (amount, element = "", pulse_animation = false) => {
     setTimeout(() => {
       document.getElementById(element).scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "center"
       });
       if (pulse_animation == true) {
         $(`#${element}`).addClass("pulse-blue");
@@ -554,8 +553,8 @@ const nextPrev = (n) => {
   if (n == -1 && x[currentTab].id === "getting-started-tab") {
     let event = new CustomEvent("custom-back", {
       detail: {
-        target: { dataset: { section: "main_tabs" }, classList: ["someclass"] },
-      },
+        target: { dataset: { section: "main_tabs" }, classList: ["someclass"] }
+      }
     });
     // $("#sidebarCollapse").click();
     // forceActionSidebar("show");
@@ -613,11 +612,11 @@ const nextPrev = (n) => {
       backdrop: "rgba(0,0,0, 0.4)",
       reverseButtons: reverseSwalButtons,
       showClass: {
-        popup: "animate__animated animate__zoomIn animate__faster",
+        popup: "animate__animated animate__zoomIn animate__faster"
       },
       hideClass: {
-        popup: "animate__animated animate__zoomOut animate__faster",
-      },
+        popup: "animate__animated animate__zoomOut animate__faster"
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         $(x[currentTab]).removeClass("tab-active");
@@ -674,11 +673,11 @@ const nextPrev = (n) => {
         customClass: "swal-wide",
         backdrop: "rgba(0,0,0, 0.4)",
         showClass: {
-          popup: "animate__animated animate__zoomIn animate__faster",
+          popup: "animate__animated animate__zoomIn animate__faster"
         },
         hideClass: {
-          popup: "animate__animated animate__zoomOut animate__faster",
-        },
+          popup: "animate__animated animate__zoomOut animate__faster"
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           // Hide the current tab:
@@ -827,7 +826,7 @@ function showSubTab(section, tab, input) {
       "div-samples-metadata-file",
       "div-changes-metadata-file",
       "div-readme-metadata-file",
-      "div-manifest-metadata-file",
+      "div-manifest-metadata-file"
     ];
   }
   var inActiveTabArray = tabArray.filter((element) => {
@@ -910,11 +909,11 @@ const raiseWarningGettingStarted = (ev) => {
         heightAuto: false,
         backdrop: "rgba(0,0,0, 0.4)",
         showClass: {
-          popup: "animate__animated animate__zoomIn animate__faster",
+          popup: "animate__animated animate__zoomIn animate__faster"
         },
         hideClass: {
-          popup: "animate__animated animate__zoomOut animate__faster",
-        },
+          popup: "animate__animated animate__zoomOut animate__faster"
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           globalGettingStarted1stQuestionBool = true;
@@ -1161,7 +1160,7 @@ async function transitionSubQuestions(
         icon: "info",
         text: `The following local folder '${starting_point}' will be modified as instructed.`,
         heightAuto: false,
-        backdrop: "rgba(0,0,0, 0.4)",
+        backdrop: "rgba(0,0,0, 0.4)"
       });
       $("#para-continue-replace-local-generate").show();
       $("#para-continue-replace-local-generate").text("Please continue below.");
@@ -1199,8 +1198,8 @@ async function transitionSubQuestions(
         "generate-dataset": {},
         "starting-point": {
           type: "local",
-          "local-path": "",
-        },
+          "local-path": ""
+        }
       };
       // reset the UI back to fresh new
       reset_ui();
@@ -1228,7 +1227,7 @@ const create_json_object = (action, sodaJSONObj, root_folder_path) => {
     "CHANGES.txt",
     "code_description.xlsx",
     "inputs_metadata.xlsx",
-    "outputs_metadata.xlsx",
+    "outputs_metadata.xlsx"
   ];
   sodaJSONObj["dataset-structure"] = { folders: {} };
   let stats = "";
@@ -1243,7 +1242,7 @@ const create_json_object = (action, sodaJSONObj, root_folder_path) => {
           files: {},
           path: full_current_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1256,7 +1255,7 @@ const create_json_object = (action, sodaJSONObj, root_folder_path) => {
         sodaJSONObj["metadata-files"][file] = {
           path: full_current_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1271,7 +1270,7 @@ const create_json_object = (action, sodaJSONObj, root_folder_path) => {
     if (fs.existsSync(temp_file_path_xlsx)) {
       sodaJSONObj["starting-point"][folder]["path"] = temp_file_path_xlsx;
       sodaJSONObj["starting-point"][folder]["manifest"] = excelToJson({
-        sourceFile: sodaJSONObj["starting-point"][folder]["path"],
+        sourceFile: sodaJSONObj["starting-point"][folder]["path"]
       })["Sheet1"];
     } else if (fs.existsSync(temp_file_path_csv)) {
       sodaJSONObj["starting-point"][folder]["path"] = temp_file_path_csv;
@@ -1311,7 +1310,7 @@ const create_json_object_include_manifest = (
     "CHANGES.txt",
     "code_description.xlsx",
     "inputs_metadata.xlsx",
-    "outputs_metadata.xlsx",
+    "outputs_metadata.xlsx"
   ];
   sodaJSONObj["dataset-structure"] = { folders: {} };
   let stats = "";
@@ -1326,7 +1325,7 @@ const create_json_object_include_manifest = (
           files: {},
           path: full_current_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1339,7 +1338,7 @@ const create_json_object_include_manifest = (
         sodaJSONObj["metadata-files"][file] = {
           path: full_current_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1410,7 +1409,7 @@ const recursive_structure_create = (
     timestamp: "",
     description: "",
     "file-type": "",
-    "additional-metadata": "",
+    "additional-metadata": ""
   };
   fs.readdirSync(current_folder_path).forEach((file) => {
     current_file_path = path.join(current_folder_path, file);
@@ -1513,7 +1512,7 @@ const recursive_structure_create = (
         type: "local",
         action: ["existing"],
         description: manifest_object["description"],
-        "additional-metadata": manifest_object["additional-metadata"],
+        "additional-metadata": manifest_object["additional-metadata"]
       };
       projected_file_name = check_file_name_for_pennsieve_duplicate(
         dataset_folder["files"],
@@ -1540,7 +1539,7 @@ const recursive_structure_create = (
             files: {},
             path: current_file_path,
             type: "local",
-            action: ["existing"],
+            action: ["existing"]
           };
           // file = renamedFolderName
         }
@@ -1550,7 +1549,7 @@ const recursive_structure_create = (
           files: {},
           path: current_file_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1579,7 +1578,7 @@ const recursive_structure_create_include_manifest = (
     timestamp: "",
     description: "",
     "file-type": "",
-    "additional-metadata": "",
+    "additional-metadata": ""
   };
   fs.readdirSync(current_folder_path).forEach((file) => {
     current_file_path = path.join(current_folder_path, file);
@@ -1681,7 +1680,7 @@ const recursive_structure_create_include_manifest = (
         type: "local",
         action: ["existing"],
         description: manifest_object["description"],
-        "additional-metadata": manifest_object["additional-metadata"],
+        "additional-metadata": manifest_object["additional-metadata"]
       };
       projected_file_name = check_file_name_for_pennsieve_duplicate(
         dataset_folder["files"],
@@ -1708,7 +1707,7 @@ const recursive_structure_create_include_manifest = (
             files: {},
             path: current_file_path,
             type: "local",
-            action: ["existing"],
+            action: ["existing"]
           };
           // file = renamedFolderName
         }
@@ -1718,7 +1717,7 @@ const recursive_structure_create_include_manifest = (
           files: {},
           path: current_file_path,
           type: "local",
-          action: ["existing"],
+          action: ["existing"]
         };
       }
     }
@@ -1744,7 +1743,7 @@ const verify_sparc_folder = (root_folder_path) => {
     "subjects",
     "samples",
     "README",
-    "CHANGES",
+    "CHANGES"
   ];
   valid_dataset = false;
   fs.readdirSync(root_folder_path).forEach((file) => {
@@ -1780,18 +1779,18 @@ async function transitionSubQuestionsButton(
     // $("#button-confirm-bf-dataset-getting-started").prop("disabled", true);
     sodaJSONObj = {
       "bf-account-selected": {
-        "account-name": {},
+        "account-name": {}
       },
       "bf-dataset-selected": {
-        "dataset-name": {},
+        "dataset-name": {}
       },
       "dataset-structure": {},
       "metadata-files": {},
       "manifest-files": {},
       "generate-dataset": {},
       "starting-point": {
-        type: "bf",
-      },
+        type: "bf"
+      }
     };
 
     sodaJSONObj["bf-account-selected"]["account-name"] = $(
@@ -1824,7 +1823,7 @@ async function transitionSubQuestionsButton(
           result[1] +
           ".<br>Please choose another dataset!</p>",
         heightAuto: false,
-        backdrop: "rgba(0,0,0, 0.4)",
+        backdrop: "rgba(0,0,0, 0.4)"
       });
       $("#nextBtn").prop("disabled", true);
       $("#para-continue-bf-dataset-getting-started").text("");
@@ -1874,11 +1873,11 @@ async function transitionSubQuestionsButton(
           backdrop: "rgba(0,0,0, 0.4)",
           reverseButtons: reverseSwalButtons,
           showClass: {
-            popup: "animate__animated animate__zoomIn animate__faster",
+            popup: "animate__animated animate__zoomIn animate__faster"
           },
           hideClass: {
-            popup: "animate__animated animate__zoomOut animate__faster",
-          },
+            popup: "animate__animated animate__zoomOut animate__faster"
+          }
         }).then((response) => {
           if (response.isConfirmed) {
             sodaJSONObj = result[1][0];
@@ -2024,8 +2023,8 @@ async function transitionSubQuestionsButton(
         "generate-dataset": {},
         "starting-point": {
           type: "local",
-          "local-path": "",
-        },
+          "local-path": ""
+        }
       };
 
       // this should run after a folder is selected
@@ -2278,7 +2277,7 @@ const switchMetadataRCImportBFQuestions = async (metadataRCFileType) => {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (!continueProgress) {
       return;
@@ -2303,7 +2302,7 @@ async function switchMetadataRCQuestion(metadataRCFileType) {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (continueProgress) {
       $(`#existing-${metadataRCFileType}-file-destination`).attr(
@@ -2343,7 +2342,7 @@ async function switchMetadataSubSamQuestions(metadataSubSamFile) {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (continueProgress) {
       $(`#existing-${metadataSubSamFile}-file-destination`).val("");
@@ -2402,7 +2401,7 @@ async function switchMetadataDDQuestion() {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (continueProgressDD) {
       $("#existing-dd-file-destination").val("");
@@ -2427,7 +2426,7 @@ async function switchMetadataSubmissionQuestion() {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (continueProgressSubmission) {
       $("#existing-submission-file-destination").val("");
@@ -2456,7 +2455,7 @@ async function switchMetadataManifestQuestion() {
       backdrop: "rgba(0,0,0, 0.4)",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      reverseButtons: reverseSwalButtons,
+      reverseButtons: reverseSwalButtons
     });
     if (continueProgressManifest) {
       $("#input-manifest-local-folder-dataset").val("");
@@ -2866,7 +2865,7 @@ const populateMetadataObject = (
       type: "local",
       action: ["new"],
       path: metadataFilePath,
-      destination: "generate-dataset",
+      destination: "generate-dataset"
     };
   } else {
     for (var key in object["metadata-files"]) {
@@ -2887,7 +2886,7 @@ const populateOrganizeDatasetUI = (currentLocation, datasetFolder) => {
     type: "local",
     folders: {},
     files: {},
-    action: ["existing"],
+    action: ["existing"]
   };
 
   var myitems = fs.readdirSync(datasetFolder);
@@ -2899,7 +2898,7 @@ const populateOrganizeDatasetUI = (currentLocation, datasetFolder) => {
         type: "local",
         folders: {},
         files: {},
-        action: ["existing"],
+        action: ["existing"]
       };
       populateJSONObjFolder(jsonObject["folders"][element], addedElement);
     } else if (statsObj.isFile()) {
@@ -2908,7 +2907,7 @@ const populateOrganizeDatasetUI = (currentLocation, datasetFolder) => {
         description: "",
         "additional-metadata": "",
         type: "local",
-        action: ["existing"],
+        action: ["existing"]
       };
     }
     var appendString =
@@ -2972,7 +2971,7 @@ const updateJSONStructureMetadataFiles = () => {
     "Please only import SPARC metadata files!",
     "",
     "Your SPARC metadata file must be in one of the formats listed above!",
-    "Your SPARC metadata file must be named and formatted exactly as listed above!",
+    "Your SPARC metadata file must be named and formatted exactly as listed above!"
   ];
 
   if (
@@ -3117,7 +3116,7 @@ const updateJSONStructureGenerate = (progress = false) => {
   if (sodaJSONObj["starting-point"]["type"] == "bf") {
     sodaJSONObj["generate-dataset"] = {
       destination: "bf",
-      "generate-option": "existing-bf",
+      "generate-option": "existing-bf"
     };
   }
   if (sodaJSONObj["starting-point"]["type"] == "local") {
@@ -3135,7 +3134,7 @@ const updateJSONStructureGenerate = (progress = false) => {
       path: localDestination,
       "dataset-name": newDatasetName,
       "if-existing": "merge",
-      "generate-option": "new",
+      "generate-option": "new"
     };
     // delete bf account and dataset keys
     if ("bf-account-selected" in sodaJSONObj) {
@@ -3164,7 +3163,7 @@ const updateJSONStructureGenerate = (progress = false) => {
           path: localDestination,
           "dataset-name": newDatasetName,
           "generate-option": "new",
-          "if-existing": "new",
+          "if-existing": "new"
         };
         // delete bf account and dataset keys
         if ("bf-account-selected" in sodaJSONObj) {
@@ -3178,7 +3177,7 @@ const updateJSONStructureGenerate = (progress = false) => {
       ) {
         sodaJSONObj["generate-dataset"] = {
           destination: "bf",
-          "generate-option": "new",
+          "generate-option": "new"
         };
         if ($("#current-bf-account-generate").text() !== "None") {
           if ("bf-account-selected" in sodaJSONObj) {
@@ -3187,7 +3186,7 @@ const updateJSONStructureGenerate = (progress = false) => {
             ).text();
           } else {
             sodaJSONObj["bf-account-selected"] = {
-              "account-name": $("#current-bf-account-generate").text(),
+              "account-name": $("#current-bf-account-generate").text()
             };
           }
         }
@@ -3249,7 +3248,7 @@ const updateJSONStructureGenerate = (progress = false) => {
                 ).text();
               } else {
                 sodaJSONObj["bf-dataset-selected"] = {
-                  "dataset-name": $("#current-bf-dataset-generate").text(),
+                  "dataset-name": $("#current-bf-dataset-generate").text()
                 };
               }
             }
@@ -3309,7 +3308,7 @@ const updateOverallJSONStructure = (id) => {
             folders: {},
             files: {},
             type: "",
-            action: [],
+            action: []
           };
         }
       }
@@ -3359,11 +3358,11 @@ function raiseWarningExit(message) {
       heightAuto: false,
       backdrop: "rgba(0,0,0, 0.4)",
       showClass: {
-        popup: "animate__animated animate__zoomIn animate__faster",
+        popup: "animate__animated animate__zoomIn animate__faster"
       },
       hideClass: {
-        popup: "animate__animated animate__zoomOut animate__faster",
-      },
+        popup: "animate__animated animate__zoomOut animate__faster"
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         generateExitButtonBool = true;
@@ -3423,7 +3422,7 @@ const wipeOutCurateProgress = () => {
   sodaJSONObj = {
     "starting-point": { type: "" },
     "dataset-structure": {},
-    "metadata-files": {},
+    "metadata-files": {}
   };
   // uncheck all radio buttons and checkboxes
   $("#organize-section").find(".option-card").removeClass("checked");
@@ -3522,59 +3521,129 @@ document
     console.log(
       "JSON_content has been retrieved and will now request uploaded data"
     );
-    let retrieve_content = await new Promise((resolve, reject) => {
-      client.invoke(
-        "api_bf_get_dataset_files_folders",
-        JSON_content,
-        (error, res) => {
-          if (error) {
-            reject(userError(error));
-            log.error(error);
-            console.error(error);
-            ipcRenderer.send(
-              "track-event",
-              "Error",
-              "Retrieve Dataset - Pennsieve",
-              defaultBfDatasetId
-            );
-          } else {
-            resolve(res);
-            ipcRenderer.send(
-              "track-event",
-              "Success",
-              "Retrieve Dataset - Pennsieve",
-              defaultBfDatasetId
-            );
+    console.log(JSON_content);
+    if(Object.keys(JSON_content).length != 0) {
+      let retrieve_content = await new Promise((resolve, reject) => {
+        client.invoke(
+          "api_bf_get_dataset_files_folders",
+          JSON_content,
+          (error, res) => {
+            if (error) {
+              reject(userError(error));
+              log.error(error);
+              console.error(error);
+              ipcRenderer.send(
+                "track-event",
+                "Error",
+                "Retrieve Dataset - Pennsieve",
+                defaultBfDatasetId
+              );
+            } else {
+              resolve(res);
+              ipcRenderer.send(
+                "track-event",
+                "Success",
+                "Retrieve Dataset - Pennsieve",
+                defaultBfDatasetId
+              );
+            }
           }
+        );
+      }).then((val) => {
+        console.log("before entering the key comparison");
+        retrieved_files = val[0];
+        JSON_content["dataset-structure"] = compareAutosave(
+          JSON_content,
+          retrieved_files
+        );
+        console.log(JSON_content);
+        //JSON_content should be adjusted and files that are already uploaded will be removed
+        console.log(
+          Object.values(JSON_content["dataset-structure"]["folders"]).length
+        );
+        if (
+          Object.values(JSON_content["dataset-structure"]["folders"]).length > 0
+        ) {
+          console.log("dataset-structure is not empty");
+          Swal.fire({
+            title: "An incomplete upload was found",
+            text: `Some items didn't make it to Pennsieve on your last dataset. Would you like to finish upload?`,
+            heightAuto: false,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            backdrop: "rgba(0,0,0, 0.4)",
+            allowOutsideClick: false,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown animate__faster"
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp animate__faster"
+            }
+          }).then((result) => {
+            function recursivelyAddEmptyFile(json_autosave) {
+              //starting off at
+              //iterate and add files {} if parameter is not there
+              Object.keys(json_autosave).forEach((key) => {
+                if (json_autosave[key].hasOwnProperty("files")) {
+                  console.log("files detected");
+                  if (Object.keys(json_autosave[key]["files"]).length === 0) {
+                    json_autosave["files"] = {};
+                  }
+                } else {
+                  //files {} parameter is not made yet
+                  json_autosave[key]["files"] = {};
+                }
+                if (json_autosave[key].hasOwnProperty("folders")) {
+                  if (Object.keys(json_autosave[key]["folders"]).length != 0) {
+                    Object.keys(json_autosave[key]["folders"]).forEach((keys) => {
+                      console.log(json_autosave[key]["folders"][keys]["folders"]);
+                      recursivelyAddEmptyFile(json_autosave[key]["folders"]);
+                    });
+                  }
+                }
+                console.log(json_autosave);
+              });
+            }
+            if (result.isConfirmed) {
+              //they want to continue with upload
+              if (JSON_content["metadata-files"] === undefined) {
+                JSON_content["dataset-structure"]["files"] = {};
+              } else {
+                JSON_content["dataset-structure"]["files"] =
+                  JSON_content["metadata-files"];
+              }
+              JSON_content["generate-dataset"] = {
+                destination: "bf",
+                "generate-option": "new",
+                "if-existing": "merge",
+                "if-existing-files": "skip"
+              };
+              if (!JSON_content.hasOwnProperty("bf-dataset-selected")) {
+                JSON_content["bf-dataset-selected"] = {
+                  "dataset-name": JSON_content["generate-dataset"]["dataset-name"]
+                };
+                delete JSON_content["generate-dataset"]["dataset-name"];
+              }
+              sodaJSONObj = JSON_content;
+              sodaJSONObj["dataset-structure"] =
+                JSON_content["dataset-structure"];
+              //create a function that adds files{} parameter to all remainder
+              recursivelyAddEmptyFile(
+                JSON_content["dataset-structure"]["folders"]
+              );
+  
+              console.log(JSON_content);
+              console.log(sodaJSONObj);
+  
+              retry_upload();
+              //move to final page of upload
+            }
+          });
         }
-      );
-    }).then((val) => {
-      console.log("before entering the key comparison");
-      retrieved_files = val[0];
-      compareAutosave(JSON_content, retrieved_files);
-      //JSON_content should be adjusted and files that are already uploaded will be removed
-      if(JSON_content["dataset-structure"] != {}) {
-        console.log("dataset-structure is not empty");
-        sodaJSONObj = JSON_content;
-        Swal.fire({
-          title: "An incomplete upload was found",
-          text: `Some items didn't make it to Pennsieve on your last dataset. Would you like to finish upload?`,
-          heightAuto: false,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes",
-          cancelButtonText: "No",
-          backdrop: "rgba(0,0,0, 0.4)",
-          allowOutsideClick: false,
-          showClass: {
-            popup: "animate__animated animate__fadeInDown animate__faster",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp animate__faster",
-          },
-        })
-      }
-    });
+      });
+    }
     //compareAutosave(JSON_content, retrieved_files);
     //console.log("is anything happening after the promise?");
   });
@@ -3635,17 +3704,17 @@ const saveSODAJSONProgress = (progressFileName) => {
     heightAuto: false,
     backdrop: "rgba(0,0,0, 0.4)",
     showClass: {
-      popup: "animate__animated animate__fadeInDown animate__faster",
+      popup: "animate__animated animate__fadeInDown animate__faster"
     },
     hideClass: {
-      popup: "animate__animated animate__fadeOutUp animate__faster",
-    },
+      popup: "animate__animated animate__fadeOutUp animate__faster"
+    }
   });
 };
 
 //create autosave progress based off function below
 //autosave needs to clear previous autosave and store new content
-function autosaveProgress() {
+async function autosaveProgress() {
   let progressFileName = "autosave";
   try {
     fs.mkdirSync(progressFilePath, { recursive: true });
@@ -3656,10 +3725,12 @@ function autosaveProgress() {
   var filePath = path.join(progressFilePath, progressFileName + ".json");
   //check if autosave exists, if so delete to create new one
   console.log(filePath);
-  let autosave_check = fs.exists(filePath);
+  let autosave_check = await fs.exists(filePath);
+
+  console.log(autosave_check);
   if (autosave_check === true) {
     console.log("deleting previous autosave");
-    fs.unlinkSync(filePath);
+    await fs.unlinkSync(filePath);
     // record all information listed in SODA JSON Object before saving
     updateJSONObjectProgress();
   } else {
@@ -3668,11 +3739,18 @@ function autosaveProgress() {
     updateJSONObjectProgress();
   }
   // delete sodaJSONObj["dataset-structure"] value that was added only for the Preview tree view
+  console.log(sodaJSONObj["dataset-structure"]);
+  if(sodaJSONObj["dataset-structure"] === undefined) {
+    sodaJSONObj
+  }
   if ("files" in sodaJSONObj["dataset-structure"]) {
+    sodaJSONObj["dataset-structure"]["files"] = {};
+  } else {
     sodaJSONObj["dataset-structure"]["files"] = {};
   }
   // delete manifest files added for treeview
   for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
+    console.log(highLevelFol);
     if (
       "manifest.xlsx" in
         sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
@@ -3685,6 +3763,7 @@ function autosaveProgress() {
       ];
     }
   }
+  sodaJSONObj["save-progress"] = "autosave";
   fs.writeFileSync(filePath, JSON.stringify(sodaJSONObj));
   console.log(sodaJSONObj);
   console.log("what is being written on the autosave file");
@@ -3713,11 +3792,11 @@ const saveOrganizeProgressPrompt = () => {
       reverseButtons: reverseSwalButtons,
       backdrop: "rgba(0,0,0, 0.4)",
       showClass: {
-        popup: "animate__animated animate__fadeInDown animate__faster",
+        popup: "animate__animated animate__fadeInDown animate__faster"
       },
       hideClass: {
-        popup: "animate__animated animate__fadeOutUp animate__faster",
-      },
+        popup: "animate__animated animate__fadeOutUp animate__faster"
+      }
     }).then((result) => {
       if (result.value) {
         if (result.value !== null && result.value !== "") {
@@ -3746,7 +3825,7 @@ const description_text = {
   prepare_dataset_section:
     "This interface will help you in organizing your datasets according to the SPARC Data Structure",
   disseminate_dataset_section:
-    "This interface will assist you in completing steps required once your datasets have been fully prepared",
+    "This interface will assist you in completing steps required once your datasets have been fully prepared"
 };
 
 $("input:radio[name=main_tabs]").click(function () {
@@ -3764,7 +3843,7 @@ $(document).ready(() => {
     var $this = $(this);
     $this.popover({
       trigger: "hover",
-      container: $this,
+      container: $this
     });
   });
   $(".coming-soon-div").popover();
@@ -3773,7 +3852,7 @@ $(document).ready(() => {
     var $this = $(this);
     $this.popover({
       trigger: "hover",
-      container: $this,
+      container: $this
     });
   });
 
@@ -3817,11 +3896,11 @@ $(document).ready(() => {
           backdrop: "rgba(0,0,0, 0.4)",
           html: `${warning_obj["warning-message"]}`,
           showClass: {
-            popup: "animate__animated animate__zoomIn animate__faster",
+            popup: "animate__animated animate__zoomIn animate__faster"
           },
           hideClass: {
-            popup: "animate__animated animate__zoomOut animate__faster",
-          },
+            popup: "animate__animated animate__zoomOut animate__faster"
+          }
         });
       }
     });

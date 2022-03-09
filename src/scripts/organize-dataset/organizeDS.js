@@ -364,7 +364,7 @@ function delFolder(
 function retry_upload() {
   //regenerate button will iterate through autosave json file and compare with a list of completed files
   //that is requested through pennsieve agent
-  //recalls main_progress function?
+  //need to update percentage of upload according to amount of files that will be uploaded vs what has been uploaded
   document.getElementById("button-generate").click();
 }
 
@@ -512,6 +512,17 @@ function compareAutosave(autosave, pennsieve_completes) {
       console.log("deleting metadata-files");
     } else {
       //one of the files in here aren't in pennsieve
+      let uploaded = pennsieve_completes["metadata-files"];
+      let json_auto = autosave["metadata-files"];
+      let aKey = Object.keys(uploaded).sort();
+      let bKey = Object.keys(json_auto).sort();
+      console.log(aKey);
+      console.log(bKey);
+      //function below will tell me what isn't in pennsieve
+      //need to delete the other files
+      console.log( bKey.filter(x => !aKey.includes(x)) );
+      let nonUploaded = bKey.filter(x => !aKey.includes(x));
+      Object.keys(autosave["metadata-files"]).forEach((key) => nonUploaded.includes(key) || delete autosave["metadata-files"][key]);
     }
   }
 
@@ -521,6 +532,7 @@ function compareAutosave(autosave, pennsieve_completes) {
     retrieved_files["dataset-structure"]
   );
   console.log(dataset_structure);
+  return dataset_structure;
 }
 
 function recursivelyCompareObjects(autosave, retrieved_object) {
@@ -548,6 +560,26 @@ function recursivelyCompareObjects(autosave, retrieved_object) {
       //some files aren't in pennsieve so need to remove the ones that are
       //BUT keep the ones that aren't
       console.log("not a match");
+      let uploaded = retrieved_object["files"];
+      let json_auto = autosave["files"];
+      console.log(uploaded);
+
+      if(uploaded != undefined) {
+        let aKey = Object.keys(uploaded).sort();
+        let bKey = Object.keys(json_auto).sort();
+        console.log(aKey);
+        console.log(bKey);
+        console.log( bKey.filter(x => !aKey.includes(x)) );
+        let nonUploaded = bKey.filter(x => !aKey.includes(x));
+        console.log(nonUploaded);
+        Object.keys(json_auto).forEach((key) => nonUploaded.includes(key) || delete json_auto[key]);
+      } else {
+        console.log("we let JSON-auto be as: ");
+        console.log(json_auto);
+      }
+      //function below will tell me what isn't in pennsieve
+      //need to delete the other files
+
     }
   }
   if (autosave.hasOwnProperty("folders")) {
@@ -556,7 +588,9 @@ function recursivelyCompareObjects(autosave, retrieved_object) {
     if (Object.values(autosave["folders"]).length === 0) {
       //check if there are still any files that are being kept
       if(autosave.hasOwnProperty("files")) {
-        if(Object.values(autosave["files"].length > 0)) {
+        console.log(Object.keys(autosave["files"]))
+        if(Object.values(autosave["files"]).length === 0) {
+          console.log("files is greater than 0 so deleting");
           delete autosave["folders"];
         }
       } else {
@@ -584,11 +618,34 @@ function recursivelyCompareObjects(autosave, retrieved_object) {
             autosave["folders"][folder],
             retrieved_object["folders"][folder]
           );
-          if(!autosave["folders"][folder].hasOwnProperty("files")) {
-            if(!autosave["folders"][folder].hasOwnProperty("folders")) {
-              //both files and folders have been deleted
-              //delete overall folder
-              delete autosave["folders"][folder];
+
+          if(Object.keys(autosave["folders"][folder].hasOwnProperty("folders"))) {
+            if(Object.values(autosave["folders"][folder].length === 0)) {
+              if(!autosave["folders"][folder].hasOwnProperty("files")) {
+                //need to check if subfolder has any content
+                console.log(autosave["folders"][folder]["folders"]);
+                if(autosave["folders"][folder].hasOwnProperty("folders")) {
+                  if(Object.keys(autosave["folders"][folder]["folders"]).length === 0) {
+                    delete autosave["folders"][folder];
+                  }
+                } else {
+                  //folder contains things so we have left it
+                  console.log("ay yo im deletin here");
+                  console.log(autosave);
+                  delete autosave["folders"][folder];
+                }
+              } else {
+                //there is a property
+                console.log(Object.keys(autosave["folders"][folder]["files"]).length != 0);
+              }
+            }
+            else if(!autosave["folders"][folder].hasOwnProperty("files")) {
+              if(!autosave["folders"][folder].hasOwnProperty("folders")) {
+                console.log("deleting after recursive call");
+                //both files and folders have been deleted
+                //delete overall folder
+                delete autosave["folders"][folder];
+              }
             }
           }
         }
@@ -597,17 +654,68 @@ function recursivelyCompareObjects(autosave, retrieved_object) {
       //returned false meaning there are some folders that aren't in pennsieve
       //need to find index of ones that aren't autosave and delete the rest
       console.log("something FALSE");
-      console.log(autosave["folders"]);
-      console.log(retrieved_object["folders"]);
+      let arr_autosave = autosave["folders"];
+      let penns_arry = retrieved_object["folders"];
+
+      // console.log(Object.keys(penns_arry));
+      console.log(penns_arry);
+      console.log(arr_autosave);
+      if(penns_arry != undefined) {
+        if(Object.keys(penns_arry).length != 0) {
+          //if 0 then none of files are in pennsieve
+          let aKey = Object.keys(penns_arry).sort();
+          let bKey = Object.keys(arr_autosave).sort();
+          console.log(aKey);
+          console.log(bKey);
+          console.log( bKey.filter(x => !aKey.includes(x)) );
+          let nonUploaded = bKey.filter(x => !aKey.includes(x));
+          Object.keys(autosave["folders"]).forEach((key) => {
+            if(nonUploaded.includes(key)) {
+              console.log("should be left alone");
+            } else {
+                recursivelyCompareObjects(autosave["folders"][key], retrieved_object["folders"][key]);
+                console.log("checking subfolders if they are missing in pennsieve");
+                console.log(autosave["folders"][key]);
+                if(!autosave["folders"][key].hasOwnProperty("folders")) {
+                  delete autosave["folders"][key];
+                } else {
+                  if(Object.keys(autosave["folders"][key]["folders"]).length === 0) {
+                    if(autosave["folders"][key].hasOwnProperty("files")) {
+                      console.log(Object.keys(autosave["folders"][key]));
+                      console.log(Object.keys(autosave["folders"][key]["files"]));
+                      if(Object.keys(autosave["folders"][key]["files"]).length > 0) {
+                        console.log("files are there folder should be kept");
+                      } else {
+                        delete autosave["folders"][key];
+                      }
+                    } else {
+                      delete autosave["folders"][key];
+                    }
+                  }
+                }
+            }
+          });
+          // nonUploaded.includes(key) || 
+        } else {
+          console.log("none of the files are in pennsieve so we will leave autosave[folders] alone");
+          // autosave["files"] = autosave["files"];
+        }
+      }
+      //function below will tell me what isn't in pennsieve
+      //need to delete the other files
+
     }
   }
   console.log(autosave);
+
   return autosave;
 }
 
 function compareKeys(a, b) {
   //a is autosave
   //b is pennsieve_dataset
+  console.log(a);
+  console.log(b);
   var aKeys = Object.keys(a).sort();
   var bKeys = Object.keys(b).sort();
   if (aKeys.includes("manifest.xlsx")) {

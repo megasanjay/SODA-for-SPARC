@@ -6306,7 +6306,7 @@ const generateProgressBar = document.getElementById("progress-bar-new-curate");
 document
   .getElementById("button-generate")
   .addEventListener("click", async function () {
-    autosaveProgress(); //function will autosave progress in SODA/Progress as autosave.json
+    await autosaveProgress(); //function will autosave progress in SODA/Progress as autosave.json
     $($($(this).parent()[0]).parents()[0]).removeClass("tab-active");
     document.getElementById(
       "para-new-curate-progress-bar-error-status"
@@ -6374,19 +6374,25 @@ document
     // delete datasetStructureObject["files"] value (with metadata files (if any)) that was added only for the Preview tree view
     if ("files" in sodaJSONObj["dataset-structure"]) {
       sodaJSONObj["dataset-structure"]["files"] = {};
+    } else {
+      sodaJSONObj["dataset-structure"]["files"] = {};
     }
     // delete manifest files added for treeview
     for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
-      if (
-        "manifest.xlsx" in
-          sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
-        sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
-          "manifest.xlsx"
-        ]["forTreeview"]
-      ) {
-        delete sodaJSONObj["dataset-structure"]["folders"][highLevelFol][
-          "files"
-        ]["manifest.xlsx"];
+      console.log(highLevelFol);
+      console.log(sodaJSONObj["dataset-structure"]["folders"][highLevelFol])
+      if(sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] != undefined) {
+        if (
+          "manifest.xlsx" in
+            sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
+          sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
+            "manifest.xlsx"
+          ]["forTreeview"]
+        ) {
+          delete sodaJSONObj["dataset-structure"]["folders"][highLevelFol][
+            "files"
+          ]["manifest.xlsx"];
+        }
       }
     }
 
@@ -6823,7 +6829,7 @@ function initiate_generate() {
 
   // Progress tracking function for main curate
   var countDone = 0;
-  var uploadFile_count = 0;
+  //var uploadFile_count = 0;
   var timerProgress = setInterval(main_progressfunction, 1000);
   function main_progressfunction() {
     //auto save already has to be updated here
@@ -6837,7 +6843,7 @@ function initiate_generate() {
         console.error(error);
         //if error occurs write that in the json file so when selected it will know to show the retry options
       } else {
-        uploadFile_count = uploadCheck();
+        //uploadFile_count = uploadCheck();
         //uploadCheck will give me a count of how many files got completed
         //need to fix how accurate it is (count queued and in progress of same file)
         main_curate_status = res[0];
@@ -6923,9 +6929,7 @@ function initiate_generate() {
       $("#sidebarCollapse").prop("disabled", false);
       countDone++;
       if (countDone > 1) {
-        console.log(uploadFile_count);
-        verifyCompletedUploads(uploadFile_count);
-        console.log(uploadFile_count);
+        //console.log(uploadFile_count);
         log.info("Done curate track");
         // then show the sidebar again
         // forceActionSidebar("show");
