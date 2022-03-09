@@ -6380,11 +6380,16 @@ document
     // delete manifest files added for treeview
     for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
       console.log(highLevelFol);
-      console.log(sodaJSONObj["dataset-structure"]["folders"][highLevelFol])
-      if(sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] != undefined) {
+      console.log(sodaJSONObj["dataset-structure"]["folders"][highLevelFol]);
+      if (
+        sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] !=
+        undefined
+      ) {
         if (
           "manifest.xlsx" in
-            sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
+            sodaJSONObj["dataset-structure"]["folders"][highLevelFol][
+              "files"
+            ] &&
           sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
             "manifest.xlsx"
           ]["forTreeview"]
