@@ -4,6 +4,7 @@ from gevent import monkey
 monkey.patch_all()
 import platform
 import os
+import sys
 from os import listdir, stat, makedirs, mkdir, walk, remove, pardir
 from os.path import (
     isdir,
@@ -761,9 +762,11 @@ def bf_get_dataset_files_folders(soda_json_structure, requested_sparc_only=True)
                                 df = pd.read_excel(
                                     manifest_url["url"], engine="openpyxl"
                                 )
+                                return df
                             else:
                                 df = pd.read_csv(manifest_url["url"])
-                            manifest_dict[my_folder_name] = df
+                                manifest_dict[my_folder_name] = df
+                                return df
                         except Exception as e:
                             manifest_error_message.append(
                                 package_details["parent"]["content"]["name"]

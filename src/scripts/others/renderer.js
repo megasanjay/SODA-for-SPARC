@@ -7133,6 +7133,8 @@ ipcRenderer.on("selected-metadataCurate", (event, mypath) => {
 });
 
 var bf_request_and_populate_dataset = (sodaJSONObj) => {
+  console.log(sodaJSONObj);
+  console.log("before");
   return new Promise((resolve, reject) => {
     client.invoke(
       "api_bf_get_dataset_files_folders",
@@ -7149,6 +7151,7 @@ var bf_request_and_populate_dataset = (sodaJSONObj) => {
             defaultBfDatasetId
           );
         } else {
+          console.log(res);
           resolve(res);
           ipcRenderer.send(
             "track-event",
