@@ -34,6 +34,7 @@ from pysoda import (
     check_agent_install,
     get_pennsieve_api_key_secret,
     SODA_SPARC_API_KEY,
+    bf_submit_dataset_upload_details,
 )
 
 from disseminate import (
@@ -53,6 +54,8 @@ from curate import (
     main_curate_function_progress,
     generate_manifest_file_locally,
     check_JSON_size,
+    main_curate_function_upload_details,
+    create_high_level_manifest_files_existing_local_starting_point,
 )
 
 from prepare_metadata import (
@@ -69,6 +72,7 @@ from prepare_metadata import (
     import_bf_metadata_file,
     import_bf_RC,
     upload_RC_file,
+    delete_manifest_dummy_folders,
 )
 
 from organize_datasets import generate_dataset_locally, bf_get_dataset_files_folders
@@ -76,7 +80,8 @@ from organize_datasets import generate_dataset_locally, bf_get_dataset_files_fol
 import sys
 import zerorpc
 
-MIN_SODA_VERSION = "5.2.0"
+
+MIN_SODA_VERSION = "5.3.3"
 
 
 class SodaApi(object):
@@ -230,6 +235,22 @@ class SodaApi(object):
         except Exception as e:
             raise e
 
+    def api_create_high_level_manifest_files_existing_local_starting_point(
+        self, dataset_path
+    ):
+        try:
+            return create_high_level_manifest_files_existing_local_starting_point(
+                dataset_path
+            )
+        except Exception as e:
+            raise e
+
+    def api_delete_manifest_dummy_folders(self, userpath):
+        try:
+            return delete_manifest_dummy_folders(userpath)
+        except Exception as e:
+            raise e
+
     ### Bf
     def api_bf_add_account_api_key(self, keyname, key, secret):
         try:
@@ -289,6 +310,13 @@ class SodaApi(object):
     def api_bf_submit_dataset(self, accountname, bfdataset, pathdataset):
         try:
             return bf_submit_dataset(accountname, bfdataset, pathdataset)
+        except Exception as e:
+            raise e
+
+    # get upload information for logging while bf_submit_dataset runs
+    def api_bf_submit_dataset_upload_details(self):
+        try:
+            return bf_submit_dataset_upload_details()
         except Exception as e:
             raise e
 
@@ -473,6 +501,12 @@ class SodaApi(object):
         except Exception as e:
             raise e
 
+    def api_main_curate_function_upload_details(self):
+        try:
+            return main_curate_function_upload_details()
+        except Exception as e:
+            raise e
+
     # def api_preview_dataset(self, soda_json_structure):
     #     try:
     #         return preview_dataset(soda_json_structure)
@@ -489,9 +523,9 @@ class SodaApi(object):
         except Exception as e:
             raise e
 
-    def api_generate_manifest_file_locally(self, soda_json_structure):
+    def api_generate_manifest_file_locally(self, generate_purpose, soda_json_structure):
         try:
-            return generate_manifest_file_locally(soda_json_structure)
+            return generate_manifest_file_locally(generate_purpose, soda_json_structure)
         except Exception as e:
             raise e
 

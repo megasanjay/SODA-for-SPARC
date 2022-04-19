@@ -102,7 +102,6 @@ function resetSubmissionFields() {
   $("#submission-completion-date")
     .empty()
     .append('<option value="Select">Select an option</option>');
-  // actionEnterNewDate("none");
   $("#submission-completion-date").append(
     $("<option>", {
       text: "Enter my own date",
@@ -270,8 +269,7 @@ function generateSubmissionFile() {
 
 function changeAwardInput() {
   var ddBolean;
-  document.getElementById("input-milestone-date").value = "";
-  actionEnterNewDate("none");
+  document.getElementById("submission-completion-date").value = "";
   milestoneTagify1.removeAllTags();
   milestoneTagify1.settings.whitelist = [];
   removeOptions(descriptionDateInput);
@@ -315,16 +313,9 @@ function changeAwardInput() {
   return ddBolean;
 }
 
-function actionEnterNewDate(action) {
-  document.getElementById(
-    "div-submission-enter-different-date-1"
-  ).style.display = action;
-  document.getElementById(
-    "div-submission-enter-different-date-3"
-  ).style.display = action;
-}
-
-const submissionDateInput = document.getElementById("input-milestone-date");
+const submissionDateInput = document.getElementById(
+  "submission-completion-date"
+);
 var submissionDestinationPath = "";
 
 $(document).ready(function () {
@@ -410,15 +401,10 @@ $(document).ready(function () {
 //At most the metadata files should be no bigger than 3MB
 //Function checks the selected storage device to ensure at least 3MB are available
 const checkStorage = (id) => {
-  console.log(id);
-  console.log("function ran");
   var location = id;
   var threeMB = 3145728;
-  //console.log(location);
   checkDiskSpace(location).then((diskSpace) => {
     freeMem = diskSpace.free;
-    //console.log(freeMem + "\nfree me in bytes");
-    //console.log(threeMB + "\nthree mb comparison");
     if (freeMem < threeMB) {
       Swal.fire({
         backdrop: "rgba(0,0,0, 0.4)",
@@ -576,108 +562,103 @@ async function generateSubmissionHelper(uploadBFBoolean) {
     if (!continueProgress) {
       return;
     }
-    Swal.fire({
-      title: "Generating the submission.xlsx file",
-      html: "Please wait...",
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-      heightAuto: false,
-      backdrop: "rgba(0,0,0, 0.4)",
-      timerProgressBar: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    }).then((result) => {});
-    var awardRes = $("#submission-sparc-award").val();
-    var dateRes = $("#submission-completion-date").val();
-    var milestonesRes = $("#selected-milestone-1").val();
-    let milestoneValue = [{ value: "" }];
-    if (milestonesRes !== "") {
-      milestoneValue = JSON.parse(milestonesRes);
-    }
-    var json_arr = [];
-    json_arr.push({
-      award: awardRes,
-      date: dateRes,
-      milestone: milestoneValue[0].value,
-    });
-    if (milestoneValue.length > 0) {
-      for (var index = 1; index < milestoneValue.length; index++) {
-        json_arr.push({
-          award: "",
-          date: "",
-          milestone: milestoneValue[index].value,
-        });
-      }
-    }
-    json_str = JSON.stringify(json_arr);
-    client.invoke(
-      "api_save_submission_file",
-      uploadBFBoolean,
-      defaultBfAccount,
-      $("#bf_dataset_load_submission").text().trim(),
-      submissionDestinationPath,
-      json_str,
-      (error, res) => {
-        if (error) {
-          var emessage = userError(error);
-          log.error(error);
-          console.error(error);
-          Swal.fire({
-            backdrop: "rgba(0,0,0, 0.4)",
-            heightAuto: false,
-            icon: "error",
-            html: emessage,
-            title: "Failed to generate the submission file",
-          });
-          logMetadataForAnalytics(
-            "Error",
-            MetadataAnalyticsPrefix.SUBMISSION,
-            AnalyticsGranularity.ALL_LEVELS,
-            "Generate",
-            uploadBFBoolean ? Destinations.PENNSIEVE : Destinations.LOCAL
-          );
-        } else {
-          if (uploadBFBoolean) {
-            var successMessage =
-              "Successfully generated the submission.xlsx file on your Pennsieve dataset.";
-          } else {
-            if (uploadBFBoolean) {
-              var successMessage =
-                "Successfully generated the submission.xlsx file on your Pennsieve dataset.";
-            } else {
-              var successMessage =
-                "Successfully generated the submission.xlsx file at the specified location.";
-            }
-            Swal.fire({
-              title: successMessage,
-              icon: "success",
-              heightAuto: false,
-              backdrop: "rgba(0,0,0, 0.4)",
-            });
-            logMetadataForAnalytics(
-              "Success",
-              MetadataAnalyticsPrefix.SUBMISSION,
-              AnalyticsGranularity.ALL_LEVELS,
-              "Generate",
-              uploadBFBoolean ? Destinations.PENNSIEVE : Destinations.LOCAL
-            );
-
-            // get the size of the uploaded file from the result
-            const size = res;
-
-            // log the size of the metadata file that was generated at varying levels of granularity
-            logMetadataSizeForAnalytics(
-              uploadBFBoolean,
-              "submission.xlsx",
-              size
-            );
-          }
-        }
-      }
-    );
   }
+
+  Swal.fire({
+    title: "Generating the submission.xlsx file",
+    html: "Please wait...",
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    heightAuto: false,
+    backdrop: "rgba(0,0,0, 0.4)",
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  var awardRes = $("#submission-sparc-award").val();
+  var dateRes = $("#submission-completion-date").val();
+  var milestonesRes = $("#selected-milestone-1").val();
+  let milestoneValue = [{ value: "" }];
+  if (milestonesRes !== "") {
+    milestoneValue = JSON.parse(milestonesRes);
+  }
+  var json_arr = [];
+  json_arr.push({
+    award: awardRes,
+    date: dateRes,
+    milestone: milestoneValue[0].value,
+  });
+  if (milestoneValue.length > 0) {
+    for (var index = 1; index < milestoneValue.length; index++) {
+      json_arr.push({
+        award: "",
+        date: "",
+        milestone: milestoneValue[index].value,
+      });
+    }
+  }
+  json_str = JSON.stringify(json_arr);
+  client.invoke(
+    "api_save_submission_file",
+    uploadBFBoolean,
+    defaultBfAccount,
+    $("#bf_dataset_load_submission").text().trim(),
+    submissionDestinationPath,
+    json_str,
+    (error, res) => {
+      if (error) {
+        var emessage = userError(error);
+        log.error(error);
+        console.error(error);
+        Swal.fire({
+          backdrop: "rgba(0,0,0, 0.4)",
+          heightAuto: false,
+          icon: "error",
+          html: emessage,
+          title: "Failed to generate the submission file",
+        });
+        logMetadataForAnalytics(
+          "Error",
+          MetadataAnalyticsPrefix.SUBMISSION,
+          AnalyticsGranularity.ALL_LEVELS,
+          "Generate",
+          uploadBFBoolean ? Destinations.PENNSIEVE : Destinations.LOCAL
+        );
+      } else {
+        if (uploadBFBoolean) {
+          var successMessage =
+            "Successfully generated the submission.xlsx file on your Pennsieve dataset.";
+        } else {
+          var successMessage =
+            "Successfully generated the submission.xlsx file at the specified location.";
+        }
+        Swal.fire({
+          title: successMessage,
+          icon: "success",
+          heightAuto: false,
+          backdrop: "rgba(0,0,0, 0.4)",
+          confirmButtonText: "Ok",
+          allowOutsideClick: true,
+        });
+
+        logMetadataForAnalytics(
+          "Success",
+          MetadataAnalyticsPrefix.SUBMISSION,
+          AnalyticsGranularity.ALL_LEVELS,
+          "Generate",
+          uploadBFBoolean ? Destinations.PENNSIEVE : Destinations.LOCAL
+        );
+
+        // get the size of the uploaded file from the result
+        const size = res;
+
+        // log the size of the metadata file that was generated at varying levels of granularity
+        logMetadataSizeForAnalytics(uploadBFBoolean, "submission.xlsx", size);
+      }
+    }
+  );
 }
 
 $("#submission-completion-date").change(function () {

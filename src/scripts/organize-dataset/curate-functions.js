@@ -219,9 +219,6 @@ const checkAvailableSpace = () => {
           roundToHundredth(folderSizeMB) +
           "MB " +
           "or consider uploading directly to Pennsieve.";
-        //console.log(res);
-        //console.log(freeMemoryMB + "\n free mem in mb");
-        //console.log(folderSizeMB + "\n folder size in mb");
 
         //converted to MB/GB/TB for user readability
         if (folderSizeMB > 1000) {
@@ -1085,6 +1082,7 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
       dropdownEventID = ev.id;
     }
     $(".svg-change-current-account.dataset").css("display", "none");
+    $("#div-permission-list-2").css("display", "none");
     $(".ui.active.green.inline.loader.small").css("display", "block");
 
     setTimeout(async function () {
@@ -1093,7 +1091,7 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
       var bfDataset = "";
 
       // if users edit Current dataset
-      datasetPermissionDiv.style.display = "block";
+      datasetPermissionDiv.style.display = "none";
       $(datasetPermissionDiv)
         .find("#curatebfdatasetlist")
         .find("option")
@@ -1158,7 +1156,9 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
         ipcRenderer.send(
           "track-event",
           "Error",
-          "User was not signed in before selected dataset"
+          "Selecting dataset",
+          "User has not connected their Pennsieve account with SODA",
+          1
         );
       } else {
         //account is signed in but no datasets have been fetched or created
@@ -1220,8 +1220,9 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
           ipcRenderer.send(
             "track-event",
             "Error",
-            "User has no dataset created, prompted to go create one",
-            defaultBfAccount
+            "Selecting dataset",
+            "User has not created any datasets",
+            1
           );
         }
       }
@@ -1256,7 +1257,9 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
             $("#bf-dataset-select-div").hide();
           },
           didOpen: () => {
+            $("#div-permission-list-2").css("display", "block");
             $(".ui.active.green.inline.loader.small").css("display", "none");
+            datasetPermissionDiv.style.display = "block";
             $("#curatebfdatasetlist").attr("disabled", false);
             $(datasetPermissionDiv)
               .find("#div-filter-datasets-progress-2")
@@ -1388,9 +1391,10 @@ async function openDropdownPrompt(ev, dropdown, show_timer = true) {
       $(".ui.active.green.inline.loader.small").css("display", "none");
       ipcRenderer.send(
         "track-event",
-        "Succes",
-        "User has succesfully chosen a dataset",
-        defaultBfDataset
+        "Success",
+        "Selecting dataset",
+        defaultBfDatasetId,
+        1
       );
     }, 10);
   }
@@ -1473,7 +1477,7 @@ function checkPrevDivForConfirmButton(category) {
 const updateDatasetList = (bfaccount) => {
   var filteredDatasets = [];
 
-  $("#div-filter-datasets-progress-2").css("display", "block");
+  $("#div-filter-datasets-progress-2").css("display", "none");
 
   removeOptions(curateDatasetDropdown);
   addOption(curateDatasetDropdown, "Search here...", "Select dataset");
@@ -1638,8 +1642,7 @@ function create_child_node(
     children: [],
     type: type + ext,
   };
-  if (viewOptions === "moveItems") {
-  } else {
+  if (viewOptions !== "moveItems") {
     selectedOriginalLocation = "";
   }
   if (oldFormatNode) {
@@ -2004,6 +2007,7 @@ async function moveItems(ev, category) {
                 itemType = "folders";
               }
               moveItemsHelper(itemToMove, selectedPath, itemType);
+              ev.parentElement.remove();
             });
           // only 1 file/folder
         } else {
@@ -2015,6 +2019,7 @@ async function moveItems(ev, category) {
             itemType = "folders";
           }
           moveItemsHelper(itemToMove, selectedPath, itemType);
+          ev.parentElement.remove();
         }
       }
     });
@@ -2237,27 +2242,35 @@ $(jstreePreview).on("close_node.jstree", function (event, data) {
   data.instance.set_type(data.node, "folder closed");
 });
 
-function showTreeViewPreview(new_dataset_name) {
-  datasetStructureJSONObj["files"] = sodaJSONObj["metadata-files"];
-  if (manifestFileCheck.checked) {
-    addManifestFilesForTreeView();
-  } else {
-    revertManifestForTreeView();
+function showTreeViewPreview(
+  disabledBoolean,
+  selectedBoolean,
+  manifestFileBoolean,
+  new_dataset_name,
+  previewDiv,
+  datasetStructure
+) {
+  if (manifestFileBoolean) {
+    if (manifestFileCheck.checked) {
+      addManifestFilesForTreeView();
+    } else {
+      revertManifestForTreeView();
+    }
   }
 
-  var jsTreePreviewData = create_child_node(
-    datasetStructureJSONObj,
+  var jsTreePreviewDataManifest = create_child_node(
+    datasetStructure,
     new_dataset_name,
     "folder",
     "",
     true,
-    false,
-    false,
+    selectedBoolean,
+    disabledBoolean,
     "",
     "preview"
   );
-  $(jstreePreview).jstree(true).settings.core.data = jsTreePreviewData;
-  $(jstreePreview).jstree(true).refresh();
+  $(previewDiv).jstree(true).settings.core.data = jsTreePreviewDataManifest;
+  $(previewDiv).jstree(true).refresh();
 }
 
 // if checked
@@ -2296,3 +2309,27 @@ $("#generate-manifest-curate").change(function () {
     $("#button-generate-manifest-locally").hide();
   }
 });
+
+function determineDatasetDestination(dataset_name, dataset_destination) {
+  // determine if the dataset is being uploaded to Pennsieve or being generated locally
+  if ("bf-dataset-selected" in sodaJSONObj) {
+    dataset_name = sodaJSONObj["bf-dataset-selected"]["dataset-name"];
+    dataset_destination = "Pennsieve";
+  } else if ("generate-dataset" in sodaJSONObj) {
+    if ("destination" in sodaJSONObj["generate-dataset"]) {
+      let destination = sodaJSONObj["generate-dataset"]["destination"];
+      if (destination == "local") {
+        dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+        dataset_destination = "Local";
+      }
+      if (destination == "bf") {
+        dataset_name = sodaJSONObj["generate-dataset"]["dataset-name"];
+        dataset_destination = "Pennsieve";
+      }
+    }
+  }
+
+  return [dataset_name, dataset_destination];
+}
+
+// module.exports = {determineDatasetDestination}

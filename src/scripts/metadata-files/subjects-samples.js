@@ -594,7 +594,6 @@ function populateRRID(strain, type) {
             );
           }
         } else {
-          console.log(returnRes);
           $("#bootbox-" + type + "-strain").val(strain);
           $("#btn-confirm-strain").removeClass("confirm-disabled");
           $("#bootbox-" + type + "-strain").css("display", "block");
@@ -780,7 +779,7 @@ async function edit_current_protocol_id(ev) {
       ];
     },
   });
-  if (value) {
+  if (values) {
     $(currentRow)[0].cells[1].innerHTML =
       "<a href='" + values[0] + "' target='_blank'>" + values[0] + "</a>";
     $(currentRow)[0].cells[2].innerHTML = values[1];
@@ -1454,7 +1453,7 @@ function importPrimaryFolderSubjects(folderPath) {
         var stats = fs.statSync(path.join(folderPath, folder));
         if (stats.isDirectory()) {
           subjectsFileData[0] = folder;
-          for (var i = 1; i < 26; i++) {
+          for (var i = 1; i < 27; i++) {
             subjectsFileData.push("");
           }
           subjectsTableData[j] = subjectsFileData;

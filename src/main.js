@@ -9,7 +9,7 @@ require("v8-compile-cache");
 const { ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const { JSONStorage } = require("node-localstorage");
-const { trackEvent } = require("./scripts/others/analytics");
+const { trackEvent } = require("./scripts/others/analytics/analytics");
 const { fstat } = require("fs");
 
 log.transports.console.level = false;
@@ -198,9 +198,9 @@ function initialize() {
 
   app.on("ready", () => {
     const windowOptions = {
-      minWidth: 1118,
+      minWidth: 1121,
       minHeight: 735,
-      width: 1118,
+      width: 1121,
       height: 735,
       center: true,
       show: false,
