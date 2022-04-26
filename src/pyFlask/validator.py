@@ -53,9 +53,9 @@ def val_dataset_local_pipeline(ds_path):
     path_error_report = status.get('path_error_report')
 
     # get the errors out of the report that do not have errors in their subpaths (see function comments for the explanation)
-    parsed_path_error_report = error_path_report_parser.parse(path_error_report)
+    # parsed_path_error_report = error_path_report_parser.parse(path_error_report)
 
-    return parsed_path_error_report
+    return path_error_report
 
 local_sparc_dataset_location = str(Path.home()) + "/files/sparc-datasets"
 sparc_organization_id = "N:organization:618e8dd9-f8d2-4dc4-9abb-c6aaab2e78a0"
