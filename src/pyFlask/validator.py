@@ -61,11 +61,6 @@ local_sparc_dataset_location = str(Path.home()) + "/files/sparc-datasets"
 sparc_organization_id = "N:organization:618e8dd9-f8d2-4dc4-9abb-c6aaab2e78a0"
 parent_folder = SparCurPath(local_sparc_dataset_location).expanduser()
 
-
-
-
-
-
 # for gevent
 local_dataset_folder_path = ""
 validation_json = {}
@@ -305,13 +300,6 @@ def validate_dataset_pipeline(ps_account, ps_dataset):
     #     return str(local_dataset_folder_path)
     # except Exception as e:
     #     raise e
-
-
-
-
-
-
-
 
 
 def val_dataset_pipeline(ps_account, ps_dataset):
