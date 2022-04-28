@@ -121,12 +121,12 @@ const exitPyProc = (serverConfiguration) => {
 
 app.on("ready", () => {
   createPyProc(PysodaConfiguration);
-  // createPyProc(pyFlaskConfiguration);
+  createPyProc(pyFlaskConfiguration);
 });
 
 app.on("will-quit", () => {
   exitPyProc(PysodaConfiguration);
-  // exitPyProc(pyFlaskConfiguration);
+  exitPyProc(pyFlaskConfiguration);
 });
 
 /*************************************************************
@@ -181,7 +181,7 @@ function initialize() {
         var first_launch = nodeStorage.getItem("firstlaunch");
         nodeStorage.setItem("firstlaunch", true);
         exitPyProc(PysodaConfiguration);
-        // to do: exitPyProc(pyFlaskConfiguration);
+        exitPyProc(pyFlaskConfiguration);
         app.exit();
       }
     });
