@@ -41,6 +41,8 @@ const getScriptPath = () => {
   }
   if (process.platform === "win32") {
     return path.join(__dirname, PY_DIST_FOLDER, PY_MODULE, PY_MODULE + ".exe");
+  } else if(process.platform === "darwin") {
+    return path.join(__dirname, PY_DIST_FOLDER, PY_MODULE)
   }
 
   return path.join(__dirname, PY_DIST_FOLDER, PY_MODULE, PY_MODULE);
@@ -83,10 +85,30 @@ const createPyProc = () => {
 };
 
 const exitPyProc = () => {
+  log.info("exitpyProc called on purpose")
   pyProc.kill();
   pyProc = null;
   pyPort = null;
 };
+
+// check for exit on pyProc once pyProc is defined
+if(pyProc === null) {
+setTimeout(() => {
+  console.log("Pyproc is defined")
+  pyProc.on("exit", (code, signal) => {
+    console.log("child process exited with " + code);
+    log.info("child process exited with " + code);
+    pyProc = null;
+    pyPort = null;
+  });
+
+  pyProc.on("uncaughtExceptionMonitor", (err, origin) => {
+    log.info("Crashed unexpectedly")
+    log.info(err)
+  })
+}, 5000)
+
+}
 
 app.on("ready", createPyProc);
 app.on("will-quit", exitPyProc);
