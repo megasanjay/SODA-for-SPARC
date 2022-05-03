@@ -977,7 +977,6 @@ async function addProtocol() {
             this.value.substr(0, 16) === "https://doi.org/" ||
             this.value.substr(0, 8) === "doi.org/"
           ) {
-            console.log("is a match");
             document.getElementById(
               "DD-protocol-link-select"
             ).selectedIndex = 2;
