@@ -4917,6 +4917,17 @@ async function addFoldersfunction(
   var importedFolders = {};
   var duplicateFolders = [];
   var folderPath = [];
+  // if (nonallowedFolderArray.length > 0) {
+  //   for (let i = 0; i < nonallowedFolderArray.length; i++) {
+  //     console.log(nonallowedFolderArray[i]);
+  //     if (folderArray.includes(nonallowedFolderArray[i])) {
+  //       console.log(nonallowedFolderArray[i]);
+  //       let item_index = folderArray.indexOf(nonallowedFolderArray[i]);
+  //       console.log(item_index);
+  //       folderArray.splice(item_index, 1);
+  //     }
+  //   }
+  // }
 
   if (JSON.stringify(currentLocation["folders"]) !== "{}") {
     for (var folder in currentLocation["folders"]) {

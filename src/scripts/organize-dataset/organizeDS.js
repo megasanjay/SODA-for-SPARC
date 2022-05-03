@@ -623,6 +623,7 @@ function renameFolder(
           );
 
           /// assign new name to folder or file in the UI
+          console.log(event1.parentElement.children[1]);
           event1.parentElement.children[1].innerText = returnedName;
           /// get location of current file or folder in JSON obj
           var filtered = getGlobalPath(organizeCurrentLocation);
