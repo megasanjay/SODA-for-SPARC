@@ -1337,7 +1337,6 @@ def check_local_dataset_files_validity(soda_json_structure):
         error: error message with list of non valid local data files, if any
     """
 
-
     # def recursive_local_file_check(my_folder, my_relative_path, error):
     #     for folder_key, folder in my_folder["folders"].items():
     #         relative_path = my_relative_path + "/" + folder_key
@@ -3584,7 +3583,7 @@ def main_curate_function(soda_json_structure):
         # Check that local files/folders exist
         try:
 
-            error = "" # check_local_dataset_files_validity(soda_json_structure)
+            error = ""  # check_local_dataset_files_validity(soda_json_structure)
             if error:
                 main_curate_status = "Done"
                 raise Exception(error)
