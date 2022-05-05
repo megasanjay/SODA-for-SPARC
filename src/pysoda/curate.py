@@ -1337,80 +1337,81 @@ def check_local_dataset_files_validity(soda_json_structure):
         error: error message with list of non valid local data files, if any
     """
 
-    def recursive_local_file_check(my_folder, my_relative_path, error):
-        for folder_key, folder in my_folder["folders"].items():
-            relative_path = my_relative_path + "/" + folder_key
-            error = recursive_local_file_check(folder, relative_path, error)
 
-        for file_key in list(my_folder["files"].keys()):
-            file = my_folder["files"][file_key]
-            file_type = file["type"]
-            if file_type == "local":
-                file_path = file["path"]
-                if file["type"] == "bf":
-                    continue
-                if not isfile(file_path):
-                    relative_path = my_relative_path + "/" + file_key
-                    error_message = relative_path + " (path: " + file_path + ")"
-                    error.append(error_message)
-                else:
-                    file_size = getsize(file_path)
-                    if file_size == 0:
-                        del my_folder["files"][file_key]
+    # def recursive_local_file_check(my_folder, my_relative_path, error):
+    #     for folder_key, folder in my_folder["folders"].items():
+    #         relative_path = my_relative_path + "/" + folder_key
+    #         error = recursive_local_file_check(folder, relative_path, error)
 
-        return error
+    #     for file_key in list(my_folder["files"].keys()):
+    #         file = my_folder["files"][file_key]
+    #         file_type = file["type"]
+    #         if file_type == "local":
+    #             file_path = file["path"]
+    #             if file["type"] == "bf":
+    #                 continue
+    #             if not isfile(file_path):
+    #                 relative_path = my_relative_path + "/" + file_key
+    #                 error_message = relative_path + " (path: " + file_path + ")"
+    #                 error.append(error_message)
+    #             else:
+    #                 file_size = getsize(file_path)
+    #                 if file_size == 0:
+    #                     del my_folder["files"][file_key]
 
-    def recursive_empty_local_folder_remove(
-        my_folder, my_folder_key, my_folders_content
-    ):
+    #     return error
 
-        folders_content = my_folder["folders"]
-        for folder_key in list(my_folder["folders"].keys()):
-            folder = my_folder["folders"][folder_key]
-            recursive_empty_local_folder_remove(folder, folder_key, folders_content)
+    # def recursive_empty_local_folder_remove(
+    #     my_folder, my_folder_key, my_folders_content
+    # ):
 
-        if not my_folder["folders"]:
-            if not my_folder["files"]:
-                if my_folder["type"] != "bf":
-                    del my_folders_content[my_folder_key]
+    #     folders_content = my_folder["folders"]
+    #     for folder_key in list(my_folder["folders"].keys()):
+    #         folder = my_folder["folders"][folder_key]
+    #         recursive_empty_local_folder_remove(folder, folder_key, folders_content)
 
-    error = []
-    if "dataset-structure" in soda_json_structure.keys():
-        dataset_structure = soda_json_structure["dataset-structure"]
-        if "folders" in dataset_structure:
-            for folder_key, folder in dataset_structure["folders"].items():
-                relative_path = folder_key
-                error = recursive_local_file_check(folder, relative_path, error)
+    #     if not my_folder["folders"]:
+    #         if not my_folder["files"]:
+    #             if my_folder["type"] != "bf":
+    #                 del my_folders_content[my_folder_key]
 
-            folders_content = dataset_structure["folders"]
-            for folder_key in list(dataset_structure["folders"].keys()):
-                folder = dataset_structure["folders"][folder_key]
-                recursive_empty_local_folder_remove(folder, folder_key, folders_content)
+    # error = []
+    # if "dataset-structure" in soda_json_structure.keys():
+    #     dataset_structure = soda_json_structure["dataset-structure"]
+    #     if "folders" in dataset_structure:
+    #         for folder_key, folder in dataset_structure["folders"].items():
+    #             relative_path = folder_key
+    #             error = recursive_local_file_check(folder, relative_path, error)
 
-    if "metadata-files" in soda_json_structure.keys():
-        metadata_files = soda_json_structure["metadata-files"]
-        for file_key in list(metadata_files.keys()):
-            file = metadata_files[file_key]
-            file_type = file["type"]
-            if file_type == "local":
-                file_path = file["path"]
-                if not isfile(file_path):
-                    error_message = file_key + " (path: " + file_path + ")"
-                    error.append(error_message)
-                else:
-                    file_size = getsize(file_path)
-                    if file_size == 0:
-                        del metadata_files[file_key]
-        if not metadata_files:
-            del soda_json_structure["metadata-files"]
+    #         folders_content = dataset_structure["folders"]
+    #         for folder_key in list(dataset_structure["folders"].keys()):
+    #             folder = dataset_structure["folders"][folder_key]
+    #             recursive_empty_local_folder_remove(folder, folder_key, folders_content)
 
-    if len(error) > 0:
-        error_message = [
-            "Error: The following local files were not found. Specify them again or remove them."
-        ]
-        error = error_message + error
+    # if "metadata-files" in soda_json_structure.keys():
+    #     metadata_files = soda_json_structure["metadata-files"]
+    #     for file_key in list(metadata_files.keys()):
+    #         file = metadata_files[file_key]
+    #         file_type = file["type"]
+    #         if file_type == "local":
+    #             file_path = file["path"]
+    #             if not isfile(file_path):
+    #                 error_message = file_key + " (path: " + file_path + ")"
+    #                 error.append(error_message)
+    #             else:
+    #                 file_size = getsize(file_path)
+    #                 if file_size == 0:
+    #                     del metadata_files[file_key]
+    #     if not metadata_files:
+    #         del soda_json_structure["metadata-files"]
 
-    return error
+    # if len(error) > 0:
+    #     error_message = [
+    #         "Error: The following local files were not found. Specify them again or remove them."
+    #     ]
+    #     error = error_message + error
+
+    return ""
 
 
 # path to local SODA folder for saving manifest files
@@ -3583,7 +3584,7 @@ def main_curate_function(soda_json_structure):
         # Check that local files/folders exist
         try:
 
-            error = check_local_dataset_files_validity(soda_json_structure)
+            error = "" # check_local_dataset_files_validity(soda_json_structure)
             if error:
                 main_curate_status = "Done"
                 raise Exception(error)
