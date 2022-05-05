@@ -22,7 +22,6 @@
   "build": {
     "appId": "com.fairdataihub.sodaforsparc",
     "generateUpdatesFilesForAllChannels": true,
-    "afterSign": "./notarize.js",
     "files": [
       "**/*",
       "!pysoda/",
