@@ -5744,12 +5744,14 @@ function detectIrregularFolders(folderName, pathEle) {
 }
 
 function checkIrregularNameBoolean(folderName) {
-  for (var char of nonAllowedCharacters) {
-    if (folderName.includes(char)) {
-      return true;
-    }
+  let check = new RegExp("[^" + whiteListCharacters + `\-]`);
+  console.log(check);
+  if (check.test(folderName)) {
+    console.log(folderName);
+    return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 /* The following functions aim at ignore folders with irregular characters, or replace the characters with (-),
