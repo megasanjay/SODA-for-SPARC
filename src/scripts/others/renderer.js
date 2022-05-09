@@ -5748,7 +5748,7 @@ function checkIrregularNameBoolean(folderName) {
   console.log(check);
   if (check.test(folderName)) {
     console.log(folderName);
-    let testing = folderName.replace(check, )
+    let testing = folderName.replace(check);
     return true;
   } else {
     return false;
