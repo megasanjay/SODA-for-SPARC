@@ -16,17 +16,13 @@ file_paths = []
 
 for root, dirs, files in os.walk(path_to_files, topdown=True):
     # join all files with absolute path
-    for file in files:
-        file_paths.append(os.path.normpath(os.path.join(path_to_files, file)))
+    file_paths.extend(
+        os.path.normpath(os.path.join(path_to_files, file)) for file in files
+    )
 
-
-altered_paths = []
-for file in file_paths:
-    # add string characters to each element
-    altered_paths.append(file)
-
+altered_paths = list(file_paths)
 # upload all of the files to the Pennsieve CLI individually
-a = altered_paths[0:500]
+a = altered_paths[:500]
 
 # print(a)
 

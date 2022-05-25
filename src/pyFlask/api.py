@@ -26,9 +26,7 @@ from collections import deque
 
 class DequeEncoder(JSONEncoder):
     def default(self, obj):
-       if isinstance(obj, deque):
-          return list(obj)
-       return JSONEncoder.default(self, obj)
+        return list(obj) if isinstance(obj, deque) else JSONEncoder.default(self, obj)
 
 app = Flask(__name__)
 
@@ -68,19 +66,15 @@ def api_validate_dataset_pipeline():
     # get the dataset relative path
     ds_path = request.args.get("dataset-path")
 
-    validation_errors = None 
+    validation_errors = None
     try:
         # validate and get dictionary back
         validation_errors = val_dataset_local_pipeline(ds_path)
-        
+
     except Exception as e:
         if type(e).__name__ == "OSError":
             return str(e), 400
-        # currently the validator throws a name error
-        # do nothing as validation still works
-        elif type(e).__name__ == "NameError":
-            pass
-        else:
+        elif type(e).__name__ != "NameError":
             return "An error occurred while validating your dataset", 500
 
     # convert to JSON
@@ -91,12 +85,10 @@ def api_validate_dataset_pipeline():
 
 
 def get_home_directory(folder):
-    if sys.platform == "win32":
-        return str(Path.home()) + "/AppData/Local/" + folder
-    elif sys.platform == "linux":
-        return str(Path.home()) + "/.config/" + folder
-    elif sys.platform == "darwin":
-        return str(Path.home()) + "/AppData/Local/" + folder
+    if sys.platform == "linux":
+        return f"{str(Path.home())}/.config/{folder}"
+    elif sys.platform in ["win32", "darwin"]:
+        return f"{str(Path.home())}/AppData/Local/{folder}"
 
 orthauth_path = SparCurPath(get_home_directory("orthauth")).expanduser()
 orthauth_path_secrets = SparCurPath(get_home_directory("orthauth") + '/secrets.yaml').expanduser()
@@ -153,7 +145,7 @@ def check_prerequisites(ps_account):
 
     with open(pyontutils_path_config, 'w') as file:
         yaml.dump(pyontutils_config, file)
-    
+
     # orthauth config folder path
     if not os.path.exists(orthauth_path):
         orthauth_path.mkdir(parents = True, exist_ok = True)
@@ -163,11 +155,13 @@ def check_prerequisites(ps_account):
         with open(orthauth_path_secrets) as file:
             yml_obj = yaml.full_load(file)
 
-            if "pennsieve" in yml_obj:
-                if sparc_organization_id in yml_obj["pennsieve"]:
-                    if "key" in yml_obj["pennsieve"][sparc_organization_id]:
-                        if "secret" in yml_obj["pennsieve"][sparc_organization_id]:
-                            return "Valid"
+            if (
+                "pennsieve" in yml_obj
+                and sparc_organization_id in yml_obj["pennsieve"]
+                and "key" in yml_obj["pennsieve"][sparc_organization_id]
+                and "secret" in yml_obj["pennsieve"][sparc_organization_id]
+            ):
+                return "Valid"
 
     return add_orthauth_yaml(ps_account)
 

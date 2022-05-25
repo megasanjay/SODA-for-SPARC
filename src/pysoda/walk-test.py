@@ -2,12 +2,6 @@ import os
 
 BUCKET_SIZE = 500
 
-#   "C:\\Users\\CMarroquin\\status-barr-local"
-# top down scan through dataset to upload each file/folder
-
-
-folders = {}
-
 path_dataset = "C:\\Users\\CMarroquin\\status-barr-local"
 
 norm_path = os.path.basename(os.path.normpath(path_dataset))
@@ -16,9 +10,7 @@ print(norm_path)
 
 # create the root directory on Pennsieve and store it for later
 root_folder_name = os.path.basename(norm_path)
-# root_pennsieve_folder = myds.create_collection(root_folder_name)
-folders[root_folder_name] = "Root Pennsieve Folder"
-
+folders = {root_folder_name: "Root Pennsieve Folder"}
 for dirpath, child_dirs, files in os.walk(path_dataset, topdown=True):
     #  get the current root directory's name not its relative path
     name_of_current_root = os.path.basename(norm_path)
@@ -72,10 +64,7 @@ for dirpath, child_dirs, files in os.walk(path_dataset, topdown=True):
     else:
         if len(files) > 0:
             print("Uploading all the files in the current directory: ", dirpath, files)
-            print("\n")
         else:
             print("No files to upload in this directory")
-            print("\n")
-
-
+        print("\n")
 print("Done")
