@@ -20,12 +20,10 @@ sodavalidatorpath = os.path.join(userpath, 'SODA', 'SODA_Validator_Dataset')
 
 
 def get_home_directory(folder):
-    if sys.platform == "win32":
-        return str(Path.home()) + "/AppData/Local/" + folder
-    elif sys.platform == "linux":
-        return str(Path.home()) + "/.config/" + folder
-    elif sys.platform == "darwin":
-        return str(Path.home()) + "/AppData/Local/" + folder 
+    if sys.platform == "linux":
+        return f"{str(Path.home())}/.config/{folder}"
+    elif sys.platform in ["win32", "darwin"]:
+        return f"{str(Path.home())}/AppData/Local/{folder}" 
 
 
 # validate a local dataset at the target directory 
@@ -52,12 +50,9 @@ def val_dataset_local_pipeline(ds_path):
     # peel out the path_error_report object
     path_error_report = status.get('path_error_report')
 
-    # get the errors out of the report that do not have errors in their subpaths (see function comments for the explanation)
-    parsed_path_error_report = error_path_report_parser.parse(path_error_report)
+    return error_path_report_parser.parse(path_error_report)
 
-    return parsed_path_error_report
-
-local_sparc_dataset_location = str(Path.home()) + "/files/sparc-datasets"
+local_sparc_dataset_location = f"{str(Path.home())}/files/sparc-datasets"
 sparc_organization_id = "N:organization:618e8dd9-f8d2-4dc4-9abb-c6aaab2e78a0"
 parent_folder = SparCurPath(local_sparc_dataset_location).expanduser()
 
@@ -149,7 +144,7 @@ def check_prerequisites(ps_account):
 
     with open(pyontutils_path_config, 'w') as file:
         yaml.dump(pyontutils_config, file)
-    
+
     # orthauth config folder path
     if not os.path.exists(orthauth_path):
         orthauth_path.mkdir(parents = True, exist_ok = True)
@@ -159,11 +154,13 @@ def check_prerequisites(ps_account):
         with open(orthauth_path_secrets) as file:
             yml_obj = yaml.full_load(file)
 
-            if "pennsieve" in yml_obj:
-                if sparc_organization_id in yml_obj["pennsieve"]:
-                    if "key" in yml_obj["pennsieve"][sparc_organization_id]:
-                        if "secret" in yml_obj["pennsieve"][sparc_organization_id]:
-                            return "Valid"
+            if (
+                "pennsieve" in yml_obj
+                and sparc_organization_id in yml_obj["pennsieve"]
+                and "key" in yml_obj["pennsieve"][sparc_organization_id]
+                and "secret" in yml_obj["pennsieve"][sparc_organization_id]
+            ):
+                return "Valid"
 
     return add_orthauth_yaml(ps_account)
 
@@ -190,14 +187,14 @@ def validate_dataset_pipeline(ps_account, ps_dataset):
         parent_folder.mkdir(parents = True, exist_ok = True)
 
     # local_dataset_folder_path = retrieve(id = sparc_dataset, dataset_id = sparc_dataset, project_id = organization, parent_parent_path = parent_folder)
-    
+
 
     # def temp_retrieve_function(sparc_dataset, organization, parent_folder):
     #     global local_dataset_folder_path
     #     gevent.sleep(0)
     #     local_dataset_folder_path = retrieve(id = sparc_dataset, dataset_id = sparc_dataset, project_id = organization, parent_parent_path = parent_folder)
     #     gevent.sleep(0)
-    
+
     # gev = []
     # try:
     #     # retrieve the dataset from Pennsive. --check for heartbeat errors here
@@ -252,12 +249,15 @@ def validate_dataset_pipeline(ps_account, ps_dataset):
 
     # Delete the local dataset. 
     # FUTURE: Look into setting an expiration date for this one.
-    dir_path = SparCurPath(local_sparc_dataset_location + '/' + sparc_dataset_uuid).expanduser()
+    dir_path = SparCurPath(
+        f'{local_sparc_dataset_location}/{sparc_dataset_uuid}'
+    ).expanduser()
+
     try:
         shutil.rmtree(dir_path)
     except OSError as e:
         # no folder present
-        print("Error: %s : %s" % (dir_path, e.strerror))
+        print(f"Error: {dir_path} : {e.strerror}")
 
     # return the error report. We can deal with the validation on the front end.
     return path_error_report
